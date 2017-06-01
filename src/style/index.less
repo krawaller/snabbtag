@@ -1,22 +1,297 @@
-@import 'helpers';
+@import (inline) './framework7.ios.css';
+// @import (inline) './framework7-icons.css';
+
+:root {
+   --train-y: 20px;
+}
 
 html, body {
-	height: 100%;
-	width: 100%;
-	padding: 0;
-	margin: 0;
-	background: #FAFAFA;
-	font-family: 'Helvetica Neue', arial, sans-serif;
-	font-weight: 400;
-	color: #444;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  background: #FAFAFA;
+  font-family: 'Helvetica Neue', arial, sans-serif;
+  font-weight: 400;
+  color: #444;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  user-select: none;
+
+  // FIXME
+  // position: fixed;
+  // overflow: hidden;
+}
+
+@font-face {
+  font-family: 'Framework7 Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url('data:application/font-woff;base64,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') format('woff');
+}
+
+.f7-icons, .framework7-icons {
+  font-family: 'Framework7 Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 25px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-feature-settings: "liga";
+  -moz-font-feature-settings: "liga=1";
+  -moz-font-feature-settings: "liga";
+  font-feature-settings: "liga";
+}
+
+.page-content .color-red {
+  background: #ff3b30;
+  color: #fff;
 }
 
 * {
-	box-sizing: border-box;
+  box-sizing: border-box;
 }
 
-#app {
-	height: 100%;
+.navbar {
+  .left, .right {
+    width: 44px;
+  }
 }
+
+.navbar a.icon-only {
+  width: 44px;
+}
+
+.toolbar .buttons-row { width: 100%; }
+
+.row {
+  width: 100%;
+  // text-align: center;
+  .time, .name, .track, .train {
+    align-self: center;
+    // vertical-align: middle;
+    // line-height: 24px;
+  }
+  .time, .name { text-align: left; }
+  .track, .train, .last { text-align: right; }
+}
+
+.item-content {
+  .name { font-weight: bold; }
+  .time {
+    font-size: 17px;
+  }
+}
+
+.original {
+  position: relative;
+}
+
+.actual {
+  opacity: 1;
+}
+
+.actual:empty {
+  opacity: 0;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.hide-when-empty, .mute-when-departed {
+  opacity: 1;
+  transition: opacity 0.6s ease-out;
+  will-change: opacity;
+}
+
+.hide-when-empty:empty {
+  opacity: 0;
+}
+
+.departed .mute-when-departed, .arrived:last-child .mute-when-departed {
+  opacity: 0.5;
+}
+
+.original.has-deviation {
+  text-decoration: line-through;
+  color: #b8b8b8;
+  transform: scale(0.8) translate3d(0, -17px, 0);
+  line-height: 14px;
+  position: absolute;
+}
+
+.late, .cancelled {
+  color: #ff3b30;
+  transform: scale(1);
+}
+
+.cancelled {
+  font-weight: bold;
+}
+
+.actual, .original {
+  display: inline-block;
+}
+
+.actual:empty {
+  transform: scale(0.6);
+}
+
+.list-group-title {
+  padding-right: 35px;
+  transform: translate3d(0, 0, 0);
+  z-index: 1;
+}
+
+.list-block .date-delimiter {
+  justify-content: center;
+  z-index: 0;
+}
+
+.list-item .loading { justify-content: center; }
+
+.disable-filter-card {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.accordion-item-content {
+  background: #EBEBF1;
+}
+
+.accordion-item-expanded .item-content {
+  box-shadow: 0 1px 2px rgba(0,0,0,.3);
+  z-index: 1;
+  position: relative;
+}
+
+.accordion-item-expanded + .accordion-item {
+  box-shadow: 0 -1px 2px rgba(0,0,0,.3);
+}
+
+.timeline {
+  margin-top: 10px;
+  position: relative;
+}
+
+.train-marker {
+  position: absolute;
+  top: 0;
+  left: 129px;
+  margin-top: -13px;
+  // transform: translate3d(0, var(--train-y), 0);
+  border-radius: 13px;
+  color: #4cd964;
+  opacity: 0;
+  &.animated {
+    transition: transform 0.6s ease-in-out, opacity 0.3s ease-out;
+    opacity: 1;
+  }
+}
+
+.train-marker:before {
+  content: '';
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  width: 80%;
+  height: 80%;
+  background: #fff;
+  z-index: 1;
+  border-radius: 13px;
+}
+
+.train-marker i {
+  position: relative;
+  z-index: 2;
+}
+
+.timeline-item {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.timeline-item-content {
+  flex: 1;
+}
+
+.name {
+  font-weight: bold;
+}
+
+.track {
+  margin-left: 10px;
+}
+
+.timeline-item-date {
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.train-view .time {
+  margin-right: 10px;
+  width: 96px;
+
+  .row {
+    align-items: center;
+  }
+}
+
+.list-group-title {
+  display: flex;
+}
+
+.station-title {
+  margin-left: 57px;
+  flex: 1;
+}
+
+.track-title {
+  margin-right: 15px;
+}
+
+.timeline-item-divider {
+  margin-top: 15px;
+}
+
+.timeline-item-inner {
+  display: flex;
+  justify-content: space-between;
+}
+
+.departed, .arrived, .late, .original, .actual, .timeline-item-divider, .timeline-item-divider:before, .timeline-item-divider:after, .timeline-item-inner {
+  transition: all 0.6s ease-out;
+}
+
+.arrived .timeline-item-divider, .departed .timeline-item-divider {
+  background: #007aff;
+}
+
+.timeline-item-divider:before, .timeline-item-divider:after {
+  background: #bbb;
+}
+
+.arrived .timeline-item-divider:before {
+  background: #007aff;
+}
+
+.departed .timeline-item-divider:after {
+  background: #007aff;
+}
+
+.departed, .arrived.timeline-item:last-child {
+  // color: #bbb;
+  // opacity: 0.6;
+}
+
+

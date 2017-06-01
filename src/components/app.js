@@ -1,31 +1,27 @@
 import { h, Component } from 'preact';
 import { Router } from 'preact-router';
-
-import Header from './header';
-import Home from '../routes/home';
-import Profile from '../routes/profile';
-// import Home from 'async!./home';
-// import Profile from 'async!./profile';
+import Stations from './Stations';
+import Station from './Station';
+import Train from './Train';
+import Info from './Info';
+import API from '../lib/api';
+const api = (global.api = new API());
+if (typeof process === 'undefined') api.init();
 
 export default class App extends Component {
-	/** Gets fired when the route changes.
-	 *	@param {Object} event		"change" event from [preact-router](http://git.io/preact-router)
-	 *	@param {string} event.url	The newly routed URL
-	 */
-	handleRoute = e => {
-		this.currentUrl = e.url;
-	};
+  componentDidMount() {
+    document.addEventListener('gesturestart', event => event.preventDefault());
+  }
 
-	render() {
-		return (
-			<div id="app">
-				<Header />
-				<Router onChange={this.handleRoute}>
-					<Home path="/" />
-					<Profile path="/profile/" user="me" />
-					<Profile path="/profile/:user" />
-				</Router>
-			</div>
-		);
-	}
+  render() {
+    return (
+      <Router>
+        <Info path="/info" />
+        <Stations path="/stations" api={api} default />
+        <Station path="/stations/:station/:type?" api={api} />
+        <Train path="/trains/:train/:date?" api={api} />
+        <Train path="/stations/:station/trains/:train/:date?" api={api} />
+      </Router>
+    );
+  }
 }
