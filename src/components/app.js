@@ -1,9 +1,9 @@
 import { h, Component } from 'preact';
 import { Router } from 'preact-router';
-import Stations from './Stations';
-import Station from './Station';
-import Train from './Train';
-import Info from './Info';
+import Stations from '../routes/Stations';
+import Station from '../routes/Station';
+import Train from '../routes/Train';
+import Info from '../routes/Info';
 import API from '../lib/api';
 const api = (global.api = new API());
 if (typeof process === 'undefined') api.init();

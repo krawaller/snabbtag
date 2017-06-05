@@ -1,5 +1,5 @@
 import { h, Component } from 'preact';
-export default () => (
+export default () =>
   <div class="navbar-through">
     <div class="navbar">
       <div class="navbar-inner">
@@ -22,5 +22,4 @@ export default () => (
         </div>
       </div>
     </div>
-  </div>
-);
+  </div>;

@@ -130,7 +130,7 @@ export default class Station extends Component {
     } = this.state;
 
     if (this.subscription) this.subscription.cancel();
-    this.subscription = this.props.api.subscribeStation(
+    this.subscription = this.subscribeStation(
       sign,
       showingDepartures,
       favoriteTrafficOnly,
@@ -158,6 +158,291 @@ export default class Station extends Component {
         console.error(error);
       }
     );
+  }
+
+  fetchStation(
+    sign,
+    departures,
+    filterFavorites,
+    favorites,
+    lastModified,
+    lastAdvertisedTimeAtLocation
+  ) {
+    return this.api
+      .query(
+        `
+      <QUERY objecttype="TrainAnnouncement" orderby="AdvertisedTimeAtLocation" lastmodified="TRUE">
+        <FILTER>
+          <AND>
+            <EQ name="ActivityType" value="${departures
+              ? 'Avgang'
+              : 'Ankomst'}" />
+            <EQ name="Advertised" value="TRUE" />
+            <EQ name="LocationSignature" value="${sign}" />
+            <OR>
+              <AND>
+                <GT name="AdvertisedTimeAtLocation" value="$dateadd(-00:15:00)" />
+                <LT name="AdvertisedTimeAtLocation" value="$dateadd(14:00:00)" />
+              </AND>
+              <AND>
+                <GT name="EstimatedTimeAtLocation" value="$dateadd(-00:15:00)" />
+                <LT name="AdvertisedTimeAtLocation" value="$dateadd(00:30:00)" />
+              </AND>
+            </OR>
+            ${lastModified
+              ? `
+              <OR>
+                <GT name="ModifiedTime" value="${lastModified}"/>
+                ${lastAdvertisedTimeAtLocation
+                  ? `<GT name="AdvertisedTimeAtLocation" value="${lastAdvertisedTimeAtLocation}"/>`
+                  : ''}
+              </OR>`
+              : ''}
+          </AND>
+        </FILTER>
+        <INCLUDE>AdvertisedTrainIdent</INCLUDE>
+        <INCLUDE>AdvertisedTimeAtLocation</INCLUDE>
+        <INCLUDE>EstimatedTimeAtLocation</INCLUDE>
+        <INCLUDE>TrackAtLocation</INCLUDE>
+        <INCLUDE>ScheduledDepartureDateTime</INCLUDE>
+        <INCLUDE>Canceled</INCLUDE>
+        <INCLUDE>Deviation</INCLUDE>
+        <INCLUDE>ActivityId</INCLUDE>
+        <INCLUDE>${departures ? 'ToLocation' : 'FromLocation'}</INCLUDE>
+      </QUERY>`
+      )
+      .then(
+        ({
+          RESPONSE: {
+            RESULT: [
+              {
+                TrainAnnouncement: announcements = [],
+                INFO: {
+                  LASTMODIFIED: { '@datetime': lastModified = false } = {}
+                } = {}
+              }
+            ] = []
+          }
+        }) => {
+          if (!filterFavorites || lastModified === false)
+            return { announcements, lastModified };
+
+          const filteredFavorites = new Set(favorites);
+          filteredFavorites.delete(sign);
+          return this.api
+            .query(
+              `
+          <QUERY objecttype="TrainAnnouncement" orderby="AdvertisedTimeAtLocation">
+            <FILTER>
+              <AND>
+                <EQ name="ActivityType" value="${!departures
+                  ? 'Avgang'
+                  : 'Ankomst'}" />
+                <EQ name="Advertised" value="TRUE" />
+                <IN
+                  name="LocationSignature"
+                  value="${Array.from(filteredFavorites.values())
+                    .map(
+                      favorite =>
+                        (this.api.getStationBySign(favorite) || {}).sign
+                    )
+                    .filter(Boolean)
+                    .join(',')}" />
+                <IN
+                  name="AdvertisedTrainIdent"
+                  value="${announcements
+                    .map(({ AdvertisedTrainIdent }) => AdvertisedTrainIdent)
+                    .join(',')}" />
+              </AND>
+            </FILTER>
+            <INCLUDE>AdvertisedTrainIdent</INCLUDE>
+            <INCLUDE>ScheduledDepartureDateTime</INCLUDE>
+            <INCLUDE>AdvertisedTimeAtLocation</INCLUDE>
+          </QUERY>`
+            )
+            .then(
+              ({
+                RESPONSE: {
+                  RESULT: [{ TrainAnnouncement: filterAnnouncements = [] }] = []
+                }
+              }) => {
+                const filterMap = filterAnnouncements.reduce(
+                  (o, announcement) => {
+                    if (
+                      o[announcement.ScheduledDepartureDateTime] === undefined
+                    ) {
+                      o[announcement.ScheduledDepartureDateTime] = {};
+                    }
+                    o[announcement.ScheduledDepartureDateTime][
+                      announcement.AdvertisedTrainIdent
+                    ] =
+                      announcement.AdvertisedTimeAtLocation;
+                    return o;
+                  },
+                  {}
+                );
+
+                return {
+                  announcements: announcements.filter(announcement => {
+                    const filteredAdvertisedTimeAtLocation =
+                      filterMap[announcement.ScheduledDepartureDateTime] &&
+                      filterMap[announcement.ScheduledDepartureDateTime][
+                        announcement.AdvertisedTrainIdent
+                      ];
+                    return departures
+                      ? filteredAdvertisedTimeAtLocation >
+                          announcement.AdvertisedTimeAtLocation
+                      : filteredAdvertisedTimeAtLocation <
+                          announcement.AdvertisedTimeAtLocation;
+                  }),
+                  hasUnfilteredAnnouncements: !!announcements.length,
+                  lastModified
+                };
+              }
+            );
+        }
+      );
+  }
+
+  subscribeStation(sign, departures, filterFavorites, favorites, callback) {
+    let checkTimeout;
+    let cancelled = false;
+    let formattedAnnouncementsById = {};
+    let currentLastModified;
+    let currentLastAdvertisedTimeAtLocation;
+    let isChecking = false;
+    let retryCount = 0;
+
+    const handleVisibilityChange = () => {
+      if (!document.hidden) check();
+    };
+
+    const cancel = () => {
+      cancelled = true;
+      clearTimeout(checkTimeout);
+      window.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('online', check);
+    };
+
+    const check = () => {
+      if (isChecking) return;
+      isChecking = true;
+      const dt = new Date();
+      dt.setMinutes(dt.getMinutes() - 15);
+      const maxDate = new Intl.DateTimeFormat('sv-SE', {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric'
+      })
+        .format(dt)
+        .replace(' ', 'T');
+
+      this.fetchStation(
+        sign,
+        departures,
+        filterFavorites,
+        favorites,
+        currentLastModified,
+        currentLastAdvertisedTimeAtLocation
+      ).then(
+        ({ announcements, hasUnfilteredAnnouncements, lastModified }) => {
+          if (cancelled) return;
+          isChecking = false;
+          retryCount = 0;
+
+          if (!document.hidden && window.navigator.onLine)
+            setTimeout(check, this.api.CHECK_INTERVAL);
+
+          let purged = false;
+          for (let id in formattedAnnouncementsById) {
+            const {
+              AdvertisedTimeAtLocation,
+              EstimatedTimeAtLocation
+            } = formattedAnnouncementsById[id];
+            if (
+              AdvertisedTimeAtLocation < maxDate &&
+              (!EstimatedTimeAtLocation || EstimatedTimeAtLocation < maxDate)
+            ) {
+              purged = true;
+              delete formattedAnnouncementsById[id];
+            }
+          }
+
+          if (!purged && lastModified === false) return;
+
+          formattedAnnouncementsById = announcements.reduce(
+            (all, announcement, i, arr) => {
+              const [_, date, time] =
+                announcement.AdvertisedTimeAtLocation.match(
+                  /^(\d{4}\-\d{2}-\d{2})T(\d{2}:\d{2})/
+                ) || [];
+
+              all[announcement.ActivityId] = {
+                name: (this.api.getStationBySign(
+                  (announcement.ToLocation || announcement.FromLocation)[0]
+                    .LocationName
+                ) || {}).name,
+                via: (announcement.ViaToLocation ||
+                  announcement.ViaFromLocation ||
+                  [])
+                  .map(
+                    l => (this.api.getStationBySign(l.LocationName) || {}).name
+                  )
+                  .filter(Boolean),
+                signs: (announcement.ToLocation || announcement.FromLocation)
+                  .map(l => l.LocationName),
+                date: this.api.extractDate(
+                  announcement.AdvertisedTimeAtLocation
+                ),
+                time: this.api.extractTime(
+                  announcement.AdvertisedTimeAtLocation
+                ),
+                datetime: announcement.AdvertisedTimeAtLocation,
+                estimated: this.api.extractTime(
+                  announcement.EstimatedTimeAtLocation
+                ),
+                train: announcement.AdvertisedTrainIdent,
+                track: announcement.TrackAtLocation,
+                scheduledDate: this.api.extractDate(
+                  announcement.ScheduledDepartureDateTime
+                ),
+                cancelled: !!announcement.Canceled,
+                deviations: announcement.Deviation,
+                AdvertisedTimeAtLocation: announcement.AdvertisedTimeAtLocation,
+                EstimatedTimeAtLocation: announcement.EstimatedTimeAtLocation
+              };
+              return all;
+            },
+            formattedAnnouncementsById
+          );
+
+          if (lastModified) currentLastModified = lastModified;
+
+          announcements = Object.values(formattedAnnouncementsById);
+          currentLastAdvertisedTimeAtLocation = (announcements[
+            announcements.length - 1
+          ] || {}).AdvertisedTimeAtLocation;
+
+          callback({
+            announcements,
+            hasUnfilteredAnnouncements
+          });
+        },
+        error => {
+          isChecking = false;
+          if (retryCount++ < this.api.MAX_RETRY_COUNT)
+            setTimeout(check, (1 << retryCount) * 1000);
+        }
+      );
+    };
+    check();
+
+    window.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('online', check);
+    return { cancel };
   }
 
   render(
@@ -190,7 +475,7 @@ export default class Station extends Component {
       hasUnfilteredAnnouncements;
 
     let tmp;
-    console.log({station})
+    console.log({ station });
     if (!station) return null;
 
     return (
@@ -217,9 +502,11 @@ export default class Station extends Component {
               <a
                 href={getUrl.call(this, 'station', {
                   favorites: favorites.has(station.name)
-                    ? ((tmp = new Set(favorites)), tmp.delete(
-                        station.name
-                      ), tmp)
+                    ? (
+                        (tmp = new Set(favorites)),
+                        tmp.delete(station.name),
+                        tmp
+                      )
                     : new Set(favorites).add(station.name)
                 })}
                 class="link icon-only"
@@ -328,29 +615,44 @@ export default class Station extends Component {
                                   <div class="row">
                                     <div class="col-20 time">
                                       <div
-                                        class={`original ${estimated || cancelled ? 'has-deviation' : ''}`}
+                                        class={`original ${estimated ||
+                                          cancelled
+                                          ? 'has-deviation'
+                                          : ''}`}
                                       >
                                         {time}
                                       </div>
                                       <div
-                                        class={`actual ${estimated && estimated !== time ? 'late' : ''} ${cancelled ? 'cancelled' : ''}`}
+                                        class={`actual ${estimated &&
+                                          estimated !== time
+                                          ? 'late'
+                                          : ''} ${cancelled
+                                          ? 'cancelled'
+                                          : ''}`}
                                       >
                                         {cancelled ? 'Inställt' : estimated}
                                       </div>
                                     </div>
                                     <div class="col-50 name item-title">
-                                      {name} {deviations &&
-                                        deviations.map(deviation => (
+                                      {name}
+                                      {' '}
+                                      {deviations &&
+                                        deviations.map(deviation =>
                                           <span>
                                             <div
-                                              class={`chip ${/inställ|ersätter/i.test(deviation) ? 'color-red' : ''}`}
+                                              class={`chip ${/inställ|ersätter/i.test(
+                                                deviation
+                                              )
+                                                ? 'color-red'
+                                                : ''}`}
                                             >
                                               <div class="chip-label">
                                                 {deviation}
                                               </div>
-                                            </div>{' '}
+                                            </div>
+                                            {' '}
                                           </span>
-                                        ))}
+                                        )}
                                     </div>
                                     <div class="col-10 track">{track}</div>
                                     <div class="col-20 train">{train}</div>
@@ -410,7 +712,8 @@ export default class Station extends Component {
                   Eller lägg även till din tilltänka
                   {' '}
                   {showingDepartures ? 'ankomsts' : 'avgångs'}
-                  station som favorit för att få favoritfiltret att fungera som tänkt.
+                  station som favorit för att få favoritfiltret att fungera som
+                  tänkt.
                 </div>
               </div>}
           </div>

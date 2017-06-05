@@ -50,7 +50,7 @@ export default class Stations extends Component {
       !(this.state.searchString in this.state.trainsBySearchString)
     ) {
       const trainsStartingWith = this.state.searchString;
-      this.api.fetchAutocompletedTrains(trainsStartingWith).then(trains =>
+      this.fetchAutocompletedTrains(trainsStartingWith).then(trains =>
         this.setState({
           trainsBySearchString: Object.assign(
             {},
@@ -81,6 +81,44 @@ export default class Stations extends Component {
     );
   }
 
+  fetchAutocompletedTrains(trainsStartingWith) {
+    return this.api
+      .query(
+        `
+      <QUERY objecttype="TrainAnnouncement" limit="100">
+        <FILTER>
+          <EQ name="Advertised" value="true" />
+          <EQ name="ActivityType" value="Avgang" />
+          <LIKE name="AdvertisedTrainIdent" value="/^${trainsStartingWith}/" />
+          <EQ name="ScheduledDepartureDateTime" value="${new Intl.DateTimeFormat(
+            'sv-SE'
+          ).format(new Date())}" />
+        </FILTER>
+        <INCLUDE>AdvertisedTrainIdent</INCLUDE>
+        <INCLUDE>FromLocation</INCLUDE>
+        <INCLUDE>ToLocation</INCLUDE>
+        <INCLUDE>AdvertisedTimeAtLocation</INCLUDE>
+      </QUERY>`
+      )
+      .then(({ RESPONSE: { RESULT: [{ TrainAnnouncement = [] }] } }) =>
+        Object.values(
+          TrainAnnouncement.reduce((trains, t) => {
+            if (!(t.AdvertisedTrainIdent in trains)) {
+              trains[t.AdvertisedTrainIdent] = {
+                train: t.AdvertisedTrainIdent,
+                from: this.api.getStationBySign(t.FromLocation[0].LocationName)
+                  .name,
+                to: this.api.getStationBySign(t.ToLocation[0].LocationName)
+                  .name,
+                at: this.api.extractTime(t.AdvertisedTimeAtLocation)
+              };
+            }
+            return trains;
+          }, {})
+        )
+      );
+  }
+
   render(
     { station, location },
     {
@@ -93,21 +131,24 @@ export default class Stations extends Component {
       isLocating
     }
   ) {
-
+    // SSR
     if (typeof process !== 'undefined') {
-      return (<div class="view navbar-through">
-        <div class="navbar">
-          <div class="navbar-inner hide-when-empty"/>
+      return (
+        <div class="view navbar-through">
+          <div class="navbar">
+            <div class="navbar-inner hide-when-empty" />
+          </div>
+          <div class="page">
+            <div class="page-content hide-when-empty" />
+          </div>
         </div>
-        <div class="page">
-          <div class="page-content hide-when-empty"/>
-        </div>
-      </div>);
+      );
     }
 
     const isTrainNumberSearch = /^\d+$/.test(searchString);
     let listGroups;
     if (isTrainNumberSearch) {
+      console.log('t', trainsBySearchString[searchString]);
       listGroups = (
         <div class="list-group">
           <ul>
@@ -188,18 +229,29 @@ export default class Stations extends Component {
         return groups;
       }, initialGroups);
 
-      let before, match, after;
       const rSearchString = new RegExp(
         `^(.*?)(?:(${searchString})(.*))?$`,
         'i'
       );
       listGroups = (
         <div>
-          {Object.keys(groups).map(group => (
+          {Object.keys(groups).map(group =>
             <div class="list-group">
               <ul>
                 <li class="list-group-title">{group}</li>
                 {groups[group].map(station => {
+                  let before, match, after;
+                  let content;
+                  if (searchString) {
+                    let [, before, match, after] = station.name.match(
+                      rSearchString
+                    );
+                    content = (
+                      <div>
+                        {before}<b>{match}</b>{after}
+                      </div>
+                    );
+                  } else content = station.name;
                   return (
                     <li>
                       <a
@@ -222,15 +274,7 @@ export default class Stations extends Component {
                             }
                           />
                           <div class="item-inner">
-                            {searchString
-                              ? (([, before, match, after] = station.name.match(
-                                  rSearchString
-                                )), (
-                                  <div>
-                                    {before}<b>{match}</b>{after}
-                                  </div>
-                                ))
-                              : station.name}
+                            {content}
                           </div>
                         </label>
                       </a>
@@ -239,7 +283,7 @@ export default class Stations extends Component {
                 })}
               </ul>
             </div>
-          ))}
+          )}
 
           {stations.length > 0 &&
             filteredStations.length === 0 &&
@@ -276,23 +320,22 @@ export default class Stations extends Component {
                     </span>
                   </a>
                 : locationPermission
-                    ? null
-                    : <a
-                        href="#"
-                        class="link icon-only"
-                        onClick={event => event.preventDefault()}
-                      >
-                        {isLocating
-                          ? <span class="preloader" />
-                          : <i
-                              class="f7-icons"
-                              onClick={this.getNearbyStations}
-                            >
-                              navigation
-                            </i>}
-                      </a>}
+                  ? null
+                  : <a
+                      href="#"
+                      class="link icon-only"
+                      onClick={event => event.preventDefault()}
+                    >
+                      {isLocating
+                        ? <span class="preloader" />
+                        : <i class="f7-icons" onClick={this.getNearbyStations}>
+                            navigation
+                          </i>}
+                    </a>}
             </div>
-            <div class="center sliding">Välj…{typeof process !== 'undefined' && 'ssr'}</div>
+            <div class="center sliding">
+              Välj…
+            </div>
             <div class="right">
               <a href="/info" class="link icon-only">
                 <i class="f7-icons">info</i>
@@ -303,7 +346,9 @@ export default class Stations extends Component {
         </div>
         <div class="page">
           <form
-            class={`searchbar searchbar-init ${searchFocused || searchString ? 'searchbar-active' : ''} ${searchString ? 'searchbar-not-empty' : ''}`}
+            class={`searchbar searchbar-init ${searchFocused || searchString
+              ? 'searchbar-active'
+              : ''} ${searchString ? 'searchbar-not-empty' : ''}`}
             onSubmit={event => event.preventDefault()}
           >
             <div class="searchbar-input">
@@ -326,7 +371,9 @@ export default class Stations extends Component {
           </form>
 
           <div
-            class={`searchbar-overlay ${searchFocused && !searchString ? 'searchbar-overlay-active' : ''}`}
+            class={`searchbar-overlay ${searchFocused && !searchString
+              ? 'searchbar-overlay-active'
+              : ''}`}
             onClick={() => this.setState({ searchFocused: false })}
           />
 

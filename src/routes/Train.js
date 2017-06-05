@@ -5,6 +5,7 @@ export default class TrainAnnouncement extends Component {
   constructor(props) {
     super(props);
     console.log('TrainAnnouncement', { props });
+    this.api = props.api;
     this.state = {
       date: props.date || new Intl.DateTimeFormat('sv-SE').format(new Date()),
       hasPositionedTrainMarker: false,
@@ -28,7 +29,7 @@ export default class TrainAnnouncement extends Component {
   }
 
   componentDidMount() {
-    this.subscription = this.props.api.subscribeTrain(
+    this.subscription = this.subscribeTrain(
       this.props.train,
       this.state.date,
       announcements =>
@@ -107,9 +108,10 @@ export default class TrainAnnouncement extends Component {
             console.log({
               before,
               after,
-              diff: stationRect.top -
-                pageContentRect.top -
-                pageContentRect.height / 2
+              diff:
+                stationRect.top -
+                  pageContentRect.top -
+                  pageContentRect.height / 2
             });
           } else {
             const markerPosRelativeToPageContent =
@@ -122,6 +124,146 @@ export default class TrainAnnouncement extends Component {
         }
       }
     }
+  }
+
+  fetchTrain(train, date, lastModified) {
+    return this.api
+      .query(
+        `
+      <QUERY objecttype="TrainAnnouncement" orderby="AdvertisedTimeAtLocation" lastmodified="TRUE">
+        <INCLUDE>LocationSignature</INCLUDE>
+        <INCLUDE>ActivityType</INCLUDE>
+        <INCLUDE>AdvertisedTimeAtLocation</INCLUDE>
+        <INCLUDE>EstimatedTimeAtLocation</INCLUDE>
+        <INCLUDE>TimeAtLocation</INCLUDE>
+        <INCLUDE>TrackAtLocation</INCLUDE>
+        <INCLUDE>Canceled</INCLUDE>
+        <INCLUDE>Deviation</INCLUDE>
+        <FILTER>
+          <EQ name="AdvertisedTrainIdent" value="${train}" />
+          <EQ name="Advertised" value="TRUE" />
+          <EQ name="ScheduledDepartureDateTime" value="${date}" />
+          ${lastModified
+            ? `<GT name="ModifiedTime" value="${lastModified}"/>`
+            : ''}
+        </FILTER>
+      </QUERY>`
+      )
+      .then(
+        ({
+          RESPONSE: {
+            RESULT: [
+              {
+                TrainAnnouncement = [],
+                INFO: {
+                  LASTMODIFIED: { '@datetime': lastModified = false } = {}
+                } = {}
+              }
+            ]
+          }
+        }) => ({ announcements: TrainAnnouncement, lastModified })
+      );
+  }
+
+  subscribeTrain(train, date, callback) {
+    let checkTimeout;
+    let cancelled = false;
+    let formattedAnnouncementsBySign = {};
+    let currentLastModified;
+    let isChecking = false;
+    let retryCount = 0;
+
+    const handleVisibilityChange = () => {
+      if (!document.hidden) check();
+    };
+
+    const cancel = () => {
+      cancelled = true;
+      clearTimeout(checkTimeout);
+      window.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('online', check);
+    };
+
+    const check = () => {
+      if (isChecking) return;
+      isChecking = true;
+      this.fetchTrain(train, date, currentLastModified).then(
+        ({ announcements, lastModified }) => {
+          if (cancelled) return;
+          isChecking = false;
+          retryCount = 0;
+
+          if (!document.hidden && window.navigator.onLine)
+            setTimeout(check, this.api.CHECK_INTERVAL);
+
+          if (lastModified === false || lastModified === currentLastModified)
+            return;
+
+          formattedAnnouncementsBySign = announcements.reduce(
+            (all, announcement, i, arr) => {
+              all[announcement.LocationSignature] = Object.assign(
+                all[announcement.LocationSignature] || {},
+                {
+                  sign: announcement.LocationSignature,
+                  name:
+                    (this.api.getStationBySign(
+                      announcement.LocationSignature
+                    ) || {}).name || null,
+                  track: announcement.TrackAtLocation,
+                  [announcement.ActivityType === 'Avgang'
+                    ? 'departure'
+                    : 'arrival']: {
+                    date: this.api.extractDate(
+                      announcement.AdvertisedTimeAtLocation
+                    ),
+                    advertised: this.api.extractTime(
+                      announcement.AdvertisedTimeAtLocation
+                    ),
+                    estimated: this.api.extractTime(
+                      announcement.EstimatedTimeAtLocation
+                    ),
+                    actual: this.api.extractTime(announcement.TimeAtLocation),
+                    happened:
+                      !!announcement.TimeAtLocation ||
+                        arr
+                          .slice(i + 1)
+                          .some(({ TimeAtLocation }) => TimeAtLocation),
+                    cancelled: !!announcement.Canceled,
+                    deviations: announcement.Deviation
+                  }
+                }
+              );
+              return all;
+            },
+            formattedAnnouncementsBySign
+          );
+
+          currentLastModified = lastModified;
+          const formattedAnnouncements = Object.values(
+            formattedAnnouncementsBySign
+          );
+          console.log({ formattedAnnouncements, announcements });
+
+          if (
+            (formattedAnnouncements[formattedAnnouncements.length - 1]
+              .arrival || {}).happened
+          )
+            cancel();
+
+          callback(formattedAnnouncements);
+        },
+        error => {
+          isChecking = false;
+          if (retryCount++ < this.api.MAX_RETRY_COUNT)
+            setTimeout(check, (1 << retryCount) * 1000);
+        }
+      );
+    };
+    check();
+
+    window.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('online', check);
+    return { cancel };
   }
 
   render(
@@ -195,16 +337,14 @@ export default class TrainAnnouncement extends Component {
                         sign,
                         name,
                         cancelled
-                      } = {}, i
+                      } = {},
+                      i
                     ) => {
-                      const {
-                        arrival: {
-                          date: lastDate
-                        } = {}
-                      } = announcements[i - 1] || {}
+                      const { arrival: { date: lastDate } = {} } =
+                        announcements[i - 1] || {};
 
-                      const changedDate = arrival.date && lastDate && arrival.date !== lastDate;
-                      console.log({changedDate}, arrival && arrival.date, lastDate)
+                      const changedDate =
+                        arrival.date && lastDate && arrival.date !== lastDate;
 
                       // console.log({ arrival, departure });
                       const hasArrival = !!arrival.advertised;
@@ -230,8 +370,8 @@ export default class TrainAnnouncement extends Component {
                         departure.cancelled
                         ? 'Inställt'
                         : arrival.cancelled
-                            ? 'Inställd ankomst'
-                            : departure.canceleld ? 'Inställd avgång' : null;
+                          ? 'Inställd ankomst'
+                          : departure.canceleld ? 'Inställd avgång' : null;
                       const deviationSet = new Set(
                         [cancelledDeviation]
                           .concat(arrival.deviations || [])
@@ -247,7 +387,10 @@ export default class TrainAnnouncement extends Component {
 
                       return (
                         <div
-                          class={`timeline-item ${((arrival.happened || departure.happened) && 'arrived') || ''} ${(departure.happened && 'departed') || ''}`}
+                          class={`timeline-item ${((arrival.happened ||
+                            departure.happened) &&
+                            'arrived') ||
+                            ''} ${(departure.happened && 'departed') || ''}`}
                           data-name={name}
                         >
                           <div class="timeline-item-date time hide-when-empty mute-when-departed">
@@ -255,12 +398,16 @@ export default class TrainAnnouncement extends Component {
                               <div class="row">
                                 <div class="col arrivals">
                                   <div
-                                    class={`original ${arrivalDeviates ? 'has-deviation' : ''}`}
+                                    class={`original ${arrivalDeviates
+                                      ? 'has-deviation'
+                                      : ''}`}
                                   >
                                     {arrival.advertised}
                                   </div>
                                   <div
-                                    class={`actual ${arrivalIsLate ? 'late' : ''}`}
+                                    class={`actual ${arrivalIsLate
+                                      ? 'late'
+                                      : ''}`}
                                   >
                                     {arrivalDeviates &&
                                       (arrival.actual || arrival.estimated)}
@@ -268,12 +415,16 @@ export default class TrainAnnouncement extends Component {
                                 </div>
                                 <div class="col departures">
                                   <div
-                                    class={`original ${departureDeviates ? 'has-deviation' : ''}`}
+                                    class={`original ${departureDeviates
+                                      ? 'has-deviation'
+                                      : ''}`}
                                   >
                                     {departure.advertised}
                                   </div>
                                   <div
-                                    class={`actual ${departureIsLate ? 'late' : ''}`}
+                                    class={`actual ${departureIsLate
+                                      ? 'late'
+                                      : ''}`}
                                   >
                                     {departureDeviates &&
                                       (departure.actual || departure.estimated)}
@@ -287,21 +438,30 @@ export default class TrainAnnouncement extends Component {
                               <div class="name hide-when-empty mute-when-departed">
                                 {name &&
                                   <div>
-                                    <a href={getUrl.call(
-                                      this,
-                                      'station',
-                                      { station: name }
-                                    )}>{name}</a> {deviations.map(deviation => (
+                                    <a
+                                      href={getUrl.call(this, 'station', {
+                                        station: name
+                                      })}
+                                    >
+                                      {name}
+                                    </a>
+                                    {' '}
+                                    {deviations.map(deviation =>
                                       <span>
                                         <div
-                                          class={`chip ${/inställ|ersätter/i.test(deviation) ? 'color-red' : ''}`}
+                                          class={`chip ${/inställ|ersätter/i.test(
+                                            deviation
+                                          )
+                                            ? 'color-red'
+                                            : ''}`}
                                         >
                                           <div class="chip-label">
                                             {deviation}
                                           </div>
-                                        </div>{' '}
+                                        </div>
+                                        {' '}
                                       </span>
-                                    ))}
+                                    )}
                                   </div>}
                               </div>
                               &nbsp;
@@ -316,7 +476,9 @@ export default class TrainAnnouncement extends Component {
                   )}
                 </div>
                 <span
-                  class={`train-marker ${hasPositionedTrainMarker ? 'animated' : ''}`}
+                  class={`train-marker ${hasPositionedTrainMarker
+                    ? 'animated'
+                    : ''}`}
                   style={`transform: translate3d(0, ${trainY}px, 0)`}
                 >
                   <i class="f7-icons">arrow_down_fill</i>
