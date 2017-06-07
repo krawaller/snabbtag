@@ -6,8 +6,6 @@ import { getUrl, getNearbyHumanDate } from '../lib/utils';
 //FIXME resilience
 //FIXME late station
 //FIXME sticky chrome headers
-//FIXME station fetching fresh stations even though lastmodified
-//FIXME idag/igår runt midnatt
 
 export default class Station extends Component {
   constructor(props) {
