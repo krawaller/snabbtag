@@ -1,11 +1,12 @@
 import { h, Component } from 'preact';
-import { getUrl, getNearbyHumanDate } from '../lib/utils';
+import { getUrl } from '../lib/utils';
 
 export default class TrainAnnouncement extends Component {
   constructor(props) {
     super(props);
     console.log('TrainAnnouncement', { props });
     this.api = props.api;
+    this.getUrl = props.getUrl;
     this.state = {
       date: props.date || new Intl.DateTimeFormat('sv-SE').format(new Date()),
       hasPositionedTrainMarker: false,
@@ -298,7 +299,7 @@ export default class TrainAnnouncement extends Component {
               </a>
             </div>
             <div class="center sliding">
-              Tåg {train}, {getNearbyHumanDate(date) || date}
+              Tåg {train}, {this.props.getNearbyHumanDate(date) || date}
             </div>
             <div class="right" />
           </div>
@@ -439,7 +440,7 @@ export default class TrainAnnouncement extends Component {
                                 {name &&
                                   <div>
                                     <a
-                                      href={getUrl.call(this, 'station', {
+                                      href={this.getUrl('station', {
                                         station: name
                                       })}
                                     >

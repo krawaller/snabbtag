@@ -1,6 +1,5 @@
 import { h, Component } from 'preact';
 import { route } from 'preact-router';
-import { getUrl, getNearbyHumanDate } from '../lib/utils';
 
 //FIXME cancelled
 //FIXME resilience
@@ -12,6 +11,7 @@ export default class Station extends Component {
     super(props);
     console.log('constructor', { props });
     this.api = props.api;
+    this.getUrl = props.getUrl;
 
     // FIXME update instead?
     this.state = {
@@ -45,7 +45,7 @@ export default class Station extends Component {
           return (locationPermission
             ? this.api.fetchClosestStations()
             : this.api.fetchClosestStationsUsingGeoIP()).then(([station]) =>
-            route(getUrl.call(this, 'station', { station }))
+            route(this.getUrl('station', { station }))
           );
         });
       }
@@ -149,7 +149,7 @@ export default class Station extends Component {
     this.api.fetchClosestStations().then(
       ([station]) => {
         this.setState({ isLocating: false });
-        route(getUrl.call(this, 'station', { station }));
+        route(this.getUrl('station', { station }));
       },
       error => {
         this.setState({ isLocating: false });
@@ -493,12 +493,12 @@ export default class Station extends Component {
                     </i>}
               </a>
             </div>
-            <a href={getUrl.call(this, 'stations')} class="link center sliding">
+            <a href={this.getUrl('stations')} class="link center sliding">
               {station && station.name} ▾
             </a>
             <div class="right">
               <a
-                href={getUrl.call(this, 'station', {
+                href={this.getUrl('station', {
                   favorites: favorites.has(station.name)
                     ? (
                         (tmp = new Set(favorites)),
@@ -519,7 +519,7 @@ export default class Station extends Component {
         <div class="toolbar">
           <div class="toolbar-inner">
             <a
-              href={getUrl.call(this, 'station', {
+              href={this.getUrl('station', {
                 favoriteTrafficOnly: !favoriteTrafficOnly
               })}
               class="link icon-only"
@@ -530,13 +530,13 @@ export default class Station extends Component {
             </a>
             <div class="buttons-row">
               <a
-                href={getUrl.call(this, 'station', { showingDepartures: true })}
+                href={this.getUrl('station', { showingDepartures: true })}
                 class={`button ${showingDepartures && 'active'}`}
               >
                 Avgångar
               </a>
               <a
-                href={getUrl.call(this, 'station', {
+                href={this.getUrl('station', {
                   showingDepartures: false
                 })}
                 class={`button ${!showingDepartures && 'active'}`}
@@ -590,7 +590,7 @@ export default class Station extends Component {
                       if (tPrev && date !== tPrev.date) {
                         output.push(
                           <li class="list-group-title date-delimiter">
-                            {getNearbyHumanDate(date) || date}
+                            {this.props.getNearbyHumanDate(date) || date}
                           </li>
                         );
                       }
@@ -600,7 +600,7 @@ export default class Station extends Component {
                             class="item-link item-content"
                             href={
                               train
-                                ? getUrl.call(this, 'train', {
+                                ? this.getUrl('train', {
                                     train,
                                     date: scheduledDate
                                   })
@@ -697,7 +697,7 @@ export default class Station extends Component {
                 <div class="card-content">
                   <div class="card-content-inner">
                     <a
-                      href={getUrl.call(this, 'station', {
+                      href={this.getUrl('station', {
                         favoriteTrafficOnly: false
                       })}
                       class="button button-big active button-fill color-red"

@@ -1,11 +1,11 @@
 import { h, Component } from 'preact';
-import { getUrl } from '../lib/utils';
 
 export default class Stations extends Component {
   constructor(props) {
     super(props);
 
     this.api = props.api;
+    this.getUrl = props.getUrl;
     this.state = {
       searchFocused: false,
       searchString: '',
@@ -131,20 +131,6 @@ export default class Stations extends Component {
       isLocating
     }
   ) {
-    // SSR
-    if (typeof process !== 'undefined') {
-      return (
-        <div class="view navbar-through">
-          <div class="navbar">
-            <div class="navbar-inner hide-when-empty" />
-          </div>
-          <div class="page">
-            <div class="page-content hide-when-empty" />
-          </div>
-        </div>
-      );
-    }
-
     const isTrainNumberSearch = /^\d+$/.test(searchString);
     let listGroups;
     if (isTrainNumberSearch) {
@@ -173,7 +159,7 @@ export default class Stations extends Component {
                 return (
                   <li>
                     <a
-                      href={train ? getUrl.call(this, 'train', { train }) : '#'}
+                      href={train ? this.getUrl('train', { train }) : '#'}
                       class="item-link"
                     >
                       <div class="item-content">
@@ -257,7 +243,7 @@ export default class Stations extends Component {
                       <a
                         href={
                           station
-                            ? getUrl.call(this, 'station', { station })
+                            ? this.getUrl('station', { station })
                             : '#'
                         }
                         class="item-link"
@@ -308,7 +294,7 @@ export default class Stations extends Component {
               {this.props.station
                 ? <a
                     class="back link"
-                    href={getUrl.call(this, 'station')}
+                    href={this.getUrl('station')}
                     onClick={event => {
                       history.back();
                       event.preventDefault();
