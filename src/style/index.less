@@ -1,5 +1,4 @@
 @import (inline) './framework7.ios.stripped.css';
-// @import (inline) './framework7-icons.css';
 
 :root {
    --train-y: 20px;
@@ -66,19 +65,12 @@ html, body {
   }
 }
 
-.navbar a.icon-only {
-  width: 44px;
-}
-
 .toolbar .buttons-row { width: 100%; }
 
 .row {
   width: 100%;
-  // text-align: center;
   .time, .name, .track, .train {
     align-self: center;
-    // vertical-align: middle;
-    // line-height: 24px;
   }
   .time, .name { text-align: left; }
   .track, .train, .last { text-align: right; }
@@ -95,25 +87,22 @@ html, body {
   position: relative;
 }
 
-.actual {
-  opacity: 1;
-}
-
-.actual:empty {
-  opacity: 0;
-}
-
 .full-width {
   width: 100%;
 }
 
+.actual {
+  opacity: 1;
+}
+
 .hide-when-empty, .mute-when-departed {
   opacity: 1;
-  transition: opacity 0.6s ease-out;
+  transition: opacity 0.3s ease-out;
   will-change: opacity;
 }
 
-.hide-when-empty:empty {
+.hide-when-empty:empty,
+.actual:empty {
   opacity: 0;
 }
 
@@ -157,8 +146,6 @@ html, body {
   z-index: 0;
 }
 
-.list-item .loading { justify-content: center; }
-
 .disable-filter-card {
   top: 50%;
   transform: translateY(-50%);
@@ -174,7 +161,6 @@ html, body {
   top: 0;
   left: 129px;
   margin-top: -13px;
-  // transform: translate3d(0, var(--train-y), 0);
   border-radius: 13px;
   color: #4cd964;
   opacity: 0;
@@ -255,29 +241,17 @@ html, body {
   justify-content: space-between;
 }
 
-.departed, .arrived, .late, .original, .actual, .timeline-item-divider, .timeline-item-divider:before, .timeline-item-divider:after, .timeline-item-inner {
+.departed, .arrived, .late, .original, .actual, .timeline-item-divider, .timeline-item-divider:before, .timeline-item-divider:after {
   transition: all 0.6s ease-out;
 }
 
-.arrived .timeline-item-divider, .departed .timeline-item-divider {
+.arrived .timeline-item-divider,
+.departed .timeline-item-divider,
+.arrived .timeline-item-divider:before,
+.departed .timeline-item-divider:after {
   background: #007aff;
 }
 
 .timeline-item-divider:before, .timeline-item-divider:after {
   background: #bbb;
 }
-
-.arrived .timeline-item-divider:before {
-  background: #007aff;
-}
-
-.departed .timeline-item-divider:after {
-  background: #007aff;
-}
-
-.departed, .arrived.timeline-item:last-child {
-  // color: #bbb;
-  // opacity: 0.6;
-}
-
-
