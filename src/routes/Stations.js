@@ -308,15 +308,34 @@ export default class Stations extends Component {
                     >
                       {isLocating
                         ? <span class="preloader" />
-                        : <i class="f7-icons" onClick={this.getNearbyStations}>
-                            navigation
-                          </i>}
+                        : <svg
+                            width="18"
+                            viewBox="0 0 41 50"
+                            xmlns="http://www.w3.org/2000/svg"
+                            onClick={this.getNearbyStations}
+                          >
+                            <path
+                              d="M.724 23.196L41 5 24 45V23.196H.724zM10 21.208L37.2 8.92 25.72 35.933V21.208H10z"
+                              fill-rule="evenodd"
+                              fill="#007aff"
+                            />
+                          </svg>}
                     </a>}
             </div>
             <div class="center sliding">Välj…</div>
             <div class="right">
               <a href="/info" class="link icon-only">
-                <i class="f7-icons">info</i>
+                <svg
+                  width="22"
+                  viewBox="0 0 44 44"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g fill-rule="evenodd" fill="#007aff">
+                    <path d="M42 22c0-11.046-8.954-20-20-20S2 10.954 2 22s8.954 20 20 20 20-8.954 20-20zM0 22C0 9.85 9.85 0 22 0s22 9.85 22 22-9.85 22-22 22S0 34.15 0 22z" />
+                    <circle cx="22" cy="12" r="3" />
+                    <path d="M20 17h4v16h-4V17zm-2 16h8v1h-8v-1zm0-16h2v1h-2v-1z" />
+                  </g>
+                </svg>
               </a>
             </div>
           </div>
