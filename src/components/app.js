@@ -14,18 +14,34 @@ export default class App extends Component {
   componentDidMount() {
     document.addEventListener('gesturestart', event => event.preventDefault());
     document.body.classList.add('framework7-root');
-    document.documentElement.classList.add(`pixel-ratio-${Math.floor(window.devicePixelRatio || 1)}`);
+    document.documentElement.classList.add(
+      `pixel-ratio-${Math.floor(window.devicePixelRatio || 1)}`
+    );
   }
 
   render() {
-    if (typeof process !== 'undefined') return <SSR/>;
+    if (typeof process !== 'undefined') return <SSR />;
     return (
       <Router>
         <Info path="/info" />
         <Stations path="/stations" api={api} getUrl={getUrl} default />
-        <Station path="/stations/:station/:type?" api={api} getUrl={getUrl} getNearbyHumanDate={getNearbyHumanDate} />
-        <Train path="/trains/:train/:date?" api={api} getUrl={getUrl} getNearbyHumanDate={getNearbyHumanDate} />
-        <Train path="/stations/:station/trains/:train/:date?" api={api} getUrl={getUrl} />
+        <Station
+          path="/stations/:station/:type?"
+          api={api}
+          getUrl={getUrl}
+          getNearbyHumanDate={getNearbyHumanDate}
+        />
+        <Train
+          path="/trains/:train/:date?"
+          api={api}
+          getUrl={getUrl}
+          getNearbyHumanDate={getNearbyHumanDate}
+        />
+        <Train
+          path="/stations/:station/trains/:train/:date?"
+          api={api}
+          getUrl={getUrl}
+        />
       </Router>
     );
   }

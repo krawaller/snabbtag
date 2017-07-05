@@ -111,8 +111,8 @@ export default class TrainAnnouncement extends Component {
               after,
               diff:
                 stationRect.top -
-                  pageContentRect.top -
-                  pageContentRect.height / 2
+                pageContentRect.top -
+                pageContentRect.height / 2
             });
           } else {
             const markerPosRelativeToPageContent =
@@ -226,9 +226,9 @@ export default class TrainAnnouncement extends Component {
                     actual: this.api.extractTime(announcement.TimeAtLocation),
                     happened:
                       !!announcement.TimeAtLocation ||
-                        arr
-                          .slice(i + 1)
-                          .some(({ TimeAtLocation }) => TimeAtLocation),
+                      arr
+                        .slice(i + 1)
+                        .some(({ TimeAtLocation }) => TimeAtLocation),
                     cancelled: !!announcement.Canceled,
                     deviations: announcement.Deviation
                   }
@@ -293,9 +293,7 @@ export default class TrainAnnouncement extends Component {
                 }}
               >
                 <i class="icon icon-back" />
-                <span>
-                  Tillbaka
-                </span>
+                <span>Tillbaka</span>
               </a>
             </div>
             <div class="center sliding">
@@ -313,12 +311,8 @@ export default class TrainAnnouncement extends Component {
               <div class="list-group-title">
                 <div class="time">
                   <div class="row">
-                    <div class="col">
-                      Ank
-                    </div>
-                    <div class="col">
-                      Avg
-                    </div>
+                    <div class="col">Ank</div>
+                    <div class="col">Avg</div>
                   </div>
                 </div>
                 <div class="station-title">Station</div>
@@ -367,12 +361,12 @@ export default class TrainAnnouncement extends Component {
                         departureDeviates &&
                         departure.actual > departure.advertised;
 
-                      const cancelledDeviation = arrival.cancelled &&
-                        departure.cancelled
-                        ? 'Inställt'
-                        : arrival.cancelled
-                          ? 'Inställd ankomst'
-                          : departure.canceleld ? 'Inställd avgång' : null;
+                      const cancelledDeviation =
+                        arrival.cancelled && departure.cancelled
+                          ? 'Inställt'
+                          : arrival.cancelled
+                            ? 'Inställd ankomst'
+                            : departure.canceleld ? 'Inställd avgång' : null;
                       const deviationSet = new Set(
                         [cancelledDeviation]
                           .concat(arrival.deviations || [])
@@ -445,8 +439,7 @@ export default class TrainAnnouncement extends Component {
                                       })}
                                     >
                                       {name}
-                                    </a>
-                                    {' '}
+                                    </a>{' '}
                                     {deviations.map(deviation =>
                                       <span>
                                         <div
@@ -459,8 +452,7 @@ export default class TrainAnnouncement extends Component {
                                           <div class="chip-label">
                                             {deviation}
                                           </div>
-                                        </div>
-                                        {' '}
+                                        </div>{' '}
                                       </span>
                                     )}
                                   </div>}

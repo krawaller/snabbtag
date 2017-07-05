@@ -289,9 +289,9 @@ export default class Station extends Component {
                       ];
                     return departures
                       ? filteredAdvertisedTimeAtLocation >
-                          announcement.AdvertisedTimeAtLocation
+                        announcement.AdvertisedTimeAtLocation
                       : filteredAdvertisedTimeAtLocation <
-                          announcement.AdvertisedTimeAtLocation;
+                        announcement.AdvertisedTimeAtLocation;
                   }),
                   hasUnfilteredAnnouncements: !!announcements.length,
                   lastModified
@@ -558,9 +558,7 @@ export default class Station extends Component {
                 <ul>
                   <li class="list-group-title">
                     <div class="row">
-                      <div class="col-20 time">
-                        Tid
-                      </div>
+                      <div class="col-20 time">Tid</div>
                       <div class="col-50 name item-title">
                         {showingDepartures ? 'Till' : 'Från'}
                       </div>
@@ -614,7 +612,7 @@ export default class Station extends Component {
                                     <div class="col-20 time">
                                       <div
                                         class={`original ${estimated ||
-                                          cancelled
+                                        cancelled
                                           ? 'has-deviation'
                                           : ''}`}
                                       >
@@ -622,7 +620,7 @@ export default class Station extends Component {
                                       </div>
                                       <div
                                         class={`actual ${estimated &&
-                                          estimated !== time
+                                        estimated !== time
                                           ? 'late'
                                           : ''} ${cancelled
                                           ? 'cancelled'
@@ -632,8 +630,7 @@ export default class Station extends Component {
                                       </div>
                                     </div>
                                     <div class="col-50 name item-title">
-                                      {name}
-                                      {' '}
+                                      {name}{' '}
                                       {deviations &&
                                         deviations.map(deviation =>
                                           <span>
@@ -647,13 +644,16 @@ export default class Station extends Component {
                                               <div class="chip-label">
                                                 {deviation}
                                               </div>
-                                            </div>
-                                            {' '}
+                                            </div>{' '}
                                           </span>
                                         )}
                                     </div>
-                                    <div class="col-10 track">{track}</div>
-                                    <div class="col-20 train">{train}</div>
+                                    <div class="col-10 track">
+                                      {track}
+                                    </div>
+                                    <div class="col-20 train">
+                                      {train}
+                                    </div>
                                   </div>}
                               </div>
                             </div>
@@ -674,13 +674,11 @@ export default class Station extends Component {
                 </div>
                 <div class="card-content">
                   <div class="card-content-inner">
-                    Det verkar inte finnas några
-                    {' '}
-                    {showingDepartures ? 'avgångar från' : 'ankomster till'}
-                    {' '}
-                    <b>{station.name}</b>
-                    {' '}
-                    den närmsta tiden
+                    Det verkar inte finnas några{' '}
+                    {showingDepartures
+                      ? 'avgångar från'
+                      : 'ankomster till'}{' '}
+                    <b>{station.name}</b> den närmsta tiden
                   </div>
                 </div>
               </div>}
@@ -688,11 +686,9 @@ export default class Station extends Component {
             {shouldShowDisableFilterMessage &&
               <div class="card disable-filter-card">
                 <div class="card-header">
-                  Alla existerande
-                  {' '}
-                  {showingDepartures ? 'avgångar' : 'ankomster'}
-                  {' '}
-                  döljs av favoritfiltret
+                  Alla existerande{' '}
+                  {showingDepartures ? 'avgångar' : 'ankomster'} döljs av
+                  favoritfiltret
                 </div>
                 <div class="card-content">
                   <div class="card-content-inner">
@@ -707,8 +703,7 @@ export default class Station extends Component {
                   </div>
                 </div>
                 <div class="card-footer">
-                  Eller lägg även till din tilltänka
-                  {' '}
+                  Eller lägg även till din tilltänka{' '}
                   {showingDepartures ? 'ankomsts' : 'avgångs'}
                   station som favorit för att få favoritfiltret att fungera som
                   tänkt.

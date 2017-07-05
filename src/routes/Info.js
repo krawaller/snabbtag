@@ -6,9 +6,7 @@ export default () =>
         <div class="left">
           <a class="back link" href="/stations">
             <i class="icon icon-back" />
-            <span>
-              Välj...
-            </span>
+            <span>Välj...</span>
           </a>
         </div>
         <div class="center sliding">Info</div>

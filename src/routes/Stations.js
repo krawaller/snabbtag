@@ -140,18 +140,10 @@ export default class Stations extends Component {
           <ul>
             <li class="list-group-title">
               <div class="row">
-                <div class="col-15">
-                  Tåg
-                </div>
-                <div class="col-15 time">
-                  Avg
-                </div>
-                <div class="col-35">
-                  Från
-                </div>
-                <div class="col-35">
-                  Till
-                </div>
+                <div class="col-15">Tåg</div>
+                <div class="col-15 time">Avg</div>
+                <div class="col-35">Från</div>
+                <div class="col-35">Till</div>
               </div>
             </li>
             {(trainsBySearchString[searchString] || Array.from(new Array(20)))
@@ -224,7 +216,9 @@ export default class Stations extends Component {
           {Object.keys(groups).map(group =>
             <div class="list-group">
               <ul>
-                <li class="list-group-title">{group}</li>
+                <li class="list-group-title">
+                  {group}
+                </li>
                 {groups[group].map(station => {
                   let before, match, after;
                   let content;
@@ -234,7 +228,11 @@ export default class Stations extends Component {
                     );
                     content = (
                       <div>
-                        {before}<b>{match}</b>{after}
+                        {before}
+                        <b>
+                          {match}
+                        </b>
+                        {after}
                       </div>
                     );
                   } else content = station.name;
@@ -242,9 +240,7 @@ export default class Stations extends Component {
                     <li>
                       <a
                         href={
-                          station
-                            ? this.getUrl('station', { station })
-                            : '#'
+                          station ? this.getUrl('station', { station }) : '#'
                         }
                         class="item-link"
                       >
@@ -301,9 +297,7 @@ export default class Stations extends Component {
                     }}
                   >
                     <i class="icon icon-back" />
-                    <span>
-                      Tillbaka
-                    </span>
+                    <span>Tillbaka</span>
                   </a>
                 : locationPermission
                   ? null
@@ -319,15 +313,12 @@ export default class Stations extends Component {
                           </i>}
                     </a>}
             </div>
-            <div class="center sliding">
-              Välj…
-            </div>
+            <div class="center sliding">Välj…</div>
             <div class="right">
               <a href="/info" class="link icon-only">
                 <i class="f7-icons">info</i>
               </a>
             </div>
-
           </div>
         </div>
         <div class="page">

@@ -9,7 +9,9 @@ export default () =>
         <div class="page-content">
           <div class="card">
             <div class="card-content">
-              <div class="card-content-inner">Denna app fungerar dessvärre inte utan javascript :-(</div>
+              <div class="card-content-inner">
+                Denna app fungerar dessvärre inte utan javascript :-(
+              </div>
             </div>
           </div>
         </div>
@@ -17,4 +19,3 @@ export default () =>
       <div class="page-content hide-when-empty" />
     </div>
   </div>;
-        
