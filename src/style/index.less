@@ -156,35 +156,27 @@ html, body {
   position: relative;
 }
 
+svg path {
+  fill: currentColor;
+}
+
 .train-marker {
   position: absolute;
   top: 0;
   left: 129px;
   margin-top: -13px;
-  border-radius: 13px;
-  color: #4cd964;
   opacity: 0;
+  color: #4cd964;;
+
+  svg {
+    background: #fff;
+    border-radius: 13px;
+  }
+
   &.animated {
     transition: transform 0.6s ease-in-out, opacity 0.3s ease-out;
     opacity: 1;
   }
-}
-
-.train-marker:before {
-  content: '';
-  position: absolute;
-  top: 10%;
-  left: 10%;
-  width: 80%;
-  height: 80%;
-  background: #fff;
-  z-index: 1;
-  border-radius: 13px;
-}
-
-.train-marker i {
-  position: relative;
-  z-index: 2;
 }
 
 .timeline-item {

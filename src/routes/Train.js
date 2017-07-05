@@ -474,7 +474,19 @@ export default class TrainAnnouncement extends Component {
                     : ''}`}
                   style={`transform: translate3d(0, ${trainY}px, 0)`}
                 >
-                  <i class="f7-icons">arrow_down_fill</i>
+                  <svg
+                    width="25"
+                    height="25"
+                    viewBox="0 0 50 50"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <title>arrow_down_fill</title>
+                    <path
+                      d="M25 50c13.807 0 25-11.193 25-25S38.807 0 25 0 0 11.193 0 25s11.193 25 25 25zm-2.047-17.828v-18.17c0-1.106.888-2.002 2-2.002 1.104 0 2 .902 2 2v18.172l6.54-6.54c.778-.78 2.037-.782 2.824.004.78.78.783 2.045.003 2.825l-9.906 9.907c-.412.412-.958.608-1.498.584-.515.005-1.03-.19-1.424-.583l-9.907-9.906c-.78-.778-.783-2.037.004-2.824.78-.78 2.044-.783 2.824-.003l6.54 6.54z"
+                      fill="#000"
+                      fill-rule="evenodd"
+                    />
+                  </svg>
                 </span>
               </div>
             </div>

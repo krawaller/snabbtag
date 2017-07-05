@@ -524,9 +524,39 @@ export default class Station extends Component {
               })}
               class="link icon-only"
             >
-              <i class="f7-icons">
-                {favoriteTrafficOnly ? 'filter-fill' : 'filter'}
-              </i>
+              {favoriteTrafficOnly
+                ? <svg
+                    width="22"
+                    viewBox="0 0 42 50"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <title>filter-fill</title>
+                    <g fill-rule="evenodd">
+                      <g transform="translate(0 9)">
+                        <path d="M38 3h4v2h-4zM0 3h26v2H0z" />
+                        <circle cx="32" cy="4" r="4" />
+                      </g>
+                      <g transform="translate(0 33)">
+                        <path d="M38 3h4v2h-4zM0 3h26v2H0z" />
+                        <circle cx="32" cy="4" r="4" />
+                      </g>
+                      <g transform="translate(0 21)">
+                        <path d="M18 3h24v2H18zM0 3h6v2H0z" />
+                        <circle cx="12" cy="4" r="4" />
+                      </g>
+                    </g>
+                  </svg>
+                : <svg
+                    width="22"
+                    viewBox="0 0 42 50"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <title>filter</title>
+                    <path
+                      d="M38 12h4v2h-4zM0 12h26v2H0zm34 1c0-1.105-.895-2-2-2s-2 .895-2 2 .895 2 2 2 2-.895 2-2zm-6 0c0-2.21 1.79-4 4-4s4 1.79 4 4-1.79 4-4 4-4-1.79-4-4zm10 23h4v2h-4zM0 36h26v2H0zm34 1c0-1.105-.895-2-2-2s-2 .895-2 2 .895 2 2 2 2-.895 2-2zm-6 0c0-2.21 1.79-4 4-4s4 1.79 4 4-1.79 4-4 4-4-1.79-4-4zM18 24h24v2H18zM0 24h6v2H0zm14 1c0-1.105-.895-2-2-2s-2 .895-2 2 .895 2 2 2 2-.895 2-2zm-6 0c0-2.21 1.79-4 4-4s4 1.79 4 4-1.79 4-4 4-4-1.79-4-4z"
+                      fill-rule="evenodd"
+                    />
+                  </svg>}
             </a>
             <div class="buttons-row">
               <a
