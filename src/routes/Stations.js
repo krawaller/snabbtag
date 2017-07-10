@@ -20,9 +20,6 @@ export default class Stations extends Component {
   }
 
   componentDidMount() {
-    if (!this.state.stations.length)
-      this.api.fetchStations().then(stations => this.setState({ stations }));
-
     this.api.fetchLocationPermission().then(locationPermission => {
       this.setState({ locationPermission });
       if (locationPermission) {
@@ -100,7 +97,7 @@ export default class Stations extends Component {
         <INCLUDE>AdvertisedTimeAtLocation</INCLUDE>
       </QUERY>`
       )
-      .then(({ RESPONSE: { RESULT: [{ TrainAnnouncement = [] }] } }) =>
+      .then(({ TrainAnnouncement = [] }) =>
         Object.values(
           TrainAnnouncement.reduce((trains, t) => {
             if (!(t.AdvertisedTrainIdent in trains)) {

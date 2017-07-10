@@ -34,22 +34,20 @@ export default class Station extends Component {
     //   if (locationPermission) this.locate();
     // })
 
-    this.api.fetchStations().then(stations => {
-      const station = this.api.getStationBySign(
-        this.props.station || Array.from(this.state.favorites.values()).pop()
-      );
+    const station = this.api.getStationBySign(
+      this.props.station || Array.from(this.state.favorites.values()).pop()
+    );
 
-      if (station) this.setState({ stations, station });
-      else {
-        this.api.fetchLocationPermission().then(locationPermission => {
-          return (locationPermission
-            ? this.api.fetchClosestStations()
-            : this.api.fetchClosestStationsUsingGeoIP()).then(([station]) =>
-            route(this.getUrl('station', { station }))
-          );
-        });
-      }
-    });
+    if (station) this.setState({ station });
+    else {
+      this.api.fetchLocationPermission().then(locationPermission => {
+        return (locationPermission
+          ? this.api.fetchClosestStations()
+          : this.api.fetchClosestStationsUsingGeoIP()).then(([station]) =>
+          route(this.getUrl('station', { station }))
+        );
+      });
+    }
     if (this.state.station) this.updateStationSubscription();
 
     // const interval = setInterval(() => {
@@ -211,16 +209,11 @@ export default class Station extends Component {
       )
       .then(
         ({
-          RESPONSE: {
-            RESULT: [
-              {
                 TrainAnnouncement: announcements = [],
                 INFO: {
                   LASTMODIFIED: { '@datetime': lastModified = false } = {}
                 } = {}
-              }
-            ] = []
-          }
+              
         }) => {
           if (!filterFavorites || lastModified === false)
             return { announcements, lastModified };
@@ -259,11 +252,7 @@ export default class Station extends Component {
           </QUERY>`
             )
             .then(
-              ({
-                RESPONSE: {
-                  RESULT: [{ TrainAnnouncement: filterAnnouncements = [] }] = []
-                }
-              }) => {
+              ({ TrainAnnouncement: filterAnnouncements = [] }) => {
                 const filterMap = filterAnnouncements.reduce(
                   (o, announcement) => {
                     if (

@@ -152,17 +152,12 @@ export default class TrainAnnouncement extends Component {
       )
       .then(
         ({
-          RESPONSE: {
-            RESULT: [
-              {
                 TrainAnnouncement = [],
                 INFO: {
                   LASTMODIFIED: { '@datetime': lastModified = false } = {}
                 } = {}
               }
-            ]
-          }
-        }) => ({ announcements: TrainAnnouncement, lastModified })
+            ) => ({ announcements: TrainAnnouncement, lastModified })
       );
   }
 
