@@ -197,9 +197,15 @@ export default class Stations extends Component {
         initialGroups['Närliggande'] = nearbyStations;
       }
 
-      const filteredStations = stations.filter(station =>
-        station.name.toLowerCase().includes(searchString.toLowerCase())
+      const rSearchString = new RegExp(
+        `^(.*?)(${searchString})(.*)$`,
+        'i'
       );
+
+      const filteredStations = stations.filter(({ name }) =>
+        rSearchString.test(name)
+      );
+
       const groups = filteredStations.reduce((groups, station) => {
         const group = station.name[0];
         groups[group] = groups[group] || [];
@@ -207,10 +213,6 @@ export default class Stations extends Component {
         return groups;
       }, initialGroups);
 
-      const rSearchString = new RegExp(
-        `^(.*?)(?:(${searchString})(.*))?$`,
-        'i'
-      );
       listGroups = (
         <div>
           {Object.keys(groups).map(group =>
@@ -305,6 +307,7 @@ export default class Stations extends Component {
                       href="#"
                       class="link icon-only"
                       onClick={event => event.preventDefault()}
+                      title="Visa närmsta stationer"
                     >
                       {isLocating
                         ? <span class="preloader" />
@@ -324,7 +327,7 @@ export default class Stations extends Component {
             </div>
             <div class="center sliding">Välj…</div>
             <div class="right">
-              <a href="/info" class="link icon-only">
+              <a href="/info" class="link icon-only" title="Info">
                 <svg
                   width="22"
                   viewBox="0 0 44 44"
@@ -349,7 +352,6 @@ export default class Stations extends Component {
           >
             <div class="searchbar-input">
               <input
-                class=""
                 placeholder="Sök station eller tågnummer"
                 type="search"
                 onInput={event =>
@@ -361,6 +363,7 @@ export default class Stations extends Component {
               <a
                 class="searchbar-clear"
                 href="#"
+                title="Rensa"
                 onClick={() => this.setState({ searchString: '' })}
               />
             </div>
