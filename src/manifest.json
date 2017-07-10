@@ -1,6 +1,6 @@
 {
-  "name": "Preact PWA",
-  "short_name": "Preact PWA",
+  "name": "μTåg",
+  "short_name": "μTåg",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",
