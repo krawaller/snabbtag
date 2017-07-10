@@ -131,6 +131,7 @@ export default class Stations extends Component {
       isLocating
     }
   ) {
+    console.log('render', this.props, this.state)
     const isTrainNumberSearch = /^\d+$/.test(searchString);
     let listGroups;
     if (isTrainNumberSearch) {
@@ -386,3 +387,46 @@ export default class Stations extends Component {
     );
   }
 }
+
+// [
+//   "Cst",
+//   "G",
+//   "M",
+//   "Lu",
+//   "Hb",
+//   "Hm",
+//   "U",
+//   "Äs",
+//   "Mr",
+//   "Söc",
+//   "Hie",
+//   "Sci",
+//   "Nr",
+//   "Gä",
+//   "Tri",
+//   "Lp",
+//   "Cr",
+//   "N",
+//   "Sub",
+//   "Bål",
+//   "Hpbg",
+//   "E",
+//   "My",
+//   "Hbgb",
+//   "A",
+//   "Sk",
+//   "Kb",
+//   "Ks",
+//   "Vhe",
+//   "Y",
+//   "Arnc",
+//   "Vö",
+//   "Av",
+//   "Mot",
+//   "Hö",
+//   "Söö",
+//   "Jö",
+//   "Hr",
+//   "Än",
+//   "Vå"
+// ]

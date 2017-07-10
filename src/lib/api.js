@@ -1,15 +1,21 @@
+import stations from './stations.json';
+
 export default class API {
   MAX_RETRY_COUNT = 5;
   CHECK_INTERVAL = 30000;
 
   constructor() {
-    this.stations = [];
+    this.stations = stations;
     this.stationsBySignature = {};
     this.stationsByName = {};
+    stations.forEach((station = {}) => {
+      this.stationsBySignature[station.sign.toLowerCase()] = station;
+      this.stationsByName[station.name.toLowerCase()] = station;
+    });
   }
 
   init() {
-    this.setStations(JSON.parse(localStorage.getItem('stations')) || undefined);
+    // this.setStations(JSON.parse(localStorage.getItem('stations')) || undefined);
   }
 
   query(query) {
@@ -26,15 +32,15 @@ export default class API {
     }).then(response => response.json());
   }
 
-  setStations(stations = []) {
-    console.log({ stations });
-    stations.forEach((station = {}) => {
-      this.stationsBySignature[station.sign.toLowerCase()] = station;
-      this.stationsByName[station.name.toLowerCase()] = station;
-    });
-    this.stations = stations.filter(station => station.swe);
-    return this.stations;
-  }
+  // setStations(stations = []) {
+  //   console.log({ stations });
+  //   stations.forEach((station = {}) => {
+  //     this.stationsBySignature[station.sign.toLowerCase()] = station;
+  //     this.stationsByName[station.name.toLowerCase()] = station;
+  //   });
+  //   this.stations = stations;
+  //   return this.stations;
+  // }
 
   extractDate(dateStr) {
     return (dateStr && dateStr.substring(0, 10)) || null;
@@ -60,7 +66,7 @@ export default class API {
       : Promise.resolve(false);
   }
 
-  getClosestStations([{ lat, lng }, stations]) {
+  getClosestStations({ lat, lng }) {
     const R = 6378137;
     const PI_360 = Math.PI / 360;
     const haversine = (a, b) => {
@@ -74,7 +80,7 @@ export default class API {
       return R * c;
     };
 
-    return stations
+    return this.stations
       .map(station => ({
         d: haversine({ lat, lng }, station),
         station
@@ -83,13 +89,27 @@ export default class API {
       .map(({ station }) => station);
   }
 
-  fetchClosestStations(callback) {
+  fetchClosestStations(numberOfStations = 3, radius = 50000) {
+    return this.fetchGeoLocation().catch(error => {
+      return this.fetchGeoIPLocation();
+    })
+    .then(({ lat, lng }) =>
+      this.query(`
+      <QUERY objecttype="TrainStation" limit="${numberOfStations}">
+        <INCLUDE>LocationSignature</INCLUDE>
+        <FILTER>
+          <WITHIN name="Geometry.WGS84" shape="center" value="${lng} ${lat}" radius="${radius}m" />
+        </FILTER>
+      </QUERY>`
+    ))
+    .then(response => response.RESPONSE.RESULT[0].TrainStation.map(({ LocationSignature }) => api.getStationBySign(LocationSignature)))
+  }
+
+  fetchClosestStationsUsingGeoIP() {
     return Promise.all([
-      this.fetchGeoLocation().catch(error => {
-        return this.fetchGeoIPLocation();
-      }),
-      this.fetchStations()
-    ]).then(this.getClosestStations);
+      this.fetchGeoIPLocation(),
+      // this.fetchStations()
+    ]);
   }
 
   fetchGeoLocation() {
@@ -106,41 +126,97 @@ export default class API {
       .then(({ latitude: lat, longitude: lng }) => ({ lat, lng }));
   }
 
-  fetchClosestStationsUsingGeoIP() {
-    return Promise.all([this.fetchGeoIPLocation(), this.fetchStations()]);
-  }
 
-  fetchStations() {
-    if (this.stations.length) return Promise.resolve(this.stations);
 
-    return this.query(
-      `
-      <QUERY objecttype="TrainStation" orderby="AdvertisedShortLocationName">
-        <INCLUDE>LocationSignature</INCLUDE>
-        <INCLUDE>AdvertisedShortLocationName</INCLUDE>
-        <INCLUDE>Geometry.WGS84</INCLUDE>
-        <INCLUDE>CountryCode</INCLUDE>
-        <FILTER>
-          <EQ name="Advertised" value="TRUE" />
-        </FILTER>
-      </QUERY>`
-    ).then(json => {
-      const stations = json.RESPONSE.RESULT[0].TrainStation.map(s => {
-        const [_, lng, lat] = s.Geometry.WGS84.match(
-          /^POINT \(([\d.]+) ([\d.]+)/
-        );
-        return {
-          name: s.AdvertisedShortLocationName,
-          sign: s.LocationSignature,
-          lat: Number(lat),
-          lng: Number(lng),
-          swe: s.CountryCode === 'SE'
-        };
-      });
+  // fetchStations() {
+  //   if (this.stations.length) return Promise.resolve(this.stations);
 
-      this.setStations(stations);
-      localStorage.setItem('stations', JSON.stringify(stations));
-      return stations;
-    });
-  }
+  //   return this.query(
+  //     `
+  //     <QUERY objecttype="TrainStation" orderby="AdvertisedShortLocationName">
+  //       <INCLUDE>LocationSignature</INCLUDE>
+  //       <INCLUDE>AdvertisedShortLocationName</INCLUDE>
+  //       <INCLUDE>Geometry.WGS84</INCLUDE>
+  //       <INCLUDE>CountryCode</INCLUDE>
+  //       <FILTER>
+  //         <EQ name="Advertised" value="TRUE" />
+  //       </FILTER>
+  //     </QUERY>`
+  //   ).then(json => {
+  //     const stations = json.RESPONSE.RESULT[0].TrainStation.map(s => {
+  //       const [_, lng, lat] = s.Geometry.WGS84.match(
+  //         /^POINT \(([\d.]+) ([\d.]+)/
+  //       );
+  //       return {
+  //         name: s.AdvertisedShortLocationName,
+  //         sign: s.LocationSignature,
+  //         lat: Number(Number(lat).toFixed(6)),
+  //         lng: Number(Number(lng).toFixed(6)),
+  //       };
+  //     });
+
+  //     this.setStations(stations);
+  //     localStorage.setItem('stations', JSON.stringify(stations));
+  //     return stations;
+  //   });
+  // }
 }
+
+
+// (async function() {
+//   const departuresBySignature = window.d = {};
+//   api.stations.forEach(async ({ sign }) => {
+//     const {
+//       RESPONSE: {
+//         RESULT: [{
+//           TrainAnnouncement: {
+//             length: count = 0
+//           } = {}
+//         }]
+//       }
+//     } = await api.query(`<QUERY objecttype="TrainAnnouncement">
+//         <INCLUDE>AdvertisedTrainIdent</INCLUDE>
+//         <FILTER>
+//           <EQ name="Advertised" value="TRUE" />
+//           <EQ name="LocationSignature" value="${sign}" />
+//           <EQ name="ActivityType" value="Avgang" />
+//         </FILTER>
+//       </QUERY>`);
+//     departuresBySignature[sign] = count;
+//     await new Promise(resolve => setTimeout(resolve, 200))
+//     console.log('done', sign)
+//   })
+//   console.log({departuresBySignature})  
+// })()
+
+// var a = [];
+// a.reduce()
+// // [].reduce()
+
+
+// Object.values(temp1.RESPONSE.RESULT[0].TrainAnnouncement.reduce((all, d) => {
+//   all[d.AdvertisedTrainIdent] = {
+//     from: Array.from(new Set((d.FromLocation || []).map(({ LocationName }) => LocationName).concat((all[d.AdvertisedTrainIdent] || {}).from || []))),
+//     to: Array.from(new Set((d.ToLocation || []).map(({ LocationName }) => LocationName).concat((all[d.AdvertisedTrainIdent] || {}).to || []))),
+//     via: Array.from(new Set(
+//       (d.ViaFromLocation || []).map(({ LocationName }) => LocationName).concat((d.ViaToLocation || []).map(({ LocationName }) => LocationName)).concat((all[d.AdvertisedTrainIdent] || {}).via || [])
+//     ))
+//   };
+//   return all;
+// }, {}).reduce((all, d) => {
+//   (d.from || []).concat(d.to || []).forEach(s => {
+//     all[s] = (all[s] || 0) + 2
+//   })
+
+//   (d.via || []).forEach(s => {
+//     all[s] = (all[s] || 0) + 1
+//   })
+
+//   return all;
+// }, {})
+
+
+
+
+// api.stations.
+// api.stations[0].sign
