@@ -201,9 +201,9 @@ export default class TrainAnnouncement extends Component {
                 {
                   sign: announcement.LocationSignature,
                   name:
-                    (this.api.getStationBySign(
+                    this.api.getStationBySign(
                       announcement.LocationSignature
-                    ) || {}).name || null,
+                    ),
                   track: announcement.TrackAtLocation,
                   [announcement.ActivityType === 'Avgang'
                     ? 'departure'
