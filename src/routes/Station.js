@@ -64,8 +64,8 @@ export default class Station extends Component {
 
     if (
       prevProps.station !== this.props.station ||
-        prevState.showingDepartures !== this.state.showingDepartures ||
-        prevState.favoriteTrafficOnly !== this.state.favoriteTrafficOnly
+      prevState.showingDepartures !== this.state.showingDepartures ||
+      prevState.favoriteTrafficOnly !== this.state.favoriteTrafficOnly
     ) {
       this.updateStationSubscription();
     }
@@ -76,11 +76,7 @@ export default class Station extends Component {
       trainAnnouncements: [],
       trainAnnouncementsLoading: true
     });
-    const {
-      showingDepartures,
-      favoriteTrafficOnly,
-      favorites
-    } = this.state;
+    const { showingDepartures, favoriteTrafficOnly, favorites } = this.state;
     const { station } = this.props;
 
     if (this.subscription) this.subscription.cancel();
@@ -132,7 +128,9 @@ export default class Station extends Component {
               ? 'Avgang'
               : 'Ankomst'}" />
             <EQ name="Advertised" value="TRUE" />
-            <EQ name="LocationSignature" value="${this.api.getSignByStation(station)}" />
+            <EQ name="LocationSignature" value="${this.api.getSignByStation(
+              station
+            )}" />
             <OR>
               <AND>
                 <GT name="AdvertisedTimeAtLocation" value="$dateadd(-00:15:00)" />
@@ -167,11 +165,10 @@ export default class Station extends Component {
       )
       .then(
         ({
-                TrainAnnouncement: announcements = [],
-                INFO: {
-                  LASTMODIFIED: { '@datetime': lastModified = false } = {}
-                } = {}
-              
+          TrainAnnouncement: announcements = [],
+          INFO: {
+            LASTMODIFIED: { '@datetime': lastModified = false } = {}
+          } = {}
         }) => {
           if (!filterFavorites || lastModified === false)
             return { announcements, lastModified };
@@ -209,42 +206,40 @@ export default class Station extends Component {
             <INCLUDE>AdvertisedTimeAtLocation</INCLUDE>
           </QUERY>`
             )
-            .then(
-              ({ TrainAnnouncement: filterAnnouncements = [] }) => {
-                const filterMap = filterAnnouncements.reduce(
-                  (o, announcement) => {
-                    if (
-                      o[announcement.ScheduledDepartureDateTime] === undefined
-                    ) {
-                      o[announcement.ScheduledDepartureDateTime] = {};
-                    }
-                    o[announcement.ScheduledDepartureDateTime][
-                      announcement.AdvertisedTrainIdent
-                    ] =
-                      announcement.AdvertisedTimeAtLocation;
-                    return o;
-                  },
-                  {}
-                );
+            .then(({ TrainAnnouncement: filterAnnouncements = [] }) => {
+              const filterMap = filterAnnouncements.reduce(
+                (o, announcement) => {
+                  if (
+                    o[announcement.ScheduledDepartureDateTime] === undefined
+                  ) {
+                    o[announcement.ScheduledDepartureDateTime] = {};
+                  }
+                  o[announcement.ScheduledDepartureDateTime][
+                    announcement.AdvertisedTrainIdent
+                  ] =
+                    announcement.AdvertisedTimeAtLocation;
+                  return o;
+                },
+                {}
+              );
 
-                return {
-                  announcements: announcements.filter(announcement => {
-                    const filteredAdvertisedTimeAtLocation =
-                      filterMap[announcement.ScheduledDepartureDateTime] &&
-                      filterMap[announcement.ScheduledDepartureDateTime][
-                        announcement.AdvertisedTrainIdent
-                      ];
-                    return departures
-                      ? filteredAdvertisedTimeAtLocation >
-                        announcement.AdvertisedTimeAtLocation
-                      : filteredAdvertisedTimeAtLocation <
-                        announcement.AdvertisedTimeAtLocation;
-                  }),
-                  hasUnfilteredAnnouncements: !!announcements.length,
-                  lastModified
-                };
-              }
-            );
+              return {
+                announcements: announcements.filter(announcement => {
+                  const filteredAdvertisedTimeAtLocation =
+                    filterMap[announcement.ScheduledDepartureDateTime] &&
+                    filterMap[announcement.ScheduledDepartureDateTime][
+                      announcement.AdvertisedTrainIdent
+                    ];
+                  return departures
+                    ? filteredAdvertisedTimeAtLocation >
+                      announcement.AdvertisedTimeAtLocation
+                    : filteredAdvertisedTimeAtLocation <
+                      announcement.AdvertisedTimeAtLocation;
+                }),
+                hasUnfilteredAnnouncements: !!announcements.length,
+                lastModified
+              };
+            });
         }
       );
   }
@@ -333,9 +328,7 @@ export default class Station extends Component {
                 via: (announcement.ViaToLocation ||
                   announcement.ViaFromLocation ||
                   [])
-                  .map(
-                    l => this.api.getStationBySign(l.LocationName)
-                  )
+                  .map(l => this.api.getStationBySign(l.LocationName))
                   .filter(Boolean),
                 signs: (announcement.ToLocation || announcement.FromLocation)
                   .map(l => l.LocationName),
@@ -391,9 +384,7 @@ export default class Station extends Component {
   }
 
   render(
-    {
-      station
-    },
+    { station },
     {
       stations,
       favorites,
@@ -457,11 +448,7 @@ export default class Station extends Component {
               <a
                 href={this.getUrl('station', {
                   favorites: favorites.has(station)
-                    ? (
-                        (tmp = new Set(favorites)),
-                        tmp.delete(station),
-                        tmp
-                      )
+                    ? ((tmp = new Set(favorites)), tmp.delete(station), tmp)
                     : new Set(favorites).add(station)
                 })}
                 class="link icon-only"

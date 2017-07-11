@@ -126,7 +126,7 @@ export default class Stations extends Component {
       isLocating
     }
   ) {
-    console.log('render', this.props, this.state)
+    console.log('render', this.props, this.state);
     const isTrainNumberSearch = /^\d+$/.test(searchString);
     let listGroups;
     if (isTrainNumberSearch) {
@@ -193,10 +193,7 @@ export default class Stations extends Component {
         initialGroups['Närliggande'] = nearbyStations;
       }
 
-      const rSearchString = new RegExp(
-        `^(.*?)(${searchString})(.*)$`,
-        'i'
-      );
+      const rSearchString = new RegExp(`^(.*?)(${searchString})(.*)$`, 'i');
 
       const filteredStations = stations.filter(({ name }) =>
         rSearchString.test(name)
@@ -221,9 +218,7 @@ export default class Stations extends Component {
                   let before, match, after;
                   let content;
                   if (searchString) {
-                    let [, before, match, after] = station.match(
-                      rSearchString
-                    );
+                    let [, before, match, after] = station.match(rSearchString);
                     content = (
                       <div>
                         {before}
@@ -248,9 +243,7 @@ export default class Stations extends Component {
                             name="station"
                             value={station}
                             checked={
-                              station === this.props.station
-                                ? 'checked'
-                                : null
+                              station === this.props.station ? 'checked' : null
                             }
                           />
                           <div class="item-inner">

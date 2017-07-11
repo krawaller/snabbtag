@@ -29,7 +29,9 @@ export function getUrl(
     .join('&');
 
   return `${{
-    station: `/stations/${station}/${showingDepartures ? 'departures' : 'arrivals'}`,
+    station: `/stations/${station}/${showingDepartures
+      ? 'departures'
+      : 'arrivals'}`,
     stations: `/stations`,
     train: `/trains/${train}${date ? `/${date}` : ''}`
   }[page]}${queries && `?${queries}`}`;

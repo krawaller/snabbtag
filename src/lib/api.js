@@ -28,12 +28,9 @@ export default class API {
           <LOGIN authenticationkey="b87844ecdc764190bd6b6d86e6b80016" />
           ${query}
         </REQUEST>`.replace(/>\s+?</g, '><')
-    }).then(response => response.json())
-    .then(({
-      RESPONSE: {
-        RESULT: [r = null] = []
-      } = {}
-    }) => r)
+    })
+      .then(response => response.json())
+      .then(({ RESPONSE: { RESULT: [r = null] = [] } = {} }) => r);
   }
 
   extractDate(dateStr) {
@@ -60,24 +57,29 @@ export default class API {
   }
 
   fetchClosestStations(numberOfStations = 3, radius = 50000) {
-    return this.fetchGeoLocation().catch(error => {
-      return this.fetchGeoIPLocation();
-    })
-    .then(({ lat, lng }) =>
-      this.query(`
+    return this.fetchGeoLocation()
+      .catch(error => {
+        return this.fetchGeoIPLocation();
+      })
+      .then(({ lat, lng }) =>
+        this.query(`
       <QUERY objecttype="TrainStation" limit="${numberOfStations}">
         <INCLUDE>LocationSignature</INCLUDE>
         <FILTER>
           <WITHIN name="Geometry.WGS84" shape="center" value="${lng} ${lat}" radius="${radius}m" />
         </FILTER>
-      </QUERY>`
-    ))
-    .then(response => response.TrainStation.map(({ LocationSignature }) => api.getStationBySign(LocationSignature)))
+      </QUERY>`)
+      )
+      .then(response =>
+        response.TrainStation.map(({ LocationSignature }) =>
+          api.getStationBySign(LocationSignature)
+        )
+      );
   }
 
   fetchClosestStationsUsingGeoIP() {
     return Promise.all([
-      this.fetchGeoIPLocation(),
+      this.fetchGeoIPLocation()
       // this.fetchStations()
     ]);
   }
@@ -96,7 +98,6 @@ export default class API {
       .then(({ latitude: lat, longitude: lng }) => ({ lat, lng }));
   }
 }
-
 
 // (async function() {
 //   const departuresBySignature = window.d = {};
@@ -121,13 +122,12 @@ export default class API {
 //     await new Promise(resolve => setTimeout(resolve, 200))
 //     console.log('done', sign)
 //   })
-//   console.log({departuresBySignature})  
+//   console.log({departuresBySignature})
 // })()
 
 // var a = [];
 // a.reduce()
 // // [].reduce()
-
 
 // Object.values(temp1.RESPONSE.RESULT[0].TrainAnnouncement.reduce((all, d) => {
 //   all[d.AdvertisedTrainIdent] = {
@@ -149,9 +149,6 @@ export default class API {
 
 //   return all;
 // }, {})
-
-
-
 
 // api.stations.
 // api.stations[0].sign
