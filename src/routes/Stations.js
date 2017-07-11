@@ -103,10 +103,8 @@ export default class Stations extends Component {
             if (!(t.AdvertisedTrainIdent in trains)) {
               trains[t.AdvertisedTrainIdent] = {
                 train: t.AdvertisedTrainIdent,
-                from: this.api.getStationBySign(t.FromLocation[0].LocationName)
-                  .name,
-                to: this.api.getStationBySign(t.ToLocation[0].LocationName)
-                  .name,
+                from: this.api.getStationBySign(t.FromLocation[0].LocationName),
+                to: this.api.getStationBySign(t.ToLocation[0].LocationName),
                 at: this.api.extractTime(t.AdvertisedTimeAtLocation)
               };
             }
@@ -205,7 +203,7 @@ export default class Stations extends Component {
       );
 
       const groups = filteredStations.reduce((groups, station) => {
-        const group = station.name[0];
+        const group = station[0];
         groups[group] = groups[group] || [];
         groups[group].push(station);
         return groups;
@@ -223,7 +221,7 @@ export default class Stations extends Component {
                   let before, match, after;
                   let content;
                   if (searchString) {
-                    let [, before, match, after] = station.name.match(
+                    let [, before, match, after] = station.match(
                       rSearchString
                     );
                     content = (
@@ -235,7 +233,7 @@ export default class Stations extends Component {
                         {after}
                       </div>
                     );
-                  } else content = station.name;
+                  } else content = station;
                   return (
                     <li>
                       <a
@@ -248,9 +246,9 @@ export default class Stations extends Component {
                           <input
                             type="checkbox"
                             name="station"
-                            value={station.name}
+                            value={station}
                             checked={
-                              station.name === this.props.station
+                              station === this.props.station
                                 ? 'checked'
                                 : null
                             }

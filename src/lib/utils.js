@@ -19,7 +19,7 @@ export function getUrl(
     typeof favorites === 'string' ? `favorites=${favorites}` : '',
     favoriteTrafficOnly ? `favorite_traffic_only=true` : '',
     station && (page === 'stations' || page === 'train')
-      ? `station=${station.name || station}`
+      ? `station=${station}`
       : '',
     (page === 'stations' || page === 'train') &&
       !showingDepartures &&
@@ -29,8 +29,7 @@ export function getUrl(
     .join('&');
 
   return `${{
-    station: `/stations/${(station && station.name) ||
-      station}/${showingDepartures ? 'departures' : 'arrivals'}`,
+    station: `/stations/${station}/${showingDepartures ? 'departures' : 'arrivals'}`,
     stations: `/stations`,
     train: `/trains/${train}${date ? `/${date}` : ''}`
   }[page]}${queries && `?${queries}`}`;

@@ -1,2600 +1,435 @@
-[
-  {
-    "name": "Abisko turist",
-    "sign": "Akt",
-    "lat": 68.357316,
-    "lng": 18.78326
-  },
-  {
-    "name": "Abisko Ö",
-    "sign": "Ak",
-    "lat": 68.348641,
-    "lng": 18.830346
-  },
-  {
-    "name": "Alingsås",
-    "sign": "A",
-    "lat": 57.926905,
-    "lng": 12.532185
-  },
-  {
-    "name": "Alvesta",
-    "sign": "Av",
-    "lat": 56.898022,
-    "lng": 14.556192
-  },
-  {
-    "name": "Aneby",
-    "sign": "Any",
-    "lat": 57.837435,
-    "lng": 14.811896
-  },
-  {
-    "name": "Anneberg",
-    "sign": "Ag",
-    "lat": 57.538629,
-    "lng": 12.100776
-  },
-  {
-    "name": "Arboga",
-    "sign": "Arb",
-    "lat": 59.397189,
-    "lng": 15.840526
-  },
-  {
-    "name": "Arbrå",
-    "sign": "Ab",
-    "lat": 61.471035,
-    "lng": 16.379835
-  },
-  {
-    "name": "Arlanda",
-    "sign": "Arnc",
-    "lat": 59.649072,
-    "lng": 17.928489
-  },
-  {
-    "name": "Arvika",
-    "sign": "Ar",
-    "lat": 59.653634,
-    "lng": 12.590803
-  },
-  {
-    "name": "Aspedalen",
-    "sign": "Asd",
-    "lat": 57.762478,
-    "lng": 12.258478
-  },
-  {
-    "name": "Aspen",
-    "sign": "Apn",
-    "lat": 57.754422,
-    "lng": 12.240512
-  },
-  {
-    "name": "Assberg",
-    "sign": "Asb",
-    "lat": 57.494352,
-    "lng": 12.668602
-  },
-  {
-    "name": "Astrid Lindgrens värld",
-    "sign": "Alv",
-    "lat": 57.672707,
-    "lng": 15.840064
-  },
-  {
-    "name": "Avesta Krylbo",
-    "sign": "Avky",
-    "lat": 60.129533,
-    "lng": 16.216148
-  },
-  {
-    "name": "Ballingslöv",
-    "sign": "Bl",
-    "lat": 56.214034,
-    "lng": 13.848392
-  },
-  {
-    "name": "Bankeryd",
-    "sign": "Bry",
-    "lat": 57.86036,
-    "lng": 14.128234
-  },
-  {
-    "name": "Basthagen",
-    "sign": "Bth",
-    "lat": 58.205498,
-    "lng": 15.974171
-  },
-  {
-    "name": "Bastuträsk",
-    "sign": "Bst",
-    "lat": 64.789039,
-    "lng": 20.041511
-  },
-  {
-    "name": "Berga",
-    "sign": "Bg",
-    "lat": 57.216533,
-    "lng": 16.033443
-  },
-  {
-    "name": "Berghem",
-    "sign": "Bgm",
-    "lat": 57.467037,
-    "lng": 12.598364
-  },
-  {
-    "name": "Bergåsa",
-    "sign": "Båa",
-    "lat": 56.181817,
-    "lng": 15.600635
-  },
-  {
-    "name": "Björketorp",
-    "sign": "Bjo",
-    "lat": 57.427926,
-    "lng": 12.523945
-  },
-  {
-    "name": "Björkliden",
-    "sign": "Bln",
-    "lat": 68.408387,
-    "lng": 18.686353
-  },
-  {
-    "name": "Björköby",
-    "sign": "Bjy",
-    "lat": 57.521052,
-    "lng": 14.910562
-  },
-  {
-    "name": "Bjørnfjell",
-    "sign": "Bjf",
-    "lat": 68.432048,
-    "lng": 18.071561
-  },
-  {
-    "name": "Blomberg",
-    "sign": "Bmb",
-    "lat": 58.540153,
-    "lng": 13.32052
-  },
-  {
-    "name": "Blomstermåla",
-    "sign": "Bma",
-    "lat": 56.980711,
-    "lng": 16.332114
-  },
-  {
-    "name": "Bodafors",
-    "sign": "Bdf",
-    "lat": 57.5061,
-    "lng": 14.69478
-  },
-  {
-    "name": "Boden",
-    "sign": "Bdn",
-    "lat": 65.828802,
-    "lng": 21.708053
-  },
-  {
-    "name": "Bohus",
-    "sign": "Bhs",
-    "lat": 57.864006,
-    "lng": 12.019564
-  },
-  {
-    "name": "Bollebygd",
-    "sign": "Boy",
-    "lat": 57.667531,
-    "lng": 12.570011
-  },
-  {
-    "name": "Bollnäs",
-    "sign": "Bn",
-    "lat": 61.349485,
-    "lng": 16.39172
-  },
-  {
-    "name": "Bor",
-    "sign": "Bor",
-    "lat": 57.116132,
-    "lng": 14.168644
-  },
-  {
-    "name": "Borgstena",
-    "sign": "Boa",
-    "lat": 57.882975,
-    "lng": 13.014833
-  },
-  {
-    "name": "Borlänge",
-    "sign": "Blg",
-    "lat": 60.482943,
-    "lng": 15.425472
-  },
-  {
-    "name": "Borås",
-    "sign": "Bs",
-    "lat": 57.720332,
-    "lng": 12.931025
-  },
-  {
-    "name": "Boxholm",
-    "sign": "Bx",
-    "lat": 58.192919,
-    "lng": 15.053631
-  },
-  {
-    "name": "Bredaryd",
-    "sign": "Bdy",
-    "lat": 57.176537,
-    "lng": 13.737651
-  },
-  {
-    "name": "Brinellskolan",
-    "sign": "Brin",
-    "lat": 57.66942,
-    "lng": 14.700936
-  },
-  {
-    "name": "Bromölla",
-    "sign": "Bml",
-    "lat": 56.067165,
-    "lng": 14.48162
-  },
-  {
-    "name": "Brunflo",
-    "sign": "Bf",
-    "lat": 63.075973,
-    "lng": 14.832584
-  },
-  {
-    "name": "Bräcke",
-    "sign": "Bä",
-    "lat": 62.750004,
-    "lng": 15.417618
-  },
-  {
-    "name": "Bräkne-Hoby",
-    "sign": "Bhb",
-    "lat": 56.23137,
-    "lng": 15.116058
-  },
-  {
-    "name": "Bålsta",
-    "sign": "Bål",
-    "lat": 59.569432,
-    "lng": 17.531885
-  },
-  {
-    "name": "Båstad",
-    "sign": "Bån",
-    "lat": 56.430835,
-    "lng": 12.905213
-  },
-  {
-    "name": "Bäckebron",
-    "sign": "Bäb",
-    "lat": 59.661038,
-    "lng": 13.166164
-  },
-  {
-    "name": "Charlottenberg",
-    "sign": "Cg",
-    "lat": 59.88313,
-    "lng": 12.299264
-  },
-  {
-    "name": "Degerfors",
-    "sign": "Dg",
-    "lat": 59.228876,
-    "lng": 14.440355
-  },
-  {
-    "name": "Derome",
-    "sign": "Dre",
-    "lat": 57.230559,
-    "lng": 12.320145
-  },
-  {
-    "name": "Dingle",
-    "sign": "Dl",
-    "lat": 58.529574,
-    "lng": 11.579114
-  },
-  {
-    "name": "Dingtuna",
-    "sign": "Dt",
-    "lat": 59.571564,
-    "lng": 16.389779
-  },
-  {
-    "name": "Diö",
-    "sign": "Dis",
-    "lat": 56.633086,
-    "lng": 14.214231
-  },
-  {
-    "name": "Djurås",
-    "sign": "Då",
-    "lat": 60.560083,
-    "lng": 15.13855
-  },
-  {
-    "name": "Duved",
-    "sign": "Du",
-    "lat": 63.389765,
-    "lng": 12.917488
-  },
-  {
-    "name": "Ed",
-    "sign": "Ed",
-    "lat": 58.91349,
-    "lng": 11.932872
-  },
-  {
-    "name": "Edane",
-    "sign": "En",
-    "lat": 59.626809,
-    "lng": 12.829341
-  },
-  {
-    "name": "Ekenässjön",
-    "sign": "Esn",
-    "lat": 57.490505,
-    "lng": 15.018917
-  },
-  {
-    "name": "Eksjö",
-    "sign": "Ek",
-    "lat": 57.663753,
-    "lng": 14.975428
-  },
-  {
-    "name": "Emmaboda",
-    "sign": "Em",
-    "lat": 56.62979,
-    "lng": 15.534936
-  },
-  {
-    "name": "Enafors",
-    "sign": "Ens",
-    "lat": 63.289779,
-    "lng": 12.337325
-  },
-  {
-    "name": "Enköping",
-    "sign": "Ep",
-    "lat": 59.64458,
-    "lng": 17.088656
-  },
-  {
-    "name": "Erikslund",
-    "sign": "Ei",
-    "lat": 62.52739,
-    "lng": 15.91256
-  },
-  {
-    "name": "Eskilstuna",
-    "sign": "Et",
-    "lat": 59.369388,
-    "lng": 16.505456
-  },
-  {
-    "name": "Eslöv",
-    "sign": "E",
-    "lat": 55.837681,
-    "lng": 13.305373
-  },
-  {
-    "name": "Fagersta",
-    "sign": "Fgc",
-    "lat": 59.990549,
-    "lng": 15.815466
-  },
-  {
-    "name": "Fagersta N",
-    "sign": "Fgn",
-    "lat": 60.008642,
-    "lng": 15.775345
-  },
-  {
-    "name": "Fagerås",
-    "sign": "Fgå",
-    "lat": 59.519777,
-    "lng": 13.218175
-  },
-  {
-    "name": "Falerum",
-    "sign": "Fal",
-    "lat": 58.143638,
-    "lng": 16.207194
-  },
-  {
-    "name": "Falkenberg",
-    "sign": "Fabp",
-    "lat": 56.919507,
-    "lng": 12.508724
-  },
-  {
-    "name": "Falköping",
-    "sign": "F",
-    "lat": 58.175744,
-    "lng": 13.552006
-  },
-  {
-    "name": "Falun",
-    "sign": "Fln",
-    "lat": 60.603247,
-    "lng": 15.641727
-  },
-  {
-    "name": "Filsbäck",
-    "sign": "Fiä",
-    "lat": 58.49317,
-    "lng": 13.247201
-  },
-  {
-    "name": "Fjällåsen",
-    "sign": "Fjå",
-    "lat": 67.519357,
-    "lng": 20.093703
-  },
-  {
-    "name": "Flemingsberg",
-    "sign": "Flb",
-    "lat": 59.219261,
-    "lng": 17.947842
-  },
-  {
-    "name": "Flen",
-    "sign": "Fle",
-    "lat": 59.056947,
-    "lng": 16.585278
-  },
-  {
-    "name": "Floby",
-    "sign": "Fby",
-    "lat": 58.138744,
-    "lng": 13.332227
-  },
-  {
-    "name": "Floda",
-    "sign": "Fd",
-    "lat": 57.810003,
-    "lng": 12.361482
-  },
-  {
-    "name": "Fors",
-    "sign": "Fs",
-    "lat": 60.206499,
-    "lng": 16.311521
-  },
-  {
-    "name": "Forserum",
-    "sign": "Fm",
-    "lat": 57.697857,
-    "lng": 14.474113
-  },
-  {
-    "name": "Forsheda",
-    "sign": "Fod",
-    "lat": 57.163273,
-    "lng": 13.832918
-  },
-  {
-    "name": "Forshem",
-    "sign": "Fhm",
-    "lat": 58.618083,
-    "lng": 13.491826
-  },
-  {
-    "name": "Framnäs city",
-    "sign": "Fc",
-    "lat": 58.507712,
-    "lng": 13.147312
-  },
-  {
-    "name": "Fristad",
-    "sign": "Fra",
-    "lat": 57.827425,
-    "lng": 13.008626
-  },
-  {
-    "name": "Fritsla",
-    "sign": "Frl",
-    "lat": 57.557743,
-    "lng": 12.789768
-  },
-  {
-    "name": "Frykåsen",
-    "sign": "Frå",
-    "lat": 59.626456,
-    "lng": 13.184791
-  },
-  {
-    "name": "Fränsta",
-    "sign": "Ft",
-    "lat": 62.496013,
-    "lng": 16.167449
-  },
-  {
-    "name": "Frövi",
-    "sign": "Fv",
-    "lat": 59.46762,
-    "lng": 15.363694
-  },
-  {
-    "name": "Furuvik",
-    "sign": "Fvk",
-    "lat": 60.651416,
-    "lng": 17.329682
-  },
-  {
-    "name": "Gagnef",
-    "sign": "Gnf",
-    "lat": 60.598756,
-    "lng": 15.081035
-  },
-  {
-    "name": "Gamleby",
-    "sign": "Gal",
-    "lat": 57.896994,
-    "lng": 16.409637
-  },
-  {
-    "name": "Gamlestaden",
-    "sign": "Gas",
-    "lat": 57.73607,
-    "lng": 12.00446
-  },
-  {
-    "name": "Gemla",
-    "sign": "Gm",
-    "lat": 56.870765,
-    "lng": 14.646249
-  },
-  {
-    "name": "Gnarp",
-    "sign": "Gnp",
-    "lat": 62.055351,
-    "lng": 17.242918
-  },
-  {
-    "name": "Gnesta",
-    "sign": "Gn",
-    "lat": 59.048549,
-    "lng": 17.312841
-  },
-  {
-    "name": "Gnosjö",
-    "sign": "Gnö",
-    "lat": 57.358517,
-    "lng": 13.735
-  },
-  {
-    "name": "Grums",
-    "sign": "Gms",
-    "lat": 59.353002,
-    "lng": 13.113765
-  },
-  {
-    "name": "Grythyttan",
-    "sign": "Ghy",
-    "lat": 59.703842,
-    "lng": 14.530485
-  },
-  {
-    "name": "Grängesberg",
-    "sign": "Gg",
-    "lat": 60.075038,
-    "lng": 15.003432
-  },
-  {
-    "name": "Grästorp",
-    "sign": "Gop",
-    "lat": 58.334593,
-    "lng": 12.685777
-  },
-  {
-    "name": "Gårdsjö",
-    "sign": "Gdö",
-    "lat": 58.87213,
-    "lng": 14.333802
-  },
-  {
-    "name": "Gällivare",
-    "sign": "Gv",
-    "lat": 67.133325,
-    "lng": 20.651075
-  },
-  {
-    "name": "Gällö",
-    "sign": "Gö",
-    "lat": 62.911234,
-    "lng": 15.2295
-  },
-  {
-    "name": "Gävle",
-    "sign": "Gä",
-    "lat": 60.676086,
-    "lng": 17.15175
-  },
-  {
-    "name": "Göteborg",
-    "sign": "G",
-    "lat": 57.708901,
-    "lng": 11.973894
-  },
-  {
-    "name": "Habo",
-    "sign": "Ho",
-    "lat": 57.906393,
-    "lng": 14.076951
-  },
-  {
-    "name": "Hallsberg",
-    "sign": "Hpbg",
-    "lat": 59.067109,
-    "lng": 15.111248
-  },
-  {
-    "name": "Hallstahammar",
-    "sign": "Hh",
-    "lat": 59.614656,
-    "lng": 16.220194
-  },
-  {
-    "name": "Halmstad",
-    "sign": "Hd",
-    "lat": 56.669603,
-    "lng": 12.864819
-  },
-  {
-    "name": "Hasslerör",
-    "sign": "Hsr",
-    "lat": 58.750194,
-    "lng": 13.93954
-  },
-  {
-    "name": "Heby",
-    "sign": "Hy",
-    "lat": 59.940434,
-    "lng": 16.853165
-  },
-  {
-    "name": "Hede",
-    "sign": "Khe",
-    "lat": 57.514119,
-    "lng": 12.084368
-  },
-  {
-    "name": "Hedemora",
-    "sign": "Hdm",
-    "lat": 60.274104,
-    "lng": 15.980235
-  },
-  {
-    "name": "Helsingborg",
-    "sign": "Hb",
-    "lat": 56.043538,
-    "lng": 12.69517
-  },
-  {
-    "name": "Herrljunga",
-    "sign": "Hr",
-    "lat": 58.079057,
-    "lng": 13.020949
-  },
-  {
-    "name": "Hestra",
-    "sign": "Het",
-    "lat": 57.443108,
-    "lng": 13.595754
-  },
-  {
-    "name": "Hindås",
-    "sign": "Hås",
-    "lat": 57.70443,
-    "lng": 12.450956
-  },
-  {
-    "name": "Hofors",
-    "sign": "Hfr",
-    "lat": 60.569583,
-    "lng": 16.266177
-  },
-  {
-    "name": "Hok",
-    "sign": "Hokö",
-    "lat": 57.514132,
-    "lng": 14.274726
-  },
-  {
-    "name": "Holmsjö",
-    "sign": "Hmö",
-    "lat": 56.422238,
-    "lng": 15.542248
-  },
-  {
-    "name": "Holmsveden",
-    "sign": "Hdn",
-    "lat": 61.119709,
-    "lng": 16.719092
-  },
-  {
-    "name": "Horndal",
-    "sign": "Hlr",
-    "lat": 60.296117,
-    "lng": 16.413462
-  },
-  {
-    "name": "Horred",
-    "sign": "Hre",
-    "lat": 57.353722,
-    "lng": 12.477654
-  },
-  {
-    "name": "Hova",
-    "sign": "Hova",
-    "lat": 58.854777,
-    "lng": 14.215176
-  },
-  {
-    "name": "Hovmantorp",
-    "sign": "Hvp",
-    "lat": 56.78622,
-    "lng": 15.139584
-  },
-  {
-    "name": "Hovslätt",
-    "sign": "Hvs",
-    "lat": 57.734886,
-    "lng": 14.123948
-  },
-  {
-    "name": "Hudiksvall",
-    "sign": "Hkl",
-    "lat": 61.724664,
-    "lng": 17.109182
-  },
-  {
-    "name": "Hultsfred",
-    "sign": "Hf",
-    "lat": 57.485911,
-    "lng": 15.847113
-  },
-  {
-    "name": "Huskvarna",
-    "sign": "Hka",
-    "lat": 57.782366,
-    "lng": 14.264765
-  },
-  {
-    "name": "Husum",
-    "sign": "Hum",
-    "lat": 63.344364,
-    "lng": 19.156712
-  },
-  {
-    "name": "Hyllie",
-    "sign": "Hie",
-    "lat": 55.563148,
-    "lng": 12.976334
-  },
-  {
-    "name": "Håkantorp",
-    "sign": "Håp",
-    "lat": 58.306664,
-    "lng": 12.907647
-  },
-  {
-    "name": "Hällefors",
-    "sign": "Hlf",
-    "lat": 59.777746,
-    "lng": 14.51805
-  },
-  {
-    "name": "Hälleforsnäs",
-    "sign": "Hnä",
-    "lat": 59.161996,
-    "lng": 16.502559
-  },
-  {
-    "name": "Hällekis",
-    "sign": "Hlk",
-    "lat": 58.630055,
-    "lng": 13.433024
-  },
-  {
-    "name": "Hällevadsholm",
-    "sign": "Hlv",
-    "lat": 58.58001,
-    "lng": 11.535224
-  },
-  {
-    "name": "Hällnäs",
-    "sign": "Hls",
-    "lat": 64.305474,
-    "lng": 19.625888
-  },
-  {
-    "name": "Härnösand",
-    "sign": "Hsd",
-    "lat": 62.635273,
-    "lng": 17.928386
-  },
-  {
-    "name": "Hässleholm",
-    "sign": "Hm",
-    "lat": 56.157906,
-    "lng": 13.763207
-  },
-  {
-    "name": "Hästveda",
-    "sign": "Hv",
-    "lat": 56.288567,
-    "lng": 13.934798
-  },
-  {
-    "name": "Högboda",
-    "sign": "Hbd",
-    "lat": 59.55752,
-    "lng": 13.051155
-  },
-  {
-    "name": "Högsby",
-    "sign": "Höy",
-    "lat": 57.16585,
-    "lng": 16.027465
-  },
-  {
-    "name": "Hörnefors",
-    "sign": "Höf",
-    "lat": 63.633001,
-    "lng": 19.912343
-  },
-  {
-    "name": "Höör",
-    "sign": "Hö",
-    "lat": 55.937517,
-    "lng": 13.543109
-  },
-  {
-    "name": "Iggesund",
-    "sign": "Id",
-    "lat": 61.644788,
-    "lng": 17.081364
-  },
-  {
-    "name": "Insjön",
-    "sign": "In",
-    "lat": 60.675512,
-    "lng": 15.094405
-  },
-  {
-    "name": "Jonsered",
-    "sign": "Jv",
-    "lat": 57.749846,
-    "lng": 12.173623
-  },
-  {
-    "name": "Järpen",
-    "sign": "Jpn",
-    "lat": 63.342403,
-    "lng": 13.472156
-  },
-  {
-    "name": "Järpås",
-    "sign": "Jps",
-    "lat": 58.378984,
-    "lng": 12.969951
-  },
-  {
-    "name": "Järvsö",
-    "sign": "Jr",
-    "lat": 61.715694,
-    "lng": 16.172094
-  },
-  {
-    "name": "Jönköping",
-    "sign": "Jö",
-    "lat": 57.784458,
-    "lng": 14.164574
-  },
-  {
-    "name": "Jörn",
-    "sign": "Jrn",
-    "lat": 65.053324,
-    "lng": 20.02936
-  },
-  {
-    "name": "Kaitum",
-    "sign": "Ktm",
-    "lat": 67.542577,
-    "lng": 20.103269
-  },
-  {
-    "name": "Kalmar",
-    "sign": "Kac",
-    "lat": 56.661314,
-    "lng": 16.360325
-  },
-  {
-    "name": "Karbenning",
-    "sign": "Kbn",
-    "lat": 60.036839,
-    "lng": 16.073213
-  },
-  {
-    "name": "Karlshamn",
-    "sign": "Kh",
-    "lat": 56.177139,
-    "lng": 14.866387
-  },
-  {
-    "name": "Karlskrona",
-    "sign": "Ck",
-    "lat": 56.167057,
-    "lng": 15.585251
-  },
-  {
-    "name": "Karlstad",
-    "sign": "Ks",
-    "lat": 59.377891,
-    "lng": 13.499025
-  },
-  {
-    "name": "Katrineholm",
-    "sign": "K",
-    "lat": 58.996512,
-    "lng": 16.209184
-  },
-  {
-    "name": "Katterat",
-    "sign": "No.kat",
-    "lat": 68.397928,
-    "lng": 17.965855
-  },
-  {
-    "name": "Katterjåkk",
-    "sign": "Kjå",
-    "lat": 68.420158,
-    "lng": 18.160849
-  },
-  {
-    "name": "Kil",
-    "sign": "Kil",
-    "lat": 59.504743,
-    "lng": 13.315882
-  },
-  {
-    "name": "Kilafors",
-    "sign": "Kls",
-    "lat": 61.23069,
-    "lng": 16.570399
-  },
-  {
-    "name": "Killeberg",
-    "sign": "Kr",
-    "lat": 56.474837,
-    "lng": 14.098458
-  },
-  {
-    "name": "Kimstad",
-    "sign": "Kms",
-    "lat": 58.536269,
-    "lng": 15.968849
-  },
-  {
-    "name": "Kinna",
-    "sign": "Kin",
-    "lat": 57.505647,
-    "lng": 12.697447
-  },
-  {
-    "name": "Kinnared",
-    "sign": "Kid",
-    "lat": 57.025221,
-    "lng": 13.107056
-  },
-  {
-    "name": "Kiruna",
-    "sign": "Kmb",
-    "lat": 67.868263,
-    "lng": 20.199231
-  },
-  {
-    "name": "Kisa",
-    "sign": "Kisa",
-    "lat": 57.984631,
-    "lng": 15.634102
-  },
-  {
-    "name": "Klevshult",
-    "sign": "Kvh",
-    "lat": 57.351566,
-    "lng": 14.097317
-  },
-  {
-    "name": "Knalleland",
-    "sign": "Knl",
-    "lat": 57.73406,
-    "lng": 12.942554
-  },
-  {
-    "name": "Knivsta",
-    "sign": "Kn",
-    "lat": 59.725409,
-    "lng": 17.787099
-  },
-  {
-    "name": "Kode",
-    "sign": "Kde",
-    "lat": 57.944464,
-    "lng": 11.850916
-  },
-  {
-    "name": "Kolbäck",
-    "sign": "Kbä",
-    "lat": 59.564275,
-    "lng": 16.233449
-  },
-  {
-    "name": "Kolmården",
-    "sign": "Kon",
-    "lat": 58.674698,
-    "lng": 16.362527
-  },
-  {
-    "name": "Kolsnäs",
-    "sign": "Kns",
-    "lat": 59.82578,
-    "lng": 13.140935
-  },
-  {
-    "name": "Kongsvinger",
-    "sign": "No.kvg",
-    "lat": 60.266799,
-    "lng": 12.022488
-  },
-  {
-    "name": "Kopparberg",
-    "sign": "Kpg",
-    "lat": 59.872635,
-    "lng": 14.986891
-  },
-  {
-    "name": "Kramfors",
-    "sign": "Krf",
-    "lat": 62.929016,
-    "lng": 17.778237
-  },
-  {
-    "name": "Kristianstad",
-    "sign": "Cr",
-    "lat": 56.032222,
-    "lng": 14.150831
-  },
-  {
-    "name": "Kristinehamn",
-    "sign": "Khn",
-    "lat": 59.317399,
-    "lng": 14.107122
-  },
-  {
-    "name": "Krokom",
-    "sign": "Krm",
-    "lat": 63.325973,
-    "lng": 14.447975
-  },
-  {
-    "name": "Kumla",
-    "sign": "Kla",
-    "lat": 59.127546,
-    "lng": 15.140951
-  },
-  {
-    "name": "Kungsbacka",
-    "sign": "Kb",
-    "lat": 57.489505,
-    "lng": 12.079872
-  },
-  {
-    "name": "Kungsör",
-    "sign": "Kör",
-    "lat": 59.427799,
-    "lng": 16.103102
-  },
-  {
-    "name": "Kvicksund",
-    "sign": "Ksus",
-    "lat": 59.450775,
-    "lng": 16.320648
-  },
-  {
-    "name": "Kållered",
-    "sign": "Krd",
-    "lat": 57.615476,
-    "lng": 12.046219
-  },
-  {
-    "name": "Källby",
-    "sign": "Kll",
-    "lat": 58.510569,
-    "lng": 13.301884
-  },
-  {
-    "name": "Kävlinge",
-    "sign": "Kg",
-    "lat": 55.794495,
-    "lng": 13.111372
-  },
-  {
-    "name": "Köpenhamn H",
-    "sign": "Dk.kh",
-    "lat": 55.676112,
-    "lng": 12.568332
-  },
-  {
-    "name": "Cph Airport",
-    "sign": "Dk.cph",
-    "lat": 55.628614,
-    "lng": 12.646945
-  },
-  {
-    "name": "Köping",
-    "sign": "Kp",
-    "lat": 59.506216,
-    "lng": 16.006601
-  },
-  {
-    "name": "Laholm",
-    "sign": "Laov",
-    "lat": 56.50269,
-    "lng": 12.999366
-  },
-  {
-    "name": "Lammhult",
-    "sign": "Lh",
-    "lat": 57.171851,
-    "lng": 14.585611
-  },
-  {
-    "name": "Landeryd",
-    "sign": "Lrd",
-    "lat": 57.076729,
-    "lng": 13.265594
-  },
-  {
-    "name": "Landskrona",
-    "sign": "Lkö",
-    "lat": 55.87909,
-    "lng": 12.857362
-  },
-  {
-    "name": "Laxå",
-    "sign": "Lå",
-    "lat": 58.988919,
-    "lng": 14.614603
-  },
-  {
-    "name": "Leksand",
-    "sign": "Lsd",
-    "lat": 60.73403,
-    "lng": 15.003007
-  },
-  {
-    "name": "Lerum",
-    "sign": "Lr",
-    "lat": 57.769402,
-    "lng": 12.272804
-  },
-  {
-    "name": "Lessebo",
-    "sign": "Lo",
-    "lat": 56.750562,
-    "lng": 15.258529
-  },
-  {
-    "name": "Lidköping",
-    "sign": "Lkp",
-    "lat": 58.504392,
-    "lng": 13.165097
-  },
-  {
-    "name": "Lilleström",
-    "sign": "No.lls",
-    "lat": 59.956382,
-    "lng": 11.050513
-  },
-  {
-    "name": "Limmared",
-    "sign": "Lme",
-    "lat": 57.533982,
-    "lng": 13.353545
-  },
-  {
-    "name": "Lindesberg",
-    "sign": "Ld",
-    "lat": 59.594516,
-    "lng": 15.228645
-  },
-  {
-    "name": "Lindome",
-    "sign": "Ldo",
-    "lat": 57.57603,
-    "lng": 12.078729
-  },
-  {
-    "name": "Lingbo",
-    "sign": "Lb",
-    "lat": 61.04494,
-    "lng": 16.672798
-  },
-  {
-    "name": "Linghem",
-    "sign": "Lgm",
-    "lat": 58.436281,
-    "lng": 15.785131
-  },
-  {
-    "name": "Linköping",
-    "sign": "Lp",
-    "lat": 58.417037,
-    "lng": 15.624342
-  },
-  {
-    "name": "Liseberg",
-    "sign": "Lis",
-    "lat": 57.699504,
-    "lng": 11.996704
-  },
-  {
-    "name": "Ljung",
-    "sign": "Lju",
-    "lat": 57.986452,
-    "lng": 13.053311
-  },
-  {
-    "name": "Ljungaverk",
-    "sign": "Ljv",
-    "lat": 62.495583,
-    "lng": 16.06743
-  },
-  {
-    "name": "Ljungskile",
-    "sign": "Lj",
-    "lat": 58.224764,
-    "lng": 11.921012
-  },
-  {
-    "name": "Ljusdal",
-    "sign": "Ls",
-    "lat": 61.826809,
-    "lng": 16.09651
-  },
-  {
-    "name": "Ljusne",
-    "sign": "Lse",
-    "lat": 61.212612,
-    "lng": 17.111847
-  },
-  {
-    "name": "Lovene",
-    "sign": "Lve",
-    "lat": 58.440223,
-    "lng": 13.046556
-  },
-  {
-    "name": "Ludvika",
-    "sign": "La",
-    "lat": 60.149878,
-    "lng": 15.182494
-  },
-  {
-    "name": "Lugnås",
-    "sign": "Lnå",
-    "lat": 58.644304,
-    "lng": 13.70191
-  },
-  {
-    "name": "Luleå",
-    "sign": "Le",
-    "lat": 65.584086,
-    "lng": 22.165607
-  },
-  {
-    "name": "Lund",
-    "sign": "Lu",
-    "lat": 55.70725,
-    "lng": 13.186573
-  },
-  {
-    "name": "Lycksele",
-    "sign": "Ly",
-    "lat": 64.594267,
-    "lng": 18.668774
-  },
-  {
-    "name": "Lyrestad",
-    "sign": "Lyd",
-    "lat": 58.804938,
-    "lng": 14.056576
-  },
-  {
-    "name": "Lysvik",
-    "sign": "Lyv",
-    "lat": 60.015951,
-    "lng": 13.137783
-  },
-  {
-    "name": "Låktatjåkka",
-    "sign": "Låk",
-    "lat": 68.423687,
-    "lng": 18.324742
-  },
-  {
-    "name": "Läggesta",
-    "sign": "Lg",
-    "lat": 59.247548,
-    "lng": 17.169099
-  },
-  {
-    "name": "Lödöse Södra",
-    "sign": "Les",
-    "lat": 58.014616,
-    "lng": 12.164955
-  },
-  {
-    "name": "Malmbäck",
-    "sign": "Mbä",
-    "lat": 57.577996,
-    "lng": 14.460425
-  },
-  {
-    "name": "Malmö",
-    "sign": "M",
-    "lat": 55.609718,
-    "lng": 13.00023
-  },
-  {
-    "name": "Mantorp",
-    "sign": "Mt",
-    "lat": 58.347989,
-    "lng": 15.288155
-  },
-  {
-    "name": "Mariestad",
-    "sign": "Mst",
-    "lat": 58.711258,
-    "lng": 13.825666
-  },
-  {
-    "name": "Marma",
-    "sign": "Maa",
-    "lat": 60.491504,
-    "lng": 17.430862
-  },
-  {
-    "name": "Mehedeby",
-    "sign": "Meh",
-    "lat": 60.450694,
-    "lng": 17.400698
-  },
-  {
-    "name": "Mellerud",
-    "sign": "Ml",
-    "lat": 58.701831,
-    "lng": 12.464788
-  },
-  {
-    "name": "Mjölby",
-    "sign": "My",
-    "lat": 58.322746,
-    "lng": 15.132101
-  },
-  {
-    "name": "Moheda",
-    "sign": "Mo",
-    "lat": 57.003121,
-    "lng": 14.57659
-  },
-  {
-    "name": "Mollaryd",
-    "sign": "Moy",
-    "lat": 57.906215,
-    "lng": 13.022665
-  },
-  {
-    "name": "Mora",
-    "sign": "Mra",
-    "lat": 61.008712,
-    "lng": 14.559096
-  },
-  {
-    "name": "Morastrand",
-    "sign": "Mras",
-    "lat": 61.008712,
-    "lng": 14.559096
-  },
-  {
-    "name": "Morgongåva",
-    "sign": "Må",
-    "lat": 59.932906,
-    "lng": 16.961362
-  },
-  {
-    "name": "Motala",
-    "sign": "Mot",
-    "lat": 58.537507,
-    "lng": 15.048179
-  },
-  {
-    "name": "Mullsjö",
-    "sign": "Mu",
-    "lat": 57.915035,
-    "lng": 13.881371
-  },
-  {
-    "name": "Munkedal",
-    "sign": "Mkl",
-    "lat": 58.466885,
-    "lng": 11.674984
-  },
-  {
-    "name": "Murjek",
-    "sign": "Mk",
-    "lat": 66.484129,
-    "lng": 20.88075
-  },
-  {
-    "name": "Månsarp",
-    "sign": "Måp",
-    "lat": 57.654003,
-    "lng": 14.071052
-  },
-  {
-    "name": "Märsta",
-    "sign": "Mr",
-    "lat": 59.627719,
-    "lng": 17.861556
-  },
-  {
-    "name": "Mölndal",
-    "sign": "Mdn",
-    "lat": 57.663387,
-    "lng": 12.016664
-  },
-  {
-    "name": "Mölnlycke",
-    "sign": "Myk",
-    "lat": 57.65839,
-    "lng": 12.124506
-  },
-  {
-    "name": "Mörrum",
-    "sign": "Mru",
-    "lat": 56.186854,
-    "lng": 14.742953
-  },
-  {
-    "name": "Mörsil",
-    "sign": "Mi",
-    "lat": 63.308535,
-    "lng": 13.657734
-  },
-  {
-    "name": "Narvik",
-    "sign": "No.nk",
-    "lat": 68.436692,
-    "lng": 17.386688
-  },
-  {
-    "name": "Nattavaara",
-    "sign": "Ntv",
-    "lat": 66.75428,
-    "lng": 20.950093
-  },
-  {
-    "name": "Nol",
-    "sign": "Nol",
-    "lat": 57.917647,
-    "lng": 12.060618
-  },
-  {
-    "name": "Nordmaling",
-    "sign": "Nog",
-    "lat": 63.578403,
-    "lng": 19.482318
-  },
-  {
-    "name": "Norrahammar",
-    "sign": "Nhr",
-    "lat": 57.70435,
-    "lng": 14.115809
-  },
-  {
-    "name": "Norrköping",
-    "sign": "Nr",
-    "lat": 58.596266,
-    "lng": 16.181679
-  },
-  {
-    "name": "Norsesund",
-    "sign": "Ns",
-    "lat": 57.861337,
-    "lng": 12.438839
-  },
-  {
-    "name": "Notviken",
-    "sign": "Nvn",
-    "lat": 65.610657,
-    "lng": 22.118735
-  },
-  {
-    "name": "Nybro",
-    "sign": "Nyb",
-    "lat": 56.742405,
-    "lng": 15.908953
-  },
-  {
-    "name": "Nykroppa",
-    "sign": "Nka",
-    "lat": 59.62248,
-    "lng": 14.308436
-  },
-  {
-    "name": "Nykvarn",
-    "sign": "Nkv",
-    "lat": 59.178732,
-    "lng": 17.43208
-  },
-  {
-    "name": "Nyköping",
-    "sign": "Nk",
-    "lat": 58.756613,
-    "lng": 16.997085
-  },
-  {
-    "name": "Nässjö",
-    "sign": "N",
-    "lat": 57.651359,
-    "lng": 14.694735
-  },
-  {
-    "name": "Nödinge",
-    "sign": "Nöe",
-    "lat": 57.892441,
-    "lng": 12.042947
-  },
-  {
-    "name": "Ockelbo",
-    "sign": "Ob",
-    "lat": 60.891162,
-    "lng": 16.720896
-  },
-  {
-    "name": "Ormaryd",
-    "sign": "Ory",
-    "lat": 57.665637,
-    "lng": 14.831426
-  },
-  {
-    "name": "Osby",
-    "sign": "O",
-    "lat": 56.381181,
-    "lng": 13.995682
-  },
-  {
-    "name": "Oskarshamn",
-    "sign": "Oh",
-    "lat": 57.262909,
-    "lng": 16.457553
-  },
-  {
-    "name": "Oskarström",
-    "sign": "Om",
-    "lat": 56.806501,
-    "lng": 12.971984
-  },
-  {
-    "name": "Oslo",
-    "sign": "No.osl",
-    "lat": 59.917997,
-    "lng": 10.736695
-  },
-  {
-    "name": "Partille",
-    "sign": "P",
-    "lat": 57.74071,
-    "lng": 12.102644
-  },
-  {
-    "name": "Pilgrimstad",
-    "sign": "Pl",
-    "lat": 62.954972,
-    "lng": 15.04039
-  },
-  {
-    "name": "Rabbalshede",
-    "sign": "Rbh",
-    "lat": 58.610101,
-    "lng": 11.470712
-  },
-  {
-    "name": "Ramlösa",
-    "sign": "Hbgb",
-    "lat": 56.02712,
-    "lng": 12.721909
-  },
-  {
-    "name": "Ramnäs",
-    "sign": "Rmn",
-    "lat": 59.769776,
-    "lng": 16.207883
-  },
-  {
-    "name": "Ransta",
-    "sign": "Rt",
-    "lat": 59.810191,
-    "lng": 16.639952
-  },
-  {
-    "name": "Reftele",
-    "sign": "Rft",
-    "lat": 57.175921,
-    "lng": 13.593497
-  },
-  {
-    "name": "Riksgränsen",
-    "sign": "Rgn",
-    "lat": 68.427198,
-    "lng": 18.118697
-  },
-  {
-    "name": "Rimforsa",
-    "sign": "Rf",
-    "lat": 58.135305,
-    "lng": 15.681679
-  },
-  {
-    "name": "Rocksjön",
-    "sign": "Rkö",
-    "lat": 57.775036,
-    "lng": 14.198182
-  },
-  {
-    "name": "Rombak",
-    "sign": "No.rom",
-    "lat": 68.404612,
-    "lng": 17.790981
-  },
-  {
-    "name": "Ronneby",
-    "sign": "Rb",
-    "lat": 56.206446,
-    "lng": 15.283599
-  },
-  {
-    "name": "Rottneros",
-    "sign": "Rts",
-    "lat": 59.79497,
-    "lng": 13.128731
-  },
-  {
-    "name": "Rydaholm",
-    "sign": "Rym",
-    "lat": 56.986401,
-    "lng": 14.311463
-  },
-  {
-    "name": "Råbäck",
-    "sign": "Rbk",
-    "lat": 58.610608,
-    "lng": 13.37662
-  },
-  {
-    "name": "Rättvik",
-    "sign": "Rv",
-    "lat": 60.884697,
-    "lng": 15.115693
-  },
-  {
-    "name": "Rävlanda",
-    "sign": "Rd",
-    "lat": 57.654426,
-    "lng": 12.50028
-  },
-  {
-    "name": "Rörstorp",
-    "sign": "Röp",
-    "lat": 57.172307,
-    "lng": 14.064115
-  },
-  {
-    "name": "Sala",
-    "sign": "Sl",
-    "lat": 59.925695,
-    "lng": 16.604517
-  },
-  {
-    "name": "Sandared",
-    "sign": "Sae",
-    "lat": 57.709537,
-    "lng": 12.792492
-  },
-  {
-    "name": "Sandhem",
-    "sign": "Sm",
-    "lat": 57.988322,
-    "lng": 13.772749
-  },
-  {
-    "name": "Sandviken",
-    "sign": "Snv",
-    "lat": 60.614229,
-    "lng": 16.777588
-  },
-  {
-    "name": "Sannarp",
-    "sign": "Sarp",
-    "lat": 56.686436,
-    "lng": 12.893372
-  },
-  {
-    "name": "Sjisjka",
-    "sign": "Sjka",
-    "lat": 67.62589,
-    "lng": 20.234529
-  },
-  {
-    "name": "Skee",
-    "sign": "Ske",
-    "lat": 58.923409,
-    "lng": 11.262055
-  },
-  {
-    "name": "Skene",
-    "sign": "See",
-    "lat": 57.488434,
-    "lng": 12.649439
-  },
-  {
-    "name": "Skillingaryd",
-    "sign": "Syd",
-    "lat": 57.428425,
-    "lng": 14.090713
-  },
-  {
-    "name": "Skinnskatteberg",
-    "sign": "Skb",
-    "lat": 59.83262,
-    "lng": 15.691599
-  },
-  {
-    "name": "Skutskär",
-    "sign": "Sur",
-    "lat": 60.626037,
-    "lng": 17.404551
-  },
-  {
-    "name": "Skyttorp",
-    "sign": "Syt",
-    "lat": 60.079385,
-    "lng": 17.736901
-  },
-  {
-    "name": "Skänninge",
-    "sign": "Skn",
-    "lat": 58.392639,
-    "lng": 15.092524
-  },
-  {
-    "name": "Skövde",
-    "sign": "Sk",
-    "lat": 58.389037,
-    "lng": 13.85186
-  },
-  {
-    "name": "Smedby",
-    "sign": "Sdy",
-    "lat": 56.677593,
-    "lng": 16.233274
-  },
-  {
-    "name": "Smedjebacken",
-    "sign": "Smj",
-    "lat": 60.136507,
-    "lng": 15.405617
-  },
-  {
-    "name": "Smålandsstenar",
-    "sign": "Sdr",
-    "lat": 57.161439,
-    "lng": 13.414984
-  },
-  {
-    "name": "Stavre",
-    "sign": "Stv",
-    "lat": 62.826105,
-    "lng": 15.311814
-  },
-  {
-    "name": "Stehag",
-    "sign": "Sg",
-    "lat": 55.900294,
-    "lng": 13.393433
-  },
-  {
-    "name": "Stenkullen",
-    "sign": "Sn",
-    "lat": 57.791737,
-    "lng": 12.31462
-  },
-  {
-    "name": "Stensjön",
-    "sign": "Snö",
-    "lat": 57.582529,
-    "lng": 14.823733
-  },
-  {
-    "name": "Stenstorp",
-    "sign": "Ss",
-    "lat": 58.272916,
-    "lng": 13.71266
-  },
-  {
-    "name": "Stenungsund",
-    "sign": "Snu",
-    "lat": 58.072709,
-    "lng": 11.824677
-  },
-  {
-    "name": "Stockaryd",
-    "sign": "Sy",
-    "lat": 57.309845,
-    "lng": 14.591879
-  },
-  {
-    "name": "Stockholm",
-    "sign": "Cst",
-    "lat": 59.329971,
-    "lng": 18.057267
-  },
-  {
-    "name": "Stora Höga",
-    "sign": "Sth",
-    "lat": 58.018679,
-    "lng": 11.83577
-  },
-  {
-    "name": "Stora Levene",
-    "sign": "Stlv",
-    "lat": 58.325925,
-    "lng": 12.925756
-  },
-  {
-    "name": "Storfors",
-    "sign": "Sf",
-    "lat": 59.533027,
-    "lng": 14.271726
-  },
-  {
-    "name": "Storlien",
-    "sign": "Str",
-    "lat": 63.315944,
-    "lng": 12.100572
-  },
-  {
-    "name": "Storvik",
-    "sign": "Sv",
-    "lat": 60.581878,
-    "lng": 16.534296
-  },
-  {
-    "name": "Storvreta",
-    "sign": "Srv",
-    "lat": 59.956303,
-    "lng": 17.706244
-  },
-  {
-    "name": "Storå",
-    "sign": "Sr",
-    "lat": 59.718884,
-    "lng": 15.140746
-  },
-  {
-    "name": "Strängnäs",
-    "sign": "Sgs",
-    "lat": 59.3703,
-    "lng": 17.028207
-  },
-  {
-    "name": "Strömstad",
-    "sign": "Smd",
-    "lat": 58.936536,
-    "lng": 11.173363
-  },
-  {
-    "name": "Ställdalen",
-    "sign": "Stl",
-    "lat": 59.934419,
-    "lng": 14.941723
-  },
-  {
-    "name": "Stöde",
-    "sign": "Std",
-    "lat": 62.419787,
-    "lng": 16.599125
-  },
-  {
-    "name": "Sundbyberg",
-    "sign": "Sub",
-    "lat": 59.360838,
-    "lng": 17.971825
-  },
-  {
-    "name": "Sunderby sjh",
-    "sign": "Sus",
-    "lat": 65.673286,
-    "lng": 21.935408
-  },
-  {
-    "name": "Sundsvall",
-    "sign": "Suc",
-    "lat": 62.386574,
-    "lng": 17.314889
-  },
-  {
-    "name": "Sundsvall V",
-    "sign": "Suv",
-    "lat": 62.389481,
-    "lng": 17.293347
-  },
-  {
-    "name": "Sunne",
-    "sign": "Sun",
-    "lat": 59.835525,
-    "lng": 13.149171
-  },
-  {
-    "name": "Surahammar",
-    "sign": "Shr",
-    "lat": 59.706579,
-    "lng": 16.219628
-  },
-  {
-    "name": "Surte",
-    "sign": "Sue",
-    "lat": 57.824899,
-    "lng": 12.013395
-  },
-  {
-    "name": "Svenshögen",
-    "sign": "Svg",
-    "lat": 58.144717,
-    "lng": 11.936141
-  },
-  {
-    "name": "Säffle",
-    "sign": "Sfl",
-    "lat": 59.13235,
-    "lng": 12.916234
-  },
-  {
-    "name": "Säter",
-    "sign": "St",
-    "lat": 60.346589,
-    "lng": 15.757079
-  },
-  {
-    "name": "Sävenäs",
-    "sign": "Säv",
-    "lat": 57.72474,
-    "lng": 12.025186
-  },
-  {
-    "name": "Sävsjö",
-    "sign": "Sä",
-    "lat": 57.40292,
-    "lng": 14.665567
-  },
-  {
-    "name": "Söderbärke",
-    "sign": "Sre",
-    "lat": 60.072493,
-    "lng": 15.537111
-  },
-  {
-    "name": "Söderhamn",
-    "sign": "Shv",
-    "lat": 61.299411,
-    "lng": 17.034891
-  },
-  {
-    "name": "Södertälje S",
-    "sign": "Söö",
-    "lat": 59.163298,
-    "lng": 17.647962
-  },
-  {
-    "name": "Sölvesborg",
-    "sign": "Sög",
-    "lat": 56.049444,
-    "lng": 14.583114
-  },
-  {
-    "name": "Sösdala",
-    "sign": "Söla",
-    "lat": 56.036439,
-    "lng": 13.680791
-  },
-  {
-    "name": "Sösterbekk",
-    "sign": "No.sös",
-    "lat": 68.446141,
-    "lng": 18.002448
-  },
-  {
-    "name": "Taberg",
-    "sign": "Tag",
-    "lat": 57.678679,
-    "lng": 14.086971
-  },
-  {
-    "name": "Tannefors",
-    "sign": "Tn",
-    "lat": 58.400411,
-    "lng": 15.66027
-  },
-  {
-    "name": "Tanum",
-    "sign": "Tnu",
-    "lat": 58.713577,
-    "lng": 11.295587
-  },
-  {
-    "name": "Tenhult",
-    "sign": "Th",
-    "lat": 57.705215,
-    "lng": 14.326605
-  },
-  {
-    "name": "Tierp",
-    "sign": "Tip",
-    "lat": 60.345783,
-    "lng": 17.513067
-  },
-  {
-    "name": "Timrå",
-    "sign": "Trå",
-    "lat": 62.486403,
-    "lng": 17.33027
-  },
-  {
-    "name": "Tjustskolan",
-    "sign": "Tjsk",
-    "lat": 57.752934,
-    "lng": 16.630536
-  },
-  {
-    "name": "Tjörnarp",
-    "sign": "Tö",
-    "lat": 56.001483,
-    "lng": 13.631212
-  },
-  {
-    "name": "Tobo",
-    "sign": "Tbo",
-    "lat": 60.259036,
-    "lng": 17.63376
-  },
-  {
-    "name": "Tofta",
-    "sign": "Tof",
-    "lat": 57.173328,
-    "lng": 12.300448
-  },
-  {
-    "name": "Tolita",
-    "sign": "Tlt",
-    "lat": 59.577783,
-    "lng": 13.240058
-  },
-  {
-    "name": "Torpshammar",
-    "sign": "To",
-    "lat": 62.472711,
-    "lng": 16.335401
-  },
-  {
-    "name": "Torpåkra",
-    "sign": "Top",
-    "lat": 57.94065,
-    "lng": 13.029488
-  },
-  {
-    "name": "Torsby",
-    "sign": "Toy",
-    "lat": 60.136491,
-    "lng": 13.00274
-  },
-  {
-    "name": "Torsåker",
-    "sign": "Tså",
-    "lat": 60.514585,
-    "lng": 16.490256
-  },
-  {
-    "name": "Torup",
-    "sign": "Tou",
-    "lat": 56.957617,
-    "lng": 13.07955
-  },
-  {
-    "name": "Torved",
-    "sign": "Tvd",
-    "lat": 58.826269,
-    "lng": 14.100594
-  },
-  {
-    "name": "Tranås",
-    "sign": "Tns",
-    "lat": 58.038089,
-    "lng": 14.975121
-  },
-  {
-    "name": "Trekanten",
-    "sign": "Tre",
-    "lat": 56.702948,
-    "lng": 16.11345
-  },
-  {
-    "name": "Triangeln",
-    "sign": "Tri",
-    "lat": 55.592463,
-    "lng": 13.000854
-  },
-  {
-    "name": "Trollhättan",
-    "sign": "Thn",
-    "lat": 58.287613,
-    "lng": 12.298873
-  },
-  {
-    "name": "Trolmen",
-    "sign": "Trm",
-    "lat": 58.594828,
-    "lng": 13.347927
-  },
-  {
-    "name": "Tvärålund",
-    "sign": "Tvä",
-    "lat": 64.099664,
-    "lng": 19.677608
-  },
-  {
-    "name": "Tällberg",
-    "sign": "Tlg",
-    "lat": 60.818756,
-    "lng": 15.020407
-  },
-  {
-    "name": "Töreboda",
-    "sign": "T",
-    "lat": 58.704573,
-    "lng": 14.127171
-  },
-  {
-    "name": "Uddevalla",
-    "sign": "Uv",
-    "lat": 58.354223,
-    "lng": 11.923437
-  },
-  {
-    "name": "Uddevalla Ö",
-    "sign": "Uö",
-    "lat": 58.350356,
-    "lng": 11.945058
-  },
-  {
-    "name": "Umeå",
-    "sign": "Uå",
-    "lat": 63.830145,
-    "lng": 20.267003
-  },
-  {
-    "name": "Umeå östra",
-    "sign": "Uåö",
-    "lat": 63.818221,
-    "lng": 20.293588
-  },
-  {
-    "name": "Undersåker",
-    "sign": "Un",
-    "lat": 63.314994,
-    "lng": 13.238469
-  },
-  {
-    "name": "Upplands Väsby",
-    "sign": "Upv",
-    "lat": 59.520485,
-    "lng": 17.899234
-  },
-  {
-    "name": "Uppsala",
-    "sign": "U",
-    "lat": 59.857882,
-    "lng": 17.648694
-  },
-  {
-    "name": "Vad",
-    "sign": "Vad",
-    "lat": 60.032211,
-    "lng": 15.643614
-  },
-  {
-    "name": "Vaggeryd",
-    "sign": "Vgd",
-    "lat": 57.498204,
-    "lng": 14.14541
-  },
-  {
-    "name": "Vagnhärad",
-    "sign": "Vhd",
-    "lat": 58.945835,
-    "lng": 17.498784
-  },
-  {
-    "name": "Vallsta",
-    "sign": "Vl",
-    "lat": 61.518064,
-    "lng": 16.367481
-  },
-  {
-    "name": "Vara",
-    "sign": "Vaa",
-    "lat": 58.260962,
-    "lng": 12.95151
-  },
-  {
-    "name": "Varberg",
-    "sign": "Vb",
-    "lat": 57.109404,
-    "lng": 12.248149
-  },
-  {
-    "name": "Vargön",
-    "sign": "Vag",
-    "lat": 58.359773,
-    "lng": 12.391195
-  },
-  {
-    "name": "Vassijaure",
-    "sign": "Vj",
-    "lat": 68.429577,
-    "lng": 18.25767
-  },
-  {
-    "name": "Vattholma",
-    "sign": "Vha",
-    "lat": 60.025119,
-    "lng": 17.730865
-  },
-  {
-    "name": "Veddige",
-    "sign": "Vdi",
-    "lat": 57.266683,
-    "lng": 12.336845
-  },
-  {
-    "name": "Vedum",
-    "sign": "Ved",
-    "lat": 58.168983,
-    "lng": 12.99868
-  },
-  {
-    "name": "Vetlanda",
-    "sign": "Vta",
-    "lat": 57.425939,
-    "lng": 15.081629
-  },
-  {
-    "name": "Vikingstad",
-    "sign": "Vsd",
-    "lat": 58.383481,
-    "lng": 15.432983
-  },
-  {
-    "name": "Vimmerby",
-    "sign": "Vib",
-    "lat": 57.663035,
-    "lng": 15.858462
-  },
-  {
-    "name": "Vindeln",
-    "sign": "Vdn",
-    "lat": 64.204099,
-    "lng": 19.713977
-  },
-  {
-    "name": "Vingåker",
-    "sign": "Vr",
-    "lat": 59.042102,
-    "lng": 15.876508
-  },
-  {
-    "name": "Virsbo",
-    "sign": "Vso",
-    "lat": 59.871855,
-    "lng": 16.084288
-  },
-  {
-    "name": "Viskafors",
-    "sign": "Vfo",
-    "lat": 57.629271,
-    "lng": 12.845121
-  },
-  {
-    "name": "Vislanda",
-    "sign": "Vs",
-    "lat": 56.788654,
-    "lng": 14.456503
-  },
-  {
-    "name": "Vissefjärda",
-    "sign": "Vfa",
-    "lat": 56.538017,
-    "lng": 15.582586
-  },
-  {
-    "name": "Vårgårda",
-    "sign": "Vgå",
-    "lat": 58.031144,
-    "lng": 12.809254
-  },
-  {
-    "name": "Välsviken",
-    "sign": "Kvä",
-    "lat": 59.391134,
-    "lng": 13.582081
-  },
-  {
-    "name": "Vänersborg",
-    "sign": "Vg",
-    "lat": 58.377549,
-    "lng": 12.318685
-  },
-  {
-    "name": "Vännäs",
-    "sign": "Vns",
-    "lat": 63.910274,
-    "lng": 19.749006
-  },
-  {
-    "name": "Vännäsby",
-    "sign": "Vby",
-    "lat": 63.915223,
-    "lng": 19.817416
-  },
-  {
-    "name": "Värnamo",
-    "sign": "V",
-    "lat": 57.186379,
-    "lng": 14.035996
-  },
-  {
-    "name": "Väse",
-    "sign": "Ve",
-    "lat": 59.381638,
-    "lng": 13.853247
-  },
-  {
-    "name": "Västeraspby",
-    "sign": "Väy",
-    "lat": 63.055687,
-    "lng": 17.747631
-  },
-  {
-    "name": "Västervik",
-    "sign": "Vk",
-    "lat": 57.755632,
-    "lng": 16.642876
-  },
-  {
-    "name": "Västerås",
-    "sign": "Vå",
-    "lat": 59.607696,
-    "lng": 16.552911
-  },
-  {
-    "name": "Västra Bodarne",
-    "sign": "Vbd",
-    "lat": 57.887564,
-    "lng": 12.47411
-  },
-  {
-    "name": "Västra Ämtervik",
-    "sign": "Vät",
-    "lat": 59.72774,
-    "lng": 13.147127
-  },
-  {
-    "name": "Växjö",
-    "sign": "Vö",
-    "lat": 56.876666,
-    "lng": 14.805328
-  },
-  {
-    "name": "Ytterby",
-    "sign": "Yb",
-    "lat": 57.862302,
-    "lng": 11.917445
-  },
-  {
-    "name": "Åmotfors",
-    "sign": "Åt",
-    "lat": 59.768405,
-    "lng": 12.366381
-  },
-  {
-    "name": "Åmål",
-    "sign": "Ål",
-    "lat": 59.046439,
-    "lng": 12.698338
-  },
-  {
-    "name": "Ånge",
-    "sign": "Åg",
-    "lat": 62.523718,
-    "lng": 15.656839
-  },
-  {
-    "name": "Ånn",
-    "sign": "Ånn",
-    "lat": 63.321352,
-    "lng": 12.539021
-  },
-  {
-    "name": "Åre",
-    "sign": "Åre",
-    "lat": 63.399398,
-    "lng": 13.074856
-  },
-  {
-    "name": "Åsa",
-    "sign": "Åsa",
-    "lat": 57.364299,
-    "lng": 12.135074
-  },
-  {
-    "name": "Åtvidaberg",
-    "sign": "Åvg",
-    "lat": 58.203648,
-    "lng": 16.00206
-  },
-  {
-    "name": "Älmhult",
-    "sign": "Äh",
-    "lat": 56.549969,
-    "lng": 14.136753
-  },
-  {
-    "name": "Älvkarleby",
-    "sign": "Äkb",
-    "lat": 60.55553,
-    "lng": 17.42806
-  },
-  {
-    "name": "Älvsbyn",
-    "sign": "Äy",
-    "lat": 65.678248,
-    "lng": 20.993327
-  },
-  {
-    "name": "Älvängen",
-    "sign": "Än",
-    "lat": 57.954401,
-    "lng": 12.106636
-  },
-  {
-    "name": "Ängelholm",
-    "sign": "Ä",
-    "lat": 56.246761,
-    "lng": 12.853425
-  },
-  {
-    "name": "Ängelsberg",
-    "sign": "Äbg",
-    "lat": 59.956981,
-    "lng": 16.009246
-  },
-  {
-    "name": "Äskekärr",
-    "sign": "Äsr",
-    "lat": 58.626059,
-    "lng": 13.608936
-  },
-  {
-    "name": "Örbyhus",
-    "sign": "Öh",
-    "lat": 60.229325,
-    "lng": 17.703483
-  },
-  {
-    "name": "Örebro",
-    "sign": "Ör",
-    "lat": 59.278214,
-    "lng": 15.210956
-  },
-  {
-    "name": "Örebro S",
-    "sign": "Öb",
-    "lat": 59.269993,
-    "lng": 15.202467
-  },
-  {
-    "name": "Örnsköldsvik",
-    "sign": "Ök",
-    "lat": 63.288448,
-    "lng": 18.704692
-  },
-  {
-    "name": "Örnsköldsvik norra",
-    "sign": "Ökn",
-    "lat": 63.306091,
-    "lng": 18.724879
-  },
-  {
-    "name": "Örsjö",
-    "sign": "Örs",
-    "lat": 56.696728,
-    "lng": 15.749782
-  },
-  {
-    "name": "Österport",
-    "sign": "Dk.kk",
-    "lat": 55.600231,
-    "lng": 12.700128
-  },
-  {
-    "name": "Östersund",
-    "sign": "Ös",
-    "lat": 63.170021,
-    "lng": 14.638148
-  },
-  {
-    "name": "Östersund V",
-    "sign": "Ösv",
-    "lat": 63.178538,
-    "lng": 14.631149
-  },
-  {
-    "name": "Österäng",
-    "sign": "Öäg",
-    "lat": 58.634097,
-    "lng": 13.55985
-  },
-  {
-    "name": "Överby",
-    "sign": "Övb",
-    "lat": 58.843557,
-    "lng": 11.260022
-  },
-  {
-    "name": "Överums Bruk",
-    "sign": "Övmb",
-    "lat": 57.989752,
-    "lng": 16.319502
-  },
-  {
-    "name": "Öxnered",
-    "sign": "Öx",
-    "lat": 58.356787,
-    "lng": 12.272577
-  }
-]
+{
+  "akt": "Abisko turist",
+  "ak": "Abisko Ö",
+  "a": "Alingsås",
+  "av": "Alvesta",
+  "any": "Aneby",
+  "ag": "Anneberg",
+  "arb": "Arboga",
+  "ab": "Arbrå",
+  "arnc": "Arlanda",
+  "ar": "Arvika",
+  "asd": "Aspedalen",
+  "apn": "Aspen",
+  "asb": "Assberg",
+  "alv": "Astrid Lindgrens värld",
+  "avky": "Avesta Krylbo",
+  "bl": "Ballingslöv",
+  "bry": "Bankeryd",
+  "bth": "Basthagen",
+  "bst": "Bastuträsk",
+  "bg": "Berga",
+  "bgm": "Berghem",
+  "båa": "Bergåsa",
+  "bjo": "Björketorp",
+  "bln": "Björkliden",
+  "bjy": "Björköby",
+  "bjf": "Bjørnfjell",
+  "bmb": "Blomberg",
+  "bma": "Blomstermåla",
+  "bdf": "Bodafors",
+  "bdn": "Boden",
+  "bhs": "Bohus",
+  "boy": "Bollebygd",
+  "bn": "Bollnäs",
+  "bor": "Bor",
+  "boa": "Borgstena",
+  "blg": "Borlänge",
+  "bs": "Borås",
+  "bx": "Boxholm",
+  "bdy": "Bredaryd",
+  "brin": "Brinellskolan",
+  "bml": "Bromölla",
+  "bf": "Brunflo",
+  "bä": "Bräcke",
+  "bhb": "Bräkne-Hoby",
+  "bål": "Bålsta",
+  "bån": "Båstad",
+  "bäb": "Bäckebron",
+  "cg": "Charlottenberg",
+  "dg": "Degerfors",
+  "dre": "Derome",
+  "dl": "Dingle",
+  "dt": "Dingtuna",
+  "dis": "Diö",
+  "då": "Djurås",
+  "du": "Duved",
+  "ed": "Ed",
+  "en": "Edane",
+  "esn": "Ekenässjön",
+  "ek": "Eksjö",
+  "em": "Emmaboda",
+  "ens": "Enafors",
+  "ep": "Enköping",
+  "ei": "Erikslund",
+  "et": "Eskilstuna",
+  "e": "Eslöv",
+  "fgc": "Fagersta",
+  "fgn": "Fagersta N",
+  "fgå": "Fagerås",
+  "fal": "Falerum",
+  "fabp": "Falkenberg",
+  "f": "Falköping",
+  "fln": "Falun",
+  "fiä": "Filsbäck",
+  "fjå": "Fjällåsen",
+  "flb": "Flemingsberg",
+  "fle": "Flen",
+  "fby": "Floby",
+  "fd": "Floda",
+  "fs": "Fors",
+  "fm": "Forserum",
+  "fod": "Forsheda",
+  "fhm": "Forshem",
+  "fc": "Framnäs city",
+  "fra": "Fristad",
+  "frl": "Fritsla",
+  "frå": "Frykåsen",
+  "ft": "Fränsta",
+  "fv": "Frövi",
+  "fvk": "Furuvik",
+  "gnf": "Gagnef",
+  "gal": "Gamleby",
+  "gas": "Gamlestaden",
+  "gm": "Gemla",
+  "gnp": "Gnarp",
+  "gn": "Gnesta",
+  "gnö": "Gnosjö",
+  "gms": "Grums",
+  "ghy": "Grythyttan",
+  "gg": "Grängesberg",
+  "gop": "Grästorp",
+  "gdö": "Gårdsjö",
+  "gv": "Gällivare",
+  "gö": "Gällö",
+  "gä": "Gävle",
+  "g": "Göteborg",
+  "ho": "Habo",
+  "hpbg": "Hallsberg",
+  "hh": "Hallstahammar",
+  "hd": "Halmstad",
+  "hsr": "Hasslerör",
+  "hy": "Heby",
+  "khe": "Hede",
+  "hdm": "Hedemora",
+  "hb": "Helsingborg",
+  "hr": "Herrljunga",
+  "het": "Hestra",
+  "hås": "Hindås",
+  "hfr": "Hofors",
+  "hokö": "Hok",
+  "hmö": "Holmsjö",
+  "hdn": "Holmsveden",
+  "hlr": "Horndal",
+  "hre": "Horred",
+  "hova": "Hova",
+  "hvp": "Hovmantorp",
+  "hvs": "Hovslätt",
+  "hkl": "Hudiksvall",
+  "hf": "Hultsfred",
+  "hka": "Huskvarna",
+  "hum": "Husum",
+  "hie": "Hyllie",
+  "håp": "Håkantorp",
+  "hlf": "Hällefors",
+  "hnä": "Hälleforsnäs",
+  "hlk": "Hällekis",
+  "hlv": "Hällevadsholm",
+  "hls": "Hällnäs",
+  "hsd": "Härnösand",
+  "hm": "Hässleholm",
+  "hv": "Hästveda",
+  "hbd": "Högboda",
+  "höy": "Högsby",
+  "höf": "Hörnefors",
+  "hö": "Höör",
+  "id": "Iggesund",
+  "in": "Insjön",
+  "jv": "Jonsered",
+  "jpn": "Järpen",
+  "jps": "Järpås",
+  "jr": "Järvsö",
+  "jö": "Jönköping",
+  "jrn": "Jörn",
+  "ktm": "Kaitum",
+  "kac": "Kalmar",
+  "kbn": "Karbenning",
+  "kh": "Karlshamn",
+  "ck": "Karlskrona",
+  "ks": "Karlstad",
+  "k": "Katrineholm",
+  "no.kat": "Katterat",
+  "kjå": "Katterjåkk",
+  "kil": "Kil",
+  "kls": "Kilafors",
+  "kr": "Killeberg",
+  "kms": "Kimstad",
+  "kin": "Kinna",
+  "kid": "Kinnared",
+  "kmb": "Kiruna",
+  "kisa": "Kisa",
+  "kvh": "Klevshult",
+  "knl": "Knalleland",
+  "kn": "Knivsta",
+  "kde": "Kode",
+  "kbä": "Kolbäck",
+  "kon": "Kolmården",
+  "kns": "Kolsnäs",
+  "no.kvg": "Kongsvinger",
+  "kpg": "Kopparberg",
+  "krf": "Kramfors",
+  "cr": "Kristianstad",
+  "khn": "Kristinehamn",
+  "krm": "Krokom",
+  "kla": "Kumla",
+  "kb": "Kungsbacka",
+  "kör": "Kungsör",
+  "ksus": "Kvicksund",
+  "krd": "Kållered",
+  "kll": "Källby",
+  "kg": "Kävlinge",
+  "dk.kh": "Köpenhamn H",
+  "dk.cph": "Cph Airport",
+  "kp": "Köping",
+  "laov": "Laholm",
+  "lh": "Lammhult",
+  "lrd": "Landeryd",
+  "lkö": "Landskrona",
+  "lå": "Laxå",
+  "lsd": "Leksand",
+  "lr": "Lerum",
+  "lo": "Lessebo",
+  "lkp": "Lidköping",
+  "no.lls": "Lilleström",
+  "lme": "Limmared",
+  "ld": "Lindesberg",
+  "ldo": "Lindome",
+  "lb": "Lingbo",
+  "lgm": "Linghem",
+  "lp": "Linköping",
+  "lis": "Liseberg",
+  "lju": "Ljung",
+  "ljv": "Ljungaverk",
+  "lj": "Ljungskile",
+  "ls": "Ljusdal",
+  "lse": "Ljusne",
+  "lve": "Lovene",
+  "la": "Ludvika",
+  "lnå": "Lugnås",
+  "le": "Luleå",
+  "lu": "Lund",
+  "ly": "Lycksele",
+  "lyd": "Lyrestad",
+  "lyv": "Lysvik",
+  "låk": "Låktatjåkka",
+  "lg": "Läggesta",
+  "les": "Lödöse Södra",
+  "mbä": "Malmbäck",
+  "m": "Malmö",
+  "mt": "Mantorp",
+  "mst": "Mariestad",
+  "maa": "Marma",
+  "meh": "Mehedeby",
+  "ml": "Mellerud",
+  "my": "Mjölby",
+  "mo": "Moheda",
+  "moy": "Mollaryd",
+  "mra": "Mora",
+  "mras": "Morastrand",
+  "må": "Morgongåva",
+  "mot": "Motala",
+  "mu": "Mullsjö",
+  "mkl": "Munkedal",
+  "mk": "Murjek",
+  "måp": "Månsarp",
+  "mr": "Märsta",
+  "mdn": "Mölndal",
+  "myk": "Mölnlycke",
+  "mru": "Mörrum",
+  "mi": "Mörsil",
+  "no.nk": "Narvik",
+  "ntv": "Nattavaara",
+  "nol": "Nol",
+  "nog": "Nordmaling",
+  "nhr": "Norrahammar",
+  "nr": "Norrköping",
+  "ns": "Norsesund",
+  "nvn": "Notviken",
+  "nyb": "Nybro",
+  "nka": "Nykroppa",
+  "nkv": "Nykvarn",
+  "nk": "Nyköping",
+  "n": "Nässjö",
+  "nöe": "Nödinge",
+  "ob": "Ockelbo",
+  "ory": "Ormaryd",
+  "o": "Osby",
+  "oh": "Oskarshamn",
+  "om": "Oskarström",
+  "no.osl": "Oslo",
+  "p": "Partille",
+  "pl": "Pilgrimstad",
+  "rbh": "Rabbalshede",
+  "hbgb": "Ramlösa",
+  "rmn": "Ramnäs",
+  "rt": "Ransta",
+  "rft": "Reftele",
+  "rgn": "Riksgränsen",
+  "rf": "Rimforsa",
+  "rkö": "Rocksjön",
+  "no.rom": "Rombak",
+  "rb": "Ronneby",
+  "rts": "Rottneros",
+  "rym": "Rydaholm",
+  "rbk": "Råbäck",
+  "rv": "Rättvik",
+  "rd": "Rävlanda",
+  "röp": "Rörstorp",
+  "sl": "Sala",
+  "sae": "Sandared",
+  "sm": "Sandhem",
+  "snv": "Sandviken",
+  "sarp": "Sannarp",
+  "sjka": "Sjisjka",
+  "ske": "Skee",
+  "see": "Skene",
+  "syd": "Skillingaryd",
+  "skb": "Skinnskatteberg",
+  "sur": "Skutskär",
+  "syt": "Skyttorp",
+  "skn": "Skänninge",
+  "sk": "Skövde",
+  "sdy": "Smedby",
+  "smj": "Smedjebacken",
+  "sdr": "Smålandsstenar",
+  "stv": "Stavre",
+  "sg": "Stehag",
+  "sn": "Stenkullen",
+  "snö": "Stensjön",
+  "ss": "Stenstorp",
+  "snu": "Stenungsund",
+  "sy": "Stockaryd",
+  "cst": "Stockholm",
+  "sth": "Stora Höga",
+  "stlv": "Stora Levene",
+  "sf": "Storfors",
+  "str": "Storlien",
+  "sv": "Storvik",
+  "srv": "Storvreta",
+  "sr": "Storå",
+  "sgs": "Strängnäs",
+  "smd": "Strömstad",
+  "stl": "Ställdalen",
+  "std": "Stöde",
+  "sub": "Sundbyberg",
+  "sus": "Sunderby sjh",
+  "suc": "Sundsvall",
+  "suv": "Sundsvall V",
+  "sun": "Sunne",
+  "shr": "Surahammar",
+  "sue": "Surte",
+  "svg": "Svenshögen",
+  "sfl": "Säffle",
+  "st": "Säter",
+  "säv": "Sävenäs",
+  "sä": "Sävsjö",
+  "sre": "Söderbärke",
+  "shv": "Söderhamn",
+  "söö": "Södertälje S",
+  "sög": "Sölvesborg",
+  "söla": "Sösdala",
+  "no.sös": "Sösterbekk",
+  "tag": "Taberg",
+  "tn": "Tannefors",
+  "tnu": "Tanum",
+  "th": "Tenhult",
+  "tip": "Tierp",
+  "trå": "Timrå",
+  "tjsk": "Tjustskolan",
+  "tö": "Tjörnarp",
+  "tbo": "Tobo",
+  "tof": "Tofta",
+  "tlt": "Tolita",
+  "to": "Torpshammar",
+  "top": "Torpåkra",
+  "toy": "Torsby",
+  "tså": "Torsåker",
+  "tou": "Torup",
+  "tvd": "Torved",
+  "tns": "Tranås",
+  "tre": "Trekanten",
+  "tri": "Triangeln",
+  "thn": "Trollhättan",
+  "trm": "Trolmen",
+  "tvä": "Tvärålund",
+  "tlg": "Tällberg",
+  "t": "Töreboda",
+  "uv": "Uddevalla",
+  "uö": "Uddevalla Ö",
+  "uå": "Umeå",
+  "uåö": "Umeå östra",
+  "un": "Undersåker",
+  "upv": "Upplands Väsby",
+  "u": "Uppsala",
+  "vad": "Vad",
+  "vgd": "Vaggeryd",
+  "vhd": "Vagnhärad",
+  "vl": "Vallsta",
+  "vaa": "Vara",
+  "vb": "Varberg",
+  "vag": "Vargön",
+  "vj": "Vassijaure",
+  "vha": "Vattholma",
+  "vdi": "Veddige",
+  "ved": "Vedum",
+  "vta": "Vetlanda",
+  "vsd": "Vikingstad",
+  "vib": "Vimmerby",
+  "vdn": "Vindeln",
+  "vr": "Vingåker",
+  "vso": "Virsbo",
+  "vfo": "Viskafors",
+  "vs": "Vislanda",
+  "vfa": "Vissefjärda",
+  "vgå": "Vårgårda",
+  "kvä": "Välsviken",
+  "vg": "Vänersborg",
+  "vns": "Vännäs",
+  "vby": "Vännäsby",
+  "v": "Värnamo",
+  "ve": "Väse",
+  "väy": "Västeraspby",
+  "vk": "Västervik",
+  "vå": "Västerås",
+  "vbd": "Västra Bodarne",
+  "vät": "Västra Ämtervik",
+  "vö": "Växjö",
+  "yb": "Ytterby",
+  "åt": "Åmotfors",
+  "ål": "Åmål",
+  "åg": "Ånge",
+  "ånn": "Ånn",
+  "åre": "Åre",
+  "åsa": "Åsa",
+  "åvg": "Åtvidaberg",
+  "äh": "Älmhult",
+  "äkb": "Älvkarleby",
+  "äy": "Älvsbyn",
+  "än": "Älvängen",
+  "ä": "Ängelholm",
+  "äbg": "Ängelsberg",
+  "äsr": "Äskekärr",
+  "öh": "Örbyhus",
+  "ör": "Örebro",
+  "öb": "Örebro S",
+  "ök": "Örnsköldsvik",
+  "ökn": "Örnsköldsvik norra",
+  "örs": "Örsjö",
+  "dk.kk": "Österport",
+  "ös": "Östersund",
+  "ösv": "Östersund V",
+  "öäg": "Österäng",
+  "övb": "Överby",
+  "övmb": "Överums Bruk",
+  "öx": "Öxnered"
+}

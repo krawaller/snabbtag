@@ -13,10 +13,8 @@ export default class Station extends Component {
     this.api = props.api;
     this.getUrl = props.getUrl;
 
-    // FIXME update instead?
     this.state = {
       stations: props.api.stations,
-      station: this.api.getStationBySign(this.props.station),
       favorites: new Set((props.favorites || '').split(',').filter(Boolean)),
       showingDepartures: props.type !== 'arrivals',
       favoriteTrafficOnly: props.favorite_traffic_only === 'true',
@@ -30,39 +28,7 @@ export default class Station extends Component {
   }
 
   componentDidMount() {
-    // this.api.fetchLocationPermission().then(locationPermission => {
-    //   if (locationPermission) this.locate();
-    // })
-
-    const station = this.api.getStationBySign(
-      this.props.station || Array.from(this.state.favorites.values()).pop()
-    );
-
-    if (station) this.setState({ station });
-    else {
-      this.api.fetchLocationPermission().then(locationPermission => {
-        return (locationPermission
-          ? this.api.fetchClosestStations()
-          : this.api.fetchClosestStationsUsingGeoIP()).then(([station]) =>
-          route(this.getUrl('station', { station }))
-        );
-      });
-    }
-    if (this.state.station) this.updateStationSubscription();
-
-    // const interval = setInterval(() => {
-    //   const trainAnnouncements = this.state.trainAnnouncements.concat();
-    //   const a = trainAnnouncements.find(a => (a && !a.estimated))
-
-    //   if (a) {
-    //     a.estimated = a.time.replace(/\d$/, '7')
-
-    //     this.setState({
-    //       trainAnnouncements
-    //     })
-
-    //   } else clearInterval(interval)
-    // }, 1000)
+    this.updateStationSubscription();
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -72,13 +38,6 @@ export default class Station extends Component {
       prevProps,
       props: this.props
     });
-
-    if (prevProps.station !== this.props.station) {
-      console.log('notsame');
-      const station = this.api.getStationBySign(this.props.station);
-      if (station) this.setState({ station });
-      // else route(this.getUpdatedUrl({ sign: prevProps.station })); //FIXME
-    }
 
     if (prevProps.favorites !== this.props.favorites) {
       this.setState({
@@ -104,10 +63,9 @@ export default class Station extends Component {
     }
 
     if (
-      this.state.station &&
-      (prevState.station !== this.state.station ||
+      prevProps.station !== this.props.station ||
         prevState.showingDepartures !== this.state.showingDepartures ||
-        prevState.favoriteTrafficOnly !== this.state.favoriteTrafficOnly)
+        prevState.favoriteTrafficOnly !== this.state.favoriteTrafficOnly
     ) {
       this.updateStationSubscription();
     }
@@ -119,15 +77,15 @@ export default class Station extends Component {
       trainAnnouncementsLoading: true
     });
     const {
-      station: { sign },
       showingDepartures,
       favoriteTrafficOnly,
       favorites
     } = this.state;
+    const { station } = this.props;
 
     if (this.subscription) this.subscription.cancel();
     this.subscription = this.subscribeStation(
-      sign,
+      station,
       showingDepartures,
       favoriteTrafficOnly,
       favorites,
@@ -157,7 +115,7 @@ export default class Station extends Component {
   }
 
   fetchStation(
-    sign,
+    station,
     departures,
     filterFavorites,
     favorites,
@@ -174,7 +132,7 @@ export default class Station extends Component {
               ? 'Avgang'
               : 'Ankomst'}" />
             <EQ name="Advertised" value="TRUE" />
-            <EQ name="LocationSignature" value="${sign}" />
+            <EQ name="LocationSignature" value="${this.api.getSignByStation(station)}" />
             <OR>
               <AND>
                 <GT name="AdvertisedTimeAtLocation" value="$dateadd(-00:15:00)" />
@@ -291,7 +249,7 @@ export default class Station extends Component {
       );
   }
 
-  subscribeStation(sign, departures, filterFavorites, favorites, callback) {
+  subscribeStation(station, departures, filterFavorites, favorites, callback) {
     let checkTimeout;
     let cancelled = false;
     let formattedAnnouncementsById = {};
@@ -328,7 +286,7 @@ export default class Station extends Component {
         .replace(' ', 'T');
 
       this.fetchStation(
-        sign,
+        station,
         departures,
         filterFavorites,
         favorites,
@@ -368,15 +326,15 @@ export default class Station extends Component {
                 ) || [];
 
               all[announcement.ActivityId] = {
-                name: (this.api.getStationBySign(
+                name: this.api.getStationBySign(
                   (announcement.ToLocation || announcement.FromLocation)[0]
                     .LocationName
-                ) || {}).name,
+                ),
                 via: (announcement.ViaToLocation ||
                   announcement.ViaFromLocation ||
                   [])
                   .map(
-                    l => (this.api.getStationBySign(l.LocationName) || {}).name
+                    l => this.api.getStationBySign(l.LocationName)
                   )
                   .filter(Boolean),
                 signs: (announcement.ToLocation || announcement.FromLocation)
@@ -433,10 +391,11 @@ export default class Station extends Component {
   }
 
   render(
-    props,
+    {
+      station
+    },
     {
       stations,
-      station,
       favorites,
       showingDepartures,
       trainAnnouncements,
@@ -450,7 +409,7 @@ export default class Station extends Component {
       trainAnnouncements = Array.from(new Array(15));
     }
 
-    const isCurrentStationFavorite = !!station && favorites.has(station.name);
+    const isCurrentStationFavorite = !!station && favorites.has(station);
     const shouldShowList = !!trainAnnouncements.length;
     const shouldShowNoAnnouncementsMessage =
       !trainAnnouncementsLoading &&
@@ -492,18 +451,18 @@ export default class Station extends Component {
               </a>
             </div>
             <a href={this.getUrl('stations')} class="link center sliding">
-              {station && station.name} ▾
+              {station} ▾
             </a>
             <div class="right">
               <a
                 href={this.getUrl('station', {
-                  favorites: favorites.has(station.name)
+                  favorites: favorites.has(station)
                     ? (
                         (tmp = new Set(favorites)),
-                        tmp.delete(station.name),
+                        tmp.delete(station),
                         tmp
                       )
-                    : new Set(favorites).add(station.name)
+                    : new Set(favorites).add(station)
                 })}
                 class="link icon-only"
               >
@@ -714,7 +673,7 @@ export default class Station extends Component {
                     {showingDepartures
                       ? 'avgångar från'
                       : 'ankomster till'}{' '}
-                    <b>{station.name}</b> den närmsta tiden
+                    <b>{station}</b> den närmsta tiden
                   </div>
                 </div>
               </div>}

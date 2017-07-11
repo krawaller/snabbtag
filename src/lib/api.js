@@ -5,13 +5,12 @@ export default class API {
   CHECK_INTERVAL = 30000;
 
   constructor() {
-    this.stations = stations;
-    this.stationsBySignature = {};
-    this.stationsByName = {};
-    stations.forEach((station = {}) => {
-      this.stationsBySignature[station.sign.toLowerCase()] = station;
-      this.stationsByName[station.name.toLowerCase()] = station;
-    });
+    this.stations = Object.values(stations);
+    this.stationsBySignature = stations;
+    this.signsByStation = {};
+    for (var sign in stations) {
+      this.signsByStation[stations[sign].toLowerCase()] = sign;
+    }
   }
 
   init() {
@@ -44,13 +43,12 @@ export default class API {
     return (dateStr && dateStr.substring(11, 16)) || null;
   }
 
-  getStationBySign(signOrName) {
-    const lowerSignOrName = signOrName.toLowerCase();
-    return (
-      this.stationsBySignature[lowerSignOrName] ||
-      this.stationsByName[lowerSignOrName] ||
-      null
-    );
+  getStationBySign(sign) {
+    return this.stationsBySignature[sign.toLowerCase()];
+  }
+
+  getSignByStation(station) {
+    return this.signsByStation[station.toLowerCase()];
   }
 
   fetchLocationPermission() {
