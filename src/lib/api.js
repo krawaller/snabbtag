@@ -6,7 +6,7 @@ export default class API {
 
   constructor() {
     this.stations = Object.values(stations);
-    this.stationsBySignature = stations;
+    this.stationsBySign = stations;
     this.signsByStation = {};
     for (var sign in stations) {
       this.signsByStation[stations[sign].toLowerCase()] = sign;
@@ -40,12 +40,14 @@ export default class API {
     return (dateStr && dateStr.substring(11, 16)) || null;
   }
 
-  getStationBySign(sign) {
-    return this.stationsBySignature[sign.toLowerCase()];
+  getStationBySign(input) {
+    const lowerInput = input.toLowerCase();
+    return lowerInput in this.signsByStation ? input : this.stationsBySign[lowerInput];
   }
 
-  getSignByStation(station) {
-    return this.signsByStation[station.toLowerCase()];
+  getSignByStation(input) {
+    const lowerInput = input.toLowerCase();
+    return lowerInput in this.stationsBySign ? lowerInput : this.signsByStation[lowerInput];
   }
 
   fetchLocationPermission() {

@@ -40,6 +40,42 @@
           "value": "public, max-age=31536000"
         }
       ]
+    },
+    {
+      "source": "/Train",
+      "headers": [
+        {
+          "key": "Link",
+          "value": "</bundle.js>; rel=preload; as=script, </style.css>; rel=preload; as=style, </route-Train.chunk.508e4.js>; rel=preload; as=script"
+        }
+      ]
+    },
+    {
+      "source": "/Stations",
+      "headers": [
+        {
+          "key": "Link",
+          "value": "</bundle.js>; rel=preload; as=script, </style.css>; rel=preload; as=style, </route-Stations.chunk.10c3c.js>; rel=preload; as=script"
+        }
+      ]
+    },
+    {
+      "source": "/Station",
+      "headers": [
+        {
+          "key": "Link",
+          "value": "</bundle.js>; rel=preload; as=script, </style.css>; rel=preload; as=style, </route-Station.chunk.12957.js>; rel=preload; as=script"
+        }
+      ]
+    },
+    {
+      "source": "/Info",
+      "headers": [
+        {
+          "key": "Link",
+          "value": "</bundle.js>; rel=preload; as=script, </style.css>; rel=preload; as=style, </route-Info.chunk.bb905.js>; rel=preload; as=script"
+        }
+      ]
     }
   ],
   "public": "build"

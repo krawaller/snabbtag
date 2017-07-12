@@ -1,5 +1,5 @@
 import { h, Component } from 'preact';
-
+//TODO: where's ystad
 export default class Stations extends Component {
   constructor(props) {
     super(props);
@@ -10,6 +10,28 @@ export default class Stations extends Component {
       searchFocused: false,
       searchString: '',
       stations: this.api.stations,
+      popular: [
+        "Stockholm",
+        "Göteborg",
+        "Malmö",
+        "Lund",
+        "Helsingborg",
+        "Hässleholm",
+        "Uppsala",
+        "Märsta",
+        "Hyllie",
+        "Norrköping",
+        "Gävle",
+        "Triangeln",
+        "Linköping",
+        "Kristianstad",
+        "Nässjö",
+        "Sundbyberg",
+        "Bålsta",
+        "Hallsberg",
+        "Eslöv",
+        "Mjölby",
+      ],
       nearbyStations: [],
       trainsBySearchString: {},
       locationPermission: false,
@@ -120,17 +142,16 @@ export default class Stations extends Component {
       searchFocused,
       searchString,
       stations,
+      popular,
       nearbyStations,
       trainsBySearchString,
       locationPermission,
       isLocating
     }
   ) {
-    console.log('render', this.props, this.state);
     const isTrainNumberSearch = /^\d+$/.test(searchString);
     let listGroups;
     if (isTrainNumberSearch) {
-      console.log('t', trainsBySearchString[searchString]);
       listGroups = (
         <div class="list-group">
           <ul>
@@ -194,17 +215,19 @@ export default class Stations extends Component {
       }
 
       const rSearchString = new RegExp(`^(.*?)(${searchString})(.*)$`, 'i');
+      const filteredStations = rSearchString ? stations.filter(rSearchString.test.bind(rSearchString)) : stations;
 
-      const filteredStations = stations.filter(({ name }) =>
-        rSearchString.test(name)
-      );
-
-      const groups = filteredStations.reduce((groups, station) => {
-        const group = station[0];
-        groups[group] = groups[group] || [];
-        groups[group].push(station);
-        return groups;
-      }, initialGroups);
+      let groups = initialGroups;
+      if (searchString) {
+        groups = filteredStations.reduce((groups, station) => {
+          const group = station[0];
+          groups[group] = groups[group] || [];
+          groups[group].push(station);
+          return groups;
+        }, initialGroups);
+      } else {
+        initialGroups['Populära'] = popular;
+      }
 
       listGroups = (
         <div>
@@ -375,46 +398,3 @@ export default class Stations extends Component {
     );
   }
 }
-
-// [
-//   "Cst",
-//   "G",
-//   "M",
-//   "Lu",
-//   "Hb",
-//   "Hm",
-//   "U",
-//   "Äs",
-//   "Mr",
-//   "Söc",
-//   "Hie",
-//   "Sci",
-//   "Nr",
-//   "Gä",
-//   "Tri",
-//   "Lp",
-//   "Cr",
-//   "N",
-//   "Sub",
-//   "Bål",
-//   "Hpbg",
-//   "E",
-//   "My",
-//   "Hbgb",
-//   "A",
-//   "Sk",
-//   "Kb",
-//   "Ks",
-//   "Vhe",
-//   "Y",
-//   "Arnc",
-//   "Vö",
-//   "Av",
-//   "Mot",
-//   "Hö",
-//   "Söö",
-//   "Jö",
-//   "Hr",
-//   "Än",
-//   "Vå"
-// ]

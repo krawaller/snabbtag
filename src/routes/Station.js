@@ -9,11 +9,12 @@ import { route } from 'preact-router';
 export default class Station extends Component {
   constructor(props) {
     super(props);
-    console.log('constructor', { props });
+
     this.api = props.api;
     this.getUrl = props.getUrl;
 
     this.state = {
+      station: this.api.getStationBySign(this.props.station),
       stations: props.api.stations,
       favorites: new Set((props.favorites || '').split(',').filter(Boolean)),
       showingDepartures: props.type !== 'arrivals',
@@ -24,6 +25,8 @@ export default class Station extends Component {
       isLocating: false
     };
 
+    // route(this.getUrl('station', { station: this.state.station }));
+
     this.locate = this.locate.bind(this);
   }
 
@@ -32,13 +35,6 @@ export default class Station extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log('componentDidUpdate', {
-      prevState,
-      state: this.state,
-      prevProps,
-      props: this.props
-    });
-
     if (prevProps.favorites !== this.props.favorites) {
       this.setState({
         favorites: new Set(
@@ -63,7 +59,7 @@ export default class Station extends Component {
     }
 
     if (
-      prevProps.station !== this.props.station ||
+      prevState.station !== this.state.station ||
       prevState.showingDepartures !== this.state.showingDepartures ||
       prevState.favoriteTrafficOnly !== this.state.favoriteTrafficOnly
     ) {
@@ -76,8 +72,7 @@ export default class Station extends Component {
       trainAnnouncements: [],
       trainAnnouncementsLoading: true
     });
-    const { showingDepartures, favoriteTrafficOnly, favorites } = this.state;
-    const { station } = this.props;
+    const { station, showingDepartures, favoriteTrafficOnly, favorites } = this.state;
 
     if (this.subscription) this.subscription.cancel();
     this.subscription = this.subscribeStation(
@@ -86,7 +81,6 @@ export default class Station extends Component {
       favoriteTrafficOnly,
       favorites,
       ({ announcements, hasUnfilteredAnnouncements }) => {
-        console.log({ announcements, hasUnfilteredAnnouncements });
         this.setState({
           trainAnnouncements: announcements,
           hasUnfilteredAnnouncements,
@@ -174,7 +168,7 @@ export default class Station extends Component {
             return { announcements, lastModified };
 
           const filteredFavorites = new Set(favorites);
-          filteredFavorites.delete(sign);
+          filteredFavorites.delete(station);
           return this.api
             .query(
               `
@@ -190,7 +184,7 @@ export default class Station extends Component {
                   value="${Array.from(filteredFavorites.values())
                     .map(
                       favorite =>
-                        (this.api.getStationBySign(favorite) || {}).sign
+                        this.api.getSignByStation(favorite)
                     )
                     .filter(Boolean)
                     .join(',')}" />
@@ -384,8 +378,9 @@ export default class Station extends Component {
   }
 
   render(
-    { station },
+    props,
     {
+      station,
       stations,
       favorites,
       showingDepartures,
@@ -412,7 +407,6 @@ export default class Station extends Component {
       hasUnfilteredAnnouncements;
 
     let tmp;
-    console.log({ station });
     if (!station) return null;
 
     return (
@@ -565,7 +559,6 @@ export default class Station extends Component {
                       i,
                       input
                     ) => {
-                      // console.log({ train, cancelled, deviations });
                       const tPrev = input[i - 1];
                       if (tPrev && date !== tPrev.date) {
                         output.push(
