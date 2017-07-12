@@ -1,4 +1,5 @@
 import { h, Component } from 'preact';
+import TrainNumberSearchResult from 'async!../components/TrainNumberSearchResult'
 //TODO: where's ystad
 export default class Stations extends Component {
   constructor(props) {
@@ -33,7 +34,6 @@ export default class Stations extends Component {
         "Mjölby",
       ],
       nearbyStations: [],
-      trainsBySearchString: {},
       locationPermission: false,
       isLocating: false
     };
@@ -62,25 +62,6 @@ export default class Stations extends Component {
     ) {
       this.setState({ searchFocused: false });
     }
-
-    if (
-      prevState.searchString !== this.state.searchString &&
-      /^\d+/.test(this.state.searchString) &&
-      !(this.state.searchString in this.state.trainsBySearchString)
-    ) {
-      const trainsStartingWith = this.state.searchString;
-      this.fetchAutocompletedTrains(trainsStartingWith).then(trains =>
-        this.setState({
-          trainsBySearchString: Object.assign(
-            {},
-            this.state.trainsBySearchString,
-            {
-              [trainsStartingWith]: trains
-            }
-          )
-        })
-      );
-    }
   }
 
   getNearbyStations() {
@@ -89,7 +70,7 @@ export default class Stations extends Component {
     this.api.fetchClosestStations().then(
       closestStations =>
         this.setState({
-          nearbyStations: closestStations.slice(0, 3),
+          nearbyStations: closestStations,
           isLocating: false,
           locationPermission: true
         }),
@@ -100,42 +81,6 @@ export default class Stations extends Component {
     );
   }
 
-  fetchAutocompletedTrains(trainsStartingWith) {
-    return this.api
-      .query(
-        `
-      <QUERY objecttype="TrainAnnouncement" limit="100">
-        <FILTER>
-          <EQ name="Advertised" value="true" />
-          <EQ name="ActivityType" value="Avgang" />
-          <LIKE name="AdvertisedTrainIdent" value="/^${trainsStartingWith}/" />
-          <EQ name="ScheduledDepartureDateTime" value="${new Intl.DateTimeFormat(
-            'sv-SE'
-          ).format(new Date())}" />
-        </FILTER>
-        <INCLUDE>AdvertisedTrainIdent</INCLUDE>
-        <INCLUDE>FromLocation</INCLUDE>
-        <INCLUDE>ToLocation</INCLUDE>
-        <INCLUDE>AdvertisedTimeAtLocation</INCLUDE>
-      </QUERY>`
-      )
-      .then(({ TrainAnnouncement = [] }) =>
-        Object.values(
-          TrainAnnouncement.reduce((trains, t) => {
-            if (!(t.AdvertisedTrainIdent in trains)) {
-              trains[t.AdvertisedTrainIdent] = {
-                train: t.AdvertisedTrainIdent,
-                from: this.api.getStationBySign(t.FromLocation[0].LocationName),
-                to: this.api.getStationBySign(t.ToLocation[0].LocationName),
-                at: this.api.extractTime(t.AdvertisedTimeAtLocation)
-              };
-            }
-            return trains;
-          }, {})
-        )
-      );
-  }
-
   render(
     { station, location },
     {
@@ -144,7 +89,6 @@ export default class Stations extends Component {
       stations,
       popular,
       nearbyStations,
-      trainsBySearchString,
       locationPermission,
       isLocating
     }
@@ -152,53 +96,7 @@ export default class Stations extends Component {
     const isTrainNumberSearch = /^\d+$/.test(searchString);
     let listGroups;
     if (isTrainNumberSearch) {
-      listGroups = (
-        <div class="list-group">
-          <ul>
-            <li class="list-group-title">
-              <div class="row">
-                <div class="col-15">Tåg</div>
-                <div class="col-15 time">Avg</div>
-                <div class="col-35">Från</div>
-                <div class="col-35">Till</div>
-              </div>
-            </li>
-            {(trainsBySearchString[searchString] || Array.from(new Array(20)))
-              .map(({ train, at, from, to } = {}) => {
-                return (
-                  <li>
-                    <a
-                      href={train ? this.getUrl('train', { train }) : '#'}
-                      class="item-link"
-                    >
-                      <div class="item-content">
-                        <div class="item-inner">
-                          <div class="hide-when-empty full-width">
-                            {train &&
-                              <div class="row">
-                                <div class="col-15 name">
-                                  {train}
-                                </div>
-                                <div class="col-15 time">
-                                  {at}
-                                </div>
-                                <div class="col-35 name item-title">
-                                  {from}
-                                </div>
-                                <div class="col-35 name item-title">
-                                  {to}
-                                </div>
-                              </div>}
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </li>
-                );
-              })}
-          </ul>
-        </div>
-      );
+      listGroups = <TrainNumberSearchResult api={this.api} searchString={searchString} getUrl={this.getUrl}/>
     } else {
       const favorites = new Set(
         (this.props.favorites || '').split(',').filter(Boolean)
