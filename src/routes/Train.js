@@ -1,5 +1,4 @@
 import { h, Component } from 'preact';
-import { getUrl } from '../lib/utils';
 
 export default class TrainAnnouncement extends Component {
   constructor(props) {
