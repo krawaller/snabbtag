@@ -13,10 +13,6 @@ export default class API {
     }
   }
 
-  init() {
-    // this.setStations(JSON.parse(localStorage.getItem('stations')) || undefined);
-  }
-
   query(query) {
     return fetch('https://api.trafikinfo.trafikverket.se/v1.1/data.json', {
       method: 'POST',
@@ -42,12 +38,16 @@ export default class API {
 
   getStationBySign(input) {
     const lowerInput = input.toLowerCase();
-    return lowerInput in this.signsByStation ? input : this.stationsBySign[lowerInput];
+    return lowerInput in this.signsByStation
+      ? input
+      : this.stationsBySign[lowerInput];
   }
 
   getSignByStation(input) {
     const lowerInput = input.toLowerCase();
-    return lowerInput in this.stationsBySign ? lowerInput : this.signsByStation[lowerInput];
+    return lowerInput in this.stationsBySign
+      ? lowerInput
+      : this.signsByStation[lowerInput];
   }
 
   fetchLocationPermission() {

@@ -72,7 +72,12 @@ export default class Station extends Component {
       trainAnnouncements: [],
       trainAnnouncementsLoading: true
     });
-    const { station, showingDepartures, favoriteTrafficOnly, favorites } = this.state;
+    const {
+      station,
+      showingDepartures,
+      favoriteTrafficOnly,
+      favorites
+    } = this.state;
 
     if (this.subscription) this.subscription.cancel();
     this.subscription = this.subscribeStation(
@@ -182,10 +187,7 @@ export default class Station extends Component {
                 <IN
                   name="LocationSignature"
                   value="${Array.from(filteredFavorites.values())
-                    .map(
-                      favorite =>
-                        this.api.getSignByStation(favorite)
-                    )
+                    .map(favorite => this.api.getSignByStation(favorite))
                     .filter(Boolean)
                     .join(',')}" />
                 <IN

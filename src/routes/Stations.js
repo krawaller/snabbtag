@@ -1,5 +1,5 @@
 import { h, Component } from 'preact';
-import TrainNumberSearchResult from 'async!../components/TrainNumberSearchResult'
+import TrainNumberSearchResult from 'async!../components/TrainNumberSearchResult';
 //TODO: where's ystad
 export default class Stations extends Component {
   constructor(props) {
@@ -12,26 +12,26 @@ export default class Stations extends Component {
       searchString: '',
       stations: this.api.stations,
       popular: [
-        "Stockholm",
-        "Göteborg",
-        "Malmö",
-        "Lund",
-        "Helsingborg",
-        "Hässleholm",
-        "Uppsala",
-        "Märsta",
-        "Hyllie",
-        "Norrköping",
-        "Gävle",
-        "Triangeln",
-        "Linköping",
-        "Kristianstad",
-        "Nässjö",
-        "Sundbyberg",
-        "Bålsta",
-        "Hallsberg",
-        "Eslöv",
-        "Mjölby",
+        'Stockholm',
+        'Göteborg',
+        'Malmö',
+        'Lund',
+        'Helsingborg',
+        'Hässleholm',
+        'Uppsala',
+        'Märsta',
+        'Hyllie',
+        'Norrköping',
+        'Gävle',
+        'Triangeln',
+        'Linköping',
+        'Kristianstad',
+        'Nässjö',
+        'Sundbyberg',
+        'Bålsta',
+        'Hallsberg',
+        'Eslöv',
+        'Mjölby'
       ],
       nearbyStations: [],
       locationPermission: false,
@@ -96,7 +96,13 @@ export default class Stations extends Component {
     const isTrainNumberSearch = /^\d+$/.test(searchString);
     let listGroups;
     if (isTrainNumberSearch) {
-      listGroups = <TrainNumberSearchResult api={this.api} searchString={searchString} getUrl={this.getUrl}/>
+      listGroups = (
+        <TrainNumberSearchResult
+          api={this.api}
+          searchString={searchString}
+          getUrl={this.getUrl}
+        />
+      );
     } else {
       const favorites = new Set(
         (this.props.favorites || '').split(',').filter(Boolean)
@@ -113,7 +119,9 @@ export default class Stations extends Component {
       }
 
       const rSearchString = new RegExp(`^(.*?)(${searchString})(.*)$`, 'i');
-      const filteredStations = rSearchString ? stations.filter(rSearchString.test.bind(rSearchString)) : stations;
+      const filteredStations = rSearchString
+        ? stations.filter(rSearchString.test.bind(rSearchString))
+        : stations;
 
       let groups = initialGroups;
       if (searchString) {
