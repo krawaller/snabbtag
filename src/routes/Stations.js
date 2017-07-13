@@ -262,6 +262,17 @@ export default class Stations extends Component {
           </div>
         </div>
         <div class="page">
+          <noscript>
+            <div class="page-content">
+              <div class="card">
+                <div class="card-content">
+                  <div class="card-content-inner">
+                    Denna app fungerar dessvärre inte utan javascript :-(
+                  </div>
+                </div>
+              </div>
+            </div>
+          </noscript>
           <form
             class={`searchbar searchbar-init ${searchFocused || searchString
               ? 'searchbar-active'
