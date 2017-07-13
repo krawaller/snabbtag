@@ -82,7 +82,7 @@ export default class Stations extends Component {
   }
 
   render(
-    { station, location },
+    props,
     {
       searchFocused,
       searchString,
