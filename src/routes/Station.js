@@ -24,10 +24,6 @@ export default class Station extends Component {
       hasUnfilteredAnnouncements: false,
       isLocating: false
     };
-
-    // route(this.getUrl('station', { station: this.state.station }));
-
-    this.locate = this.locate.bind(this);
   }
 
   componentDidMount() {
@@ -95,7 +91,7 @@ export default class Station extends Component {
     );
   }
 
-  locate() {
+  locate = () => {
     this.setState({ isLocating: true });
     this.api.fetchClosestStations().then(
       ([station]) => {

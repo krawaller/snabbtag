@@ -64,7 +64,7 @@ export default class Stations extends Component {
     }
   }
 
-  getNearbyStations() {
+  getNearbyStations = () => {
     this.setState({ isLocating: true });
 
     this.api.fetchClosestStations().then(
