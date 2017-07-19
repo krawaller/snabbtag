@@ -69,7 +69,10 @@ export default class API {
       <QUERY objecttype="TrainStation" limit="${numberOfStations}">
         <INCLUDE>LocationSignature</INCLUDE>
         <FILTER>
-          <WITHIN name="Geometry.WGS84" shape="center" value="${lng} ${lat}" radius="${radius}m" />
+          <AND>
+            <WITHIN name="Geometry.WGS84" shape="center" value="${lng} ${lat}" radius="${radius}m" />
+            <IN name="LocationSignature" value="${Object.keys(api.stationsBySign)}" />
+          </AND>
         </FILTER>
       </QUERY>`)
       )
