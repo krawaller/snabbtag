@@ -1,4 +1,4 @@
-if (!Object.values) Object.values = o => Object.keys(o).map(k => o[k])
+if (!Object.values) Object.values = o => Object.keys(o).map(k => o[k]);
 import stations from './stations.json';
 
 export default class API {
@@ -71,7 +71,9 @@ export default class API {
         <FILTER>
           <AND>
             <WITHIN name="Geometry.WGS84" shape="center" value="${lng} ${lat}" radius="${radius}m" />
-            <IN name="LocationSignature" value="${Object.keys(api.stationsBySign)}" />
+            <IN name="LocationSignature" value="${Object.keys(
+              api.stationsBySign
+            )}" />
           </AND>
         </FILTER>
       </QUERY>`)
