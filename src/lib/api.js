@@ -83,13 +83,6 @@ export default class API {
       );
   }
 
-  fetchClosestStationsUsingGeoIP() {
-    return Promise.all([
-      this.fetchGeoIPLocation()
-      // this.fetchStations()
-    ]);
-  }
-
   fetchGeoLocation() {
     return new Promise((resolve, reject) =>
       navigator.geolocation.getCurrentPosition(resolve, reject, {
@@ -144,14 +137,14 @@ export default class API {
 //     ))
 //   };
 //   return all;
-// }, {}).reduce((all, d) => {
+// }, {})).reduce((all, d) => {
 //   (d.from || []).concat(d.to || []).forEach(s => {
 //     all[s] = (all[s] || 0) + 2
-//   })
+//   });
 
 //   (d.via || []).forEach(s => {
 //     all[s] = (all[s] || 0) + 1
-//   })
+//   });
 
 //   return all;
 // }, {})
