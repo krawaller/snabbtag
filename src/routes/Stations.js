@@ -79,7 +79,7 @@ export default class Stations extends Component {
         console.error(error);
       }
     );
-  }
+  };
 
   render(
     props,
