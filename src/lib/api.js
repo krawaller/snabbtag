@@ -1,3 +1,4 @@
+if (!Object.values) Object.values = o => Object.keys(o).map(k => o[k])
 import stations from './stations.json';
 
 export default class API {
