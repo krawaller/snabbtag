@@ -103,7 +103,7 @@ export default class Station extends Component {
         console.error(error);
       }
     );
-  }
+  };
 
   fetchStation(
     station,
@@ -200,34 +200,44 @@ export default class Station extends Component {
             )
             .then(({ TrainAnnouncement: filterAnnouncements = [] }) => {
               const filterMap = filterAnnouncements.reduce(
-                (o, announcement) => {
-                  if (
-                    o[announcement.ScheduledDepartureDateTime] === undefined
-                  ) {
-                    o[announcement.ScheduledDepartureDateTime] = {};
+                (
+                  filterMap,
+                  {
+                    ScheduledDepartureDateTime,
+                    AdvertisedTrainIdent,
+                    AdvertisedTimeAtLocation
                   }
-                  o[announcement.ScheduledDepartureDateTime][
-                    announcement.AdvertisedTrainIdent
-                  ] =
-                    announcement.AdvertisedTimeAtLocation;
-                  return o;
+                ) => {
+                  if (filterMap[ScheduledDepartureDateTime] === undefined) {
+                    filterMap[ScheduledDepartureDateTime] = {};
+                  }
+                  filterMap[ScheduledDepartureDateTime][
+                    AdvertisedTrainIdent
+                  ] = AdvertisedTimeAtLocation;
+                  return filterMap;
                 },
                 {}
               );
 
               return {
-                announcements: announcements.filter(announcement => {
-                  const filteredAdvertisedTimeAtLocation =
-                    filterMap[announcement.ScheduledDepartureDateTime] &&
-                    filterMap[announcement.ScheduledDepartureDateTime][
-                      announcement.AdvertisedTrainIdent
-                    ];
-                  return departures
-                    ? filteredAdvertisedTimeAtLocation >
-                      announcement.AdvertisedTimeAtLocation
-                    : filteredAdvertisedTimeAtLocation <
-                      announcement.AdvertisedTimeAtLocation;
-                }),
+                announcements: announcements.filter(
+                  ({
+                    ScheduledDepartureDateTime,
+                    AdvertisedTrainIdent,
+                    AdvertisedTimeAtLocation
+                  }) => {
+                    const filteredAdvertisedTimeAtLocation =
+                      filterMap[ScheduledDepartureDateTime] &&
+                      filterMap[ScheduledDepartureDateTime][
+                        AdvertisedTrainIdent
+                      ];
+                    return departures
+                      ? filteredAdvertisedTimeAtLocation >
+                        AdvertisedTimeAtLocation
+                      : filteredAdvertisedTimeAtLocation <
+                        AdvertisedTimeAtLocation;
+                  }
+                ),
                 hasUnfilteredAnnouncements: !!announcements.length,
                 lastModified
               };
@@ -405,8 +415,6 @@ export default class Station extends Component {
       hasUnfilteredAnnouncements;
 
     let tmp;
-    if (!station) return null;
-
     return (
       <div class="view navbar-through toolbar-through">
         <div class="navbar">
