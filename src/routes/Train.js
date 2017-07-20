@@ -275,10 +275,7 @@ export default class TrainAnnouncement extends Component {
             <div class="left">
               <a
                 class="back link"
-                href={getUrl.call(
-                  this,
-                  this.props.station ? 'station' : 'stations'
-                )}
+                href={this.getUrl(this.props.station ? 'station' : 'stations')}
               >
                 <i class="icon icon-back" />
                 <span>Tillbaka</span>
