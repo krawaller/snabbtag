@@ -25,7 +25,7 @@ export default class App extends Component {
   componentDidMount() {
     console.log('add')
     addEventListener('click', this.delegateLinkHandler)
-    addEventListener('popstate', this.forceUpdate.bind(this));
+    addEventListener('popstate', () => this.forceUpdate());
   }
 
   componentWillUnmount() {
@@ -39,17 +39,15 @@ export default class App extends Component {
     let t = event.target;
     do {
       if (/^a$/i.test(t.nodeName) && t.href) {
-        // if link is handled by the router, prevent browser defaults
-        console.log('route?', t)
-
         const href = t.getAttribute('href');
 		    const target = t.getAttribute('target');
 
-	      // ignore links with targets and non-path URLs
-	      if (!href.match(/^\//g) || (target && !target.match(/^_?self$/i))) continue;
+	      if (!href.match(/^\//g) || (target && !target.match(/^_?self$/i)) || !this.getRoute(href)) continue;
+        
         history.pushState(null, null, href);
         this.forceUpdate();
-        if (this.getRoute(href)) return event.preventDefault()
+        event.preventDefault();
+        return;
       }
     } while ((t=t.parentNode));
   }
