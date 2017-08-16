@@ -78,22 +78,28 @@ export default class App extends Component {
 
     //TODO: fix simplified urls
     if (/^\/info/.test(url)) Component = Info;
-    if (/^\/?$|^\/stations($|\?)/.test(url)) Component = Stations;
-    if ((matches = url.match(/^\/stations\/([^\/?]*)(?:\/?([^\/?]*))/))) {
-      const [, station, type] = matches.map(decodeURIComponent);
-      Component = Station;
-      Object.assign(props, { station, type });
-    }
-    if (
+    else if (/^\/?$|^\/stations($|\?)/.test(url)) Component = Stations;
+    else if (
       (matches = url.match(
-        /^\/trains\/(\d+)(?:\/(\d{4}-\d{2}-\d{2}))?|^\/stations\/([^\/]*)\/trains\/(\d+)(?:\/(\d{4}-\d{2}-\d{2}))?/
+        /^\/(?:stations\/([^\/?]*)\/)?(?:trains\/)?(\d+)(?:\/(\d{4}-\d{2}-\d{2}))?/
       ))
     ) {
-      const [, train, date] = matches;
+      const [, station, train, date] = matches;
+      console.log({matches,train,date,station})
       Component = Train;
       Object.assign(props, { train, date });
     }
-    console.log({ props });
+    else if ((matches = url.match(/^\/(?:stations\/)?([^\/?]*)(?:\/?([^\/?]*))/))) {
+      console.log({matches})
+      let [, encodedStation, type, station = decodeURIComponent(encodedStation)] = matches;
+      if (api.getSignByStation(station) === station.toLowerCase()) {
+        station = api.getStationBySign(station);
+      }
+
+      Component = Station;
+      Object.assign(props, { station, type });
+    }
+    console.log(Component, { props });
     return Component ? <Component {...props} /> : null;
   }
 
