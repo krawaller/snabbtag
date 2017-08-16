@@ -14,7 +14,7 @@ export default class App extends Component {
     document.documentElement.classList.add(
       `pixel-ratio-${Math.floor(window.devicePixelRatio || 1)}`
     );
-    
+
     document.addEventListener('gesturestart', event => event.preventDefault());
     addEventListener('click', this.delegateLinkHandler);
     addEventListener('popstate', () => this.forceUpdate());
@@ -64,12 +64,12 @@ export default class App extends Component {
 
   getRoute(url = this.getCurrentUrl()) {
     const params = ((url.match(/(?:\?([^#]*))?(#.*)?$/) || [,])[1] || '')
-    .split('&')
-    .reduce((params, p) => {
-      const [name, value] = p.split('=').map(decodeURIComponent);
-      params[name] = value;
-      return params;
-    }, {});
+      .split('&')
+      .reduce((params, p) => {
+        const [name, value] = p.split('=').map(decodeURIComponent);
+        params[name] = value;
+        return params;
+      }, {});
 
     const props = {
       ...params,
@@ -87,12 +87,25 @@ export default class App extends Component {
         /^\/(?:(\d+)|(?:([^\/?]*?)\/)(\d+))(?:\/(\d{4}-\d{2}-\d{2}))?/
       ))
     ) {
-      const [, train1, encodedStation, train = train1, date, station = encodedStation && decodeURIComponent(encodedStation)] = matches;
+      const [
+        ,
+        train1,
+        encodedStation,
+        train = train1,
+        date,
+        station = encodedStation && decodeURIComponent(encodedStation)
+      ] = matches;
       Component = Train;
       Object.assign(props, { train, date, station });
-    }
-    else if ((matches = url.match(/^\/(?:stationer\/)?([^\/?]*)(?:\/?([^\/?]*))/))) {
-      let [, encodedStation, type, station = decodeURIComponent(encodedStation)] = matches;
+    } else if (
+      (matches = url.match(/^\/(?:stationer\/)?([^\/?]*)(?:\/?([^\/?]*))/))
+    ) {
+      let [
+        ,
+        encodedStation,
+        type,
+        station = decodeURIComponent(encodedStation)
+      ] = matches;
       if (api.getSignByStation(station) === station.toLowerCase()) {
         station = api.getStationBySign(station);
       }
@@ -100,8 +113,19 @@ export default class App extends Component {
       Component = Station;
       Object.assign(props, { station, type });
     }
-    
-    return Component ? <Component {...{...props, favorites: new Set((props.favoriter || '').split(',').filter(Boolean)), showingDepartures: props.type !== 'ankomster', favoriteTrafficOnly: !!props.favorittrafik }} /> : null;
+
+    return Component
+      ? <Component
+          {...{
+            ...props,
+            favorites: new Set(
+              (props.favoriter || '').split(',').filter(Boolean)
+            ),
+            showingDepartures: props.type !== 'ankomster',
+            favoriteTrafficOnly: !!props.favorittrafik
+          }}
+        />
+      : null;
   }
 
   render = () => {

@@ -8,7 +8,7 @@ import { h, Component } from 'preact';
 export default class Station extends Component {
   constructor(props) {
     super(props);
-    
+
     this.api = props.api;
     this.getUrl = props.getUrl;
 
@@ -364,14 +364,13 @@ export default class Station extends Component {
   }
 
   render(
-    { station,       favorites,
-      showingDepartures, favoriteTrafficOnly},
+    { station, favorites, showingDepartures, favoriteTrafficOnly },
     {
       stations,
 
       trainAnnouncements,
       trainAnnouncementsLoading,
-      
+
       isLocating,
       hasUnfilteredAnnouncements
     }

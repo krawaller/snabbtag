@@ -106,9 +106,9 @@ export default class Stations extends Component {
     } else {
       const initialGroups = {};
       if (!(searchFocused || searchString) && this.props.favorites.size) {
-        initialGroups['Favoriter'] = Array.from(this.props.favorites).map(sign =>
-          this.api.getStationBySign(sign)
-        );
+        initialGroups['Favoriter'] = Array.from(
+          this.props.favorites
+        ).map(sign => this.api.getStationBySign(sign));
       }
 
       if (!(searchFocused || searchString) && nearbyStations.length) {

@@ -10,7 +10,7 @@ export function getUrl(
     showingDepartures = (this.state && this.state.showingDepartures) ||
       this.props.showingDepartures ||
       this.props.type !== 'ankomster'
-  } = {},
+  } = {}
 ) {
   const queries = [
     favorites instanceof Set && favorites.size
@@ -18,9 +18,7 @@ export function getUrl(
       : '',
     typeof favorites === 'string' ? `favoriter=${favorites}` : '',
     favoriteTrafficOnly ? `favorittrafik=true` : '',
-    station && (page === 'stations')
-      ? `station=${station}`
-      : '',
+    station && page === 'stations' ? `station=${station}` : '',
     (page === 'stations' || page === 'train') &&
       !showingDepartures &&
       'typ=ankomster'
@@ -29,9 +27,7 @@ export function getUrl(
     .join('&');
 
   return `${{
-    station: `/${station}${showingDepartures
-      ? ''
-      : '/ankomster'}`,
+    station: `/${station}${showingDepartures ? '' : '/ankomster'}`,
     stations: `/stationer`,
     train: `/${station ? `${station}/` : ''}${train}${date ? `/${date}` : ''}`
   }[page]}${queries && `?${queries}`}`;
