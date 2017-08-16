@@ -9,31 +9,31 @@ export function getUrl(
       this.props.favoriteTrafficOnly,
     showingDepartures = (this.state && this.state.showingDepartures) ||
       this.props.showingDepartures ||
-      this.props.type !== 'arrivals'
-  } = {}
+      this.props.typ !== 'ankomster'
+  } = {},
 ) {
   const queries = [
     favorites instanceof Set && favorites.size
-      ? `favorites=${Array.from(favorites).join(',')}`
+      ? `favoriter=${Array.from(favorites).join(',')}`
       : '',
-    typeof favorites === 'string' ? `favorites=${favorites}` : '',
-    favoriteTrafficOnly ? `favorite_traffic_only=true` : '',
-    station && (page === 'stations' || page === 'train')
+    typeof favorites === 'string' ? `favoriter=${favorites}` : '',
+    favoriteTrafficOnly ? `favorittrafik=true` : '',
+    station && (page === 'stations')
       ? `station=${station}`
       : '',
     (page === 'stations' || page === 'train') &&
       !showingDepartures &&
-      'type=arrivals'
+      'typ=ankomster'
   ]
     .filter(Boolean)
     .join('&');
 
   return `${{
-    station: `/stations/${station}/${showingDepartures
-      ? 'departures'
-      : 'arrivals'}`,
-    stations: `/stations`,
-    train: `/trains/${train}${date ? `/${date}` : ''}`
+    station: `/${station}${showingDepartures
+      ? ''
+      : '/ankomster'}`,
+    stations: `/stationer`,
+    train: `/${station ? `${station}/` : ''}${train}${date ? `/${date}` : ''}`
   }[page]}${queries && `?${queries}`}`;
 }
 
