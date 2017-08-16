@@ -3,7 +3,6 @@ import { h, Component } from 'preact';
 export default class TrainAnnouncement extends Component {
   constructor(props) {
     super(props);
-    console.log('TrainAnnouncement', { props });
     this.api = props.api;
     this.getUrl = props.getUrl;
     this.state = {
@@ -105,14 +104,6 @@ export default class TrainAnnouncement extends Component {
               pageContentRect.top -
               pageContentRect.height / 2;
             const after = this._pageContent.scrollTop;
-            console.log({
-              before,
-              after,
-              diff:
-                stationRect.top -
-                pageContentRect.top -
-                pageContentRect.height / 2
-            });
           } else {
             const markerPosRelativeToPageContent =
               pos + (timelineRect.top - pageContentRect.top);
@@ -235,7 +226,6 @@ export default class TrainAnnouncement extends Component {
           const formattedAnnouncements = Object.values(
             formattedAnnouncementsBySign
           );
-          console.log({ formattedAnnouncements, announcements });
 
           if (
             (formattedAnnouncements[formattedAnnouncements.length - 1]
@@ -326,7 +316,6 @@ export default class TrainAnnouncement extends Component {
                       const changedDate =
                         arrival.date && lastDate && arrival.date !== lastDate;
 
-                      // console.log({ arrival, departure });
                       const hasArrival = !!arrival.advertised;
                       const hasDeparture = !!departure.advertised;
 

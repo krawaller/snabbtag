@@ -60,11 +60,9 @@ export default class App extends Component {
   route(href) {
     history.pushState(null, null, href);
     this.forceUpdate();
-    
   }
 
   getRoute(url = this.getCurrentUrl()) {
-    console.log({ url });
     const params = ((url.match(/(?:\?([^#]*))?(#.*)?$/) || [,])[1] || '')
     .split('&')
     .reduce((params, p) => {
@@ -72,9 +70,6 @@ export default class App extends Component {
       params[name] = value;
       return params;
     }, {});
-    params.type = params.typ;
-    params.favorites = params.favoriter;
-    params.favorite_traffic_only = params.favorittrafik;
 
     const props = {
       ...params,
@@ -84,10 +79,7 @@ export default class App extends Component {
       route: this.route.bind(this)
     };
 
-    let matches;
-    let Component;
-
-    //TODO: fix simplified urls
+    let matches, Component;
     if (/^\/info/.test(url)) Component = Info;
     else if (/^\/?$|^\/stationer($|\?)/.test(url)) Component = Stations;
     else if (
@@ -96,12 +88,10 @@ export default class App extends Component {
       ))
     ) {
       const [, train1, encodedStation, train = train1, date, station = encodedStation && decodeURIComponent(encodedStation)] = matches;
-      console.log({matches,train,date,station})
       Component = Train;
       Object.assign(props, { train, date, station });
     }
     else if ((matches = url.match(/^\/(?:stationer\/)?([^\/?]*)(?:\/?([^\/?]*))/))) {
-      console.log({matches})
       let [, encodedStation, type, station = decodeURIComponent(encodedStation)] = matches;
       if (api.getSignByStation(station) === station.toLowerCase()) {
         station = api.getStationBySign(station);
@@ -110,7 +100,6 @@ export default class App extends Component {
       Component = Station;
       Object.assign(props, { station, type });
     }
-    console.log(props);
     
     return Component ? <Component {...{...props, favorites: new Set((props.favoriter || '').split(',').filter(Boolean)), showingDepartures: props.type !== 'ankomster', favoriteTrafficOnly: !!props.favorittrafik }} /> : null;
   }
@@ -118,26 +107,4 @@ export default class App extends Component {
   render = () => {
     return this.getRoute();
   };
-
-  // <Router>
-  //   <Info path="/info" />
-  //   <Stations path="/stations" api={api} getUrl={getUrl} default />
-  //   <Station
-  //     path="/stations/:station/:type?"
-  //     api={api}
-  //     getUrl={getUrl}
-  //     getNearbyHumanDate={getNearbyHumanDate}
-  //   />
-  //   <Train
-  //     path="/trains/:train/:date?"
-  //     api={api}
-  //     getUrl={getUrl}
-  //     getNearbyHumanDate={getNearbyHumanDate}
-  //   />
-  //   <Train
-  //     path="/stations/:station/trains/:train/:date?"
-  //     api={api}
-  //     getUrl={getUrl}
-  //   />
-  // </Router>;
 }

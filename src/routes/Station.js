@@ -4,21 +4,16 @@ import { h, Component } from 'preact';
 //FIXME: resilience
 //FIXME: late station
 //FIXME: sticky chrome headers
-//FIXME: shorter routes
 
 export default class Station extends Component {
   constructor(props) {
     super(props);
-    console.log('<Station/>', props)
-
+    
     this.api = props.api;
     this.getUrl = props.getUrl;
 
     this.state = {
       stations: props.api.stations,
-      // favorites: new Set((props.favorites || '').split(',').filter(Boolean)),
-      // showingDepartures: props.type !== 'ankomster',
-      // favoriteTrafficOnly: props.favorite_traffic_only === 'true',
       trainAnnouncements: [],
       trainAnnouncementsLoading: true,
       hasUnfilteredAnnouncements: false,
@@ -42,27 +37,6 @@ export default class Station extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log({ prevState, prevProps, state: this.state, props: this.props });
-    // if (prevProps.favorites !== this.props.favorites) {
-    //   this.setState({
-    //     favorites: new Set(
-    //       (this.props.favorites || '').split(',').filter(Boolean)
-    //     )
-    //   });
-    // }
-
-    // if (prevProps.favorite_traffic_only !== this.props.favorite_traffic_only) {
-    //   this.setState({
-    //     favoriteTrafficOnly: this.props.favorite_traffic_only
-    //   });
-    // }
-
-    // if (prevProps.type !== this.props.type) {
-    //   this.setState({
-    //     showingDepartures: this.props.type === 'ankomster'
-    //   });
-    // }
-
     if (
       prevProps.station !== this.props.station ||
       prevProps.showingDepartures !== this.props.showingDepartures ||
@@ -100,7 +74,6 @@ export default class Station extends Component {
     this.api.fetchClosestStations().then(
       ([station]) => {
         this.setState({ isLocating: false });
-        console.log({station})
         this.props.route(this.getUrl('station', { station }));
       },
       error => {
