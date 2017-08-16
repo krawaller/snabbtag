@@ -25,18 +25,18 @@ export default class App extends Component {
   componentDidMount() {
     console.log('add')
     addEventListener('click', this.delegateLinkHandler)
-    addEventListener('popstate', () => routeTo(getCurrentUrl()));
+    addEventListener('popstate', this.forceUpdate.bind(this));
   }
 
   componentWillUnmount() {
     removeEventListener('click', this.delegateLinkHandler)
   }
 
-  delegateLinkHandler = e => {
+  delegateLinkHandler = event => {
     // ignore events the browser takes care of already:
-    if (e.ctrlKey || e.metaKey || e.altKey || e.shiftKey || e.button!==0) return;
+    if (event.ctrlKey || event.metaKey || event.altKey || event.shiftKey || event.button!==0) return;
 
-    let t = e.target;
+    let t = event.target;
     do {
       if (/^a$/i.test(t.nodeName) && t.href) {
         // if link is handled by the router, prevent browser defaults
@@ -49,42 +49,42 @@ export default class App extends Component {
 	      if (!href.match(/^\//g) || (target && !target.match(/^_?self$/i))) continue;
         history.pushState(null, null, href);
         this.forceUpdate();
-        
-        return;
-        // if (routeFromLink(t)) {
-        //   return prevent(e);
-        // }
+        if (this.getRoute(href)) return event.preventDefault()
       }
     } while ((t=t.parentNode));
   }
 
-  getRoute() {
-    const url = this.getCurrentUrl();
+  getRoute(url = this.getCurrentUrl()) {
+    console.log({url})
+    const props = {
+      ...((url.match(/(?:\?([^#]*))?(#.*)?$/) || [ ,])[1] || '').split('&').reduce((params, p) => {
+        const [name, value] = p.split('=').map(decodeURIComponent);
+        params[name] = value;
+        return params;
+      }, {}),
+      api, getUrl, getNearbyHumanDate,
+    };
+
     let matches;
-    if (/^\/info/.test(url)) return <Info />
-    if (/^\/?$|^\/stations($|\?)/.test(url)) return <Stations api={api} getUrl={getUrl} />
-    if (matches = url.match(/^\/stations\/([^\/]*)(?:\/?([^\/]*))/)) {
-      const [, station, type] = matches;
-      return <Station station={decodeURIComponent(station)} type={type} api={api} getUrl={getUrl} getNearbyHumanDate={getNearbyHumanDate} />
+    let Component;
+    if (/^\/info/.test(url)) Component = Info;
+    if (/^\/?$|^\/stations($|\?)/.test(url)) Component = Stations;
+    if (matches = url.match(/^\/stations\/([^\/?]*)(?:\/?([^\/?]*))/)) {
+      const [, station, type] = matches.map(decodeURIComponent);
+      Component = Station;
+      Object.assign(props, { station, type });
     }
     if (matches = url.match(/^\/trains\/(\d+)(?:\/(\d{4}-\d{2}-\d{2}))?|^\/stations\/([^\/]*)\/trains\/(\d+)(?:\/(\d{4}-\d{2}-\d{2}))?/)) {
       const [, train, date] = matches;
-      return <Train
-        train={train} date={date}
-        api={api}
-        getUrl={getUrl}
-        getNearbyHumanDate={getNearbyHumanDate}
-      />
+      Component = Train;
+      Object.assign(props, { train, date });
     }
+    console.log({props})
+    return Component ? <Component {...props} /> : null;
   }
 
   render = () => {
     return this.getRoute();
-    //   <Train
-    //     path="/stations/:station/trains/:train/:date?"
-    //     api={api}
-    //     getUrl={getUrl}
-    //   /> 
   } 
 
     // <Router>
