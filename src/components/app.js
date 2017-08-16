@@ -15,6 +15,7 @@ export default class App extends Component {
     document.documentElement.classList.add(
       `pixel-ratio-${Math.floor(window.devicePixelRatio || 1)}`
     );
+    this.forceUpdate = this.forceUpdate.bind(this);
   }
 
   getCurrentUrl() {
@@ -23,13 +24,15 @@ export default class App extends Component {
   }
 
   componentDidMount() {
+    //TODO: redirect in no getRoute
     console.log('add')
     addEventListener('click', this.delegateLinkHandler)
-    addEventListener('popstate', () => this.forceUpdate());
+    addEventListener('popstate', this.forceUpdate);
   }
 
   componentWillUnmount() {
     removeEventListener('click', this.delegateLinkHandler)
+    removeEventListener('popstate', this.forceUpdate);
   }
 
   delegateLinkHandler = event => {
@@ -65,6 +68,8 @@ export default class App extends Component {
 
     let matches;
     let Component;
+
+    //TODO: fix simplified urls
     if (/^\/info/.test(url)) Component = Info;
     if (/^\/?$|^\/stations($|\?)/.test(url)) Component = Stations;
     if (matches = url.match(/^\/stations\/([^\/?]*)(?:\/?([^\/?]*))/)) {
