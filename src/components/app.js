@@ -65,14 +65,19 @@ export default class App extends Component {
 
   getRoute(url = this.getCurrentUrl()) {
     console.log({ url });
+    const params = ((url.match(/(?:\?([^#]*))?(#.*)?$/) || [,])[1] || '')
+    .split('&')
+    .reduce((params, p) => {
+      const [name, value] = p.split('=').map(decodeURIComponent);
+      params[name] = value;
+      return params;
+    }, {});
+    params.type = params.typ;
+    params.favorites = params.favoriter;
+    params.favorite_traffic_only = params.favorittrafik;
+
     const props = {
-      ...((url.match(/(?:\?([^#]*))?(#.*)?$/) || [,])[1] || '')
-        .split('&')
-        .reduce((params, p) => {
-          const [name, value] = p.split('=').map(decodeURIComponent);
-          params[name] = value;
-          return params;
-        }, {}),
+      ...params,
       api,
       getUrl,
       getNearbyHumanDate,
