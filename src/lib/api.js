@@ -18,7 +18,8 @@ export default class API {
   }
 
   query(query) {
-    if (this.queries[query]) return Promise.resolve(this.queries[query].response);
+    if (this.queries[query])
+      return Promise.resolve(this.queries[query].response);
 
     return fetch('https://api.trafikinfo.trafikverket.se/v1.1/data.json', {
       method: 'POST',

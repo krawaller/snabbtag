@@ -1,6 +1,6 @@
 import { h, Component } from 'preact';
 import TrainNumberSearchResult from 'async!../components/TrainNumberSearchResult';
-//TODO: where's ystad
+
 export default class Stations extends Component {
   constructor(props) {
     super(props);
