@@ -1,25 +1,32 @@
 export function getUrl(
   page,
   {
-    station = (this.state && this.state.station) || this.props.station,
-    train = (this.state && this.state.train) || this.props.train,
-    date = (this.state && this.state.date) || this.props.date,
-    favorites = (this.state && this.state.favorites) || this.props.favorites,
-    favoriteTrafficOnly = (this.state && this.state.favoriteTrafficOnly) ||
-      this.props.favoriteTrafficOnly,
-    showingDepartures = (this.state && this.state.showingDepartures) ||
-      this.props.showingDepartures ||
-      this.props.type !== 'ankomster'
+    station = this.station,
+    train = this.train,
+    date = this.date,
+    favorites = this.favorites,
+    favoriteTrafficOnly = this.favoriteTrafficOnly,
+    showingDepartures = this.showingDepartures
   } = {}
 ) {
+  //   console.log(
+  // !!(this.state.station && this.state.station !== this.props.station) +
+  // !!(this.state.train && this.state.train !== this.props.train) +
+  // !!(this.state.date && this.state.date !== this.props.date) +
+  // !!(this.state.favorites && this.state.favorites !== this.props.favorites) +
+  // !!(this.state.favoriteTrafficOnly && this.state.favoriteTrafficOnly !== this.props.favoriteTrafficOnly) +
+  // !!(this.state.showingDepartures && this.state.showingDepartures !== this.props.showingDepartures)
+  //   )
   const queries = [
     favorites instanceof Set && favorites.size
       ? `favoriter=${Array.from(favorites).join(',')}`
       : '',
     typeof favorites === 'string' ? `favoriter=${favorites}` : '',
     favoriteTrafficOnly ? `favorittrafik=true` : '',
-    station && page === 'stations' ? `station=${station}` : '',
-    (page === 'stations' || page === 'train') &&
+    station && (page === 'stations' || page === 'info')
+      ? `station=${station}`
+      : '',
+    (page === 'stations' || page === 'train' || page === 'info') &&
       !showingDepartures &&
       'typ=ankomster'
   ]
@@ -27,6 +34,7 @@ export function getUrl(
     .join('&');
 
   return `${{
+    info: '/info',
     station: `/${station}${showingDepartures ? '' : '/ankomster'}`,
     stations: `/stationer`,
     train: `/${station ? `${station}/` : ''}${train}${date ? `/${date}` : ''}`

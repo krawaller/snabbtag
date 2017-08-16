@@ -1,10 +1,10 @@
 import { h, Component } from 'preact';
-export default () =>
+export default props =>
   <div class="navbar-through">
     <div class="navbar">
       <div class="navbar-inner">
         <div class="left">
-          <a class="back link" href="/stations">
+          <a class="back link" href={props.getUrl('stations')}>
             <i class="icon icon-back" />
             <span>Välj...</span>
           </a>

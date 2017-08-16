@@ -6,7 +6,6 @@ export default class Stations extends Component {
     super(props);
 
     this.api = props.api;
-    this.getUrl = props.getUrl;
     this.state = {
       searchFocused: false,
       searchString: '',
@@ -100,7 +99,7 @@ export default class Stations extends Component {
         <TrainNumberSearchResult
           api={this.api}
           searchString={searchString}
-          getUrl={this.getUrl}
+          getUrl={this.props.getUrl}
         />
       );
     } else {
@@ -159,7 +158,9 @@ export default class Stations extends Component {
                     <li>
                       <a
                         href={
-                          station ? this.getUrl('station', { station }) : '#'
+                          station
+                            ? this.props.getUrl('station', { station })
+                            : '#'
                         }
                         class="item-link"
                       >
@@ -205,14 +206,7 @@ export default class Stations extends Component {
           <div class="navbar-inner hide-when-empty">
             <div class="left">
               {this.props.station
-                ? <a
-                    class="back link"
-                    href={this.getUrl('station')}
-                    onClick={event => {
-                      history.back();
-                      event.preventDefault();
-                    }}
-                  >
+                ? <a class="back link" href={this.props.getUrl('station')}>
                     <i class="icon icon-back" />
                     <span>Tillbaka</span>
                   </a>
@@ -242,7 +236,11 @@ export default class Stations extends Component {
             </div>
             <div class="center sliding">Välj…</div>
             <div class="right">
-              <a href="/info" class="link icon-only" title="Info">
+              <a
+                href={this.props.getUrl('info')}
+                class="link icon-only"
+                title="Info"
+              >
                 <svg
                   width="22"
                   viewBox="0 0 44 44"

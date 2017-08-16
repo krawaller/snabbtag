@@ -4,7 +4,6 @@ export default class TrainAnnouncement extends Component {
   constructor(props) {
     super(props);
     this.api = props.api;
-    this.getUrl = props.getUrl;
     this.state = {
       date: props.date || new Intl.DateTimeFormat('sv-SE').format(new Date()),
       hasPositionedTrainMarker: false,
@@ -265,7 +264,9 @@ export default class TrainAnnouncement extends Component {
             <div class="left">
               <a
                 class="back link"
-                href={this.getUrl(this.props.station ? 'station' : 'stations')}
+                href={this.props.getUrl(
+                  this.props.station ? 'station' : 'stations'
+                )}
               >
                 <i class="icon icon-back" />
                 <span>Tillbaka</span>
@@ -408,7 +409,7 @@ export default class TrainAnnouncement extends Component {
                                 {name &&
                                   <div>
                                     <a
-                                      href={this.getUrl('station', {
+                                      href={this.props.getUrl('station', {
                                         station: name
                                       })}
                                     >

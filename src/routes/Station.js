@@ -10,7 +10,6 @@ export default class Station extends Component {
     super(props);
 
     this.api = props.api;
-    this.getUrl = props.getUrl;
 
     this.state = {
       stations: props.api.stations,
@@ -25,7 +24,7 @@ export default class Station extends Component {
       this.api.getSignByStation(this.props.station)
     )
       route(
-        this.getUrl('station', {
+        this.props.getUrl('station', {
           station: this.api.getStationBySign(this.props.station)
         }),
         true
@@ -74,7 +73,7 @@ export default class Station extends Component {
     this.api.fetchClosestStations().then(
       ([station]) => {
         this.setState({ isLocating: false });
-        this.props.route(this.getUrl('station', { station }));
+        this.props.route(this.props.getUrl('station', { station }));
       },
       error => {
         this.setState({ isLocating: false });
@@ -417,12 +416,12 @@ export default class Station extends Component {
                     </svg>}
               </a>
             </div>
-            <a href={this.getUrl('stations')} class="link center sliding">
+            <a href={this.props.getUrl('stations')} class="link center sliding">
               {station} ▾
             </a>
             <div class="right">
               <a
-                href={this.getUrl('station', {
+                href={this.props.getUrl('station', {
                   favorites: favorites.has(station)
                     ? ((tmp = new Set(favorites)), tmp.delete(station), tmp)
                     : new Set(favorites).add(station)
@@ -454,7 +453,7 @@ export default class Station extends Component {
         <div class="toolbar">
           <div class="toolbar-inner">
             <a
-              href={this.getUrl('station', {
+              href={this.props.getUrl('station', {
                 favoriteTrafficOnly: !favoriteTrafficOnly
               })}
               class="link icon-only"
@@ -488,13 +487,13 @@ export default class Station extends Component {
             </a>
             <div class="buttons-row">
               <a
-                href={this.getUrl('station', { showingDepartures: true })}
+                href={this.props.getUrl('station', { showingDepartures: true })}
                 class={`button ${showingDepartures && 'active'}`}
               >
                 Avgångar
               </a>
               <a
-                href={this.getUrl('station', {
+                href={this.props.getUrl('station', {
                   showingDepartures: false
                 })}
                 class={`button ${!showingDepartures && 'active'}`}
@@ -555,7 +554,7 @@ export default class Station extends Component {
                             class="item-link item-content"
                             href={
                               train
-                                ? this.getUrl('train', {
+                                ? this.props.getUrl('train', {
                                     train,
                                     date: scheduledDate
                                   })
@@ -643,14 +642,14 @@ export default class Station extends Component {
             {shouldShowDisableFilterMessage &&
               <div class="card disable-filter-card">
                 <div class="card-header">
-                  Alla existerande{' '}
+                  ⚠️ Alla existerande{' '}
                   {showingDepartures ? 'avgångar' : 'ankomster'} döljs av
                   favoritfiltret
                 </div>
                 <div class="card-content">
                   <div class="card-content-inner">
                     <a
-                      href={this.getUrl('station', {
+                      href={this.props.getUrl('station', {
                         favoriteTrafficOnly: false
                       })}
                       class="button button-big active button-fill color-red"
