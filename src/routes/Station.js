@@ -51,10 +51,7 @@ export default class Station extends Component {
       });
     }
 
-    if (
-      prevProps.favorite_traffic_only !==
-      this.props.favorite_traffic_only
-    ) {
+    if (prevProps.favorite_traffic_only !== this.props.favorite_traffic_only) {
       this.setState({
         favoriteTrafficOnly: this.props.favorite_traffic_only
       });
