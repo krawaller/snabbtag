@@ -3,7 +3,6 @@ import { h, Component } from 'preact';
 export default class TrainAnnouncement extends Component {
   constructor(props) {
     super(props);
-    console.log({props})
     this.api = props.api;
     this.state = {
       date: props.date || new Intl.DateTimeFormat('sv-SE').format(new Date()),

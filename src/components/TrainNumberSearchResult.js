@@ -65,7 +65,6 @@ export default class TrainNumberSearchResult extends Component {
   }
 
   render({ searchString }, { resultsBySearchString }) {
-    console.log({ resultsBySearchString, searchString });
     return (
       <div class="list-group">
         <ul>

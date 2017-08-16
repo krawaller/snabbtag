@@ -1,5 +1,4 @@
 import { h, Component } from 'preact';
-// import { Router } from 'preact-router';
 import Stations from '../routes/Stations';
 import Station from '../routes/Station';
 import Train from '../routes/Train';
