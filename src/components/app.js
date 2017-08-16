@@ -72,6 +72,7 @@ export default class App extends Component {
       }, {});
 
     const props = {
+      type: params.typ,
       ...params,
       api,
       getUrl,

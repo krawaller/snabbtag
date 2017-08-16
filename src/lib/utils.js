@@ -9,14 +9,6 @@ export function getUrl(
     showingDepartures = this.showingDepartures
   } = {}
 ) {
-  //   console.log(
-  // !!(this.state.station && this.state.station !== this.props.station) +
-  // !!(this.state.train && this.state.train !== this.props.train) +
-  // !!(this.state.date && this.state.date !== this.props.date) +
-  // !!(this.state.favorites && this.state.favorites !== this.props.favorites) +
-  // !!(this.state.favoriteTrafficOnly && this.state.favoriteTrafficOnly !== this.props.favoriteTrafficOnly) +
-  // !!(this.state.showingDepartures && this.state.showingDepartures !== this.props.showingDepartures)
-  //   )
   const queries = [
     favorites instanceof Set && favorites.size
       ? `favoriter=${Array.from(favorites).join(',')}`
