@@ -9,7 +9,7 @@ export function getUrl(
       this.props.favoriteTrafficOnly,
     showingDepartures = (this.state && this.state.showingDepartures) ||
       this.props.showingDepartures ||
-      this.props.typ !== 'ankomster'
+      this.props.type !== 'ankomster'
   } = {},
 ) {
   const queries = [

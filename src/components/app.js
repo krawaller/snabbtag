@@ -102,16 +102,17 @@ export default class App extends Component {
     }
     else if ((matches = url.match(/^\/(?:stationer\/)?([^\/?]*)(?:\/?([^\/?]*))/))) {
       console.log({matches})
-      let [, encodedStation, typ, station = decodeURIComponent(encodedStation)] = matches;
+      let [, encodedStation, type, station = decodeURIComponent(encodedStation)] = matches;
       if (api.getSignByStation(station) === station.toLowerCase()) {
         station = api.getStationBySign(station);
       }
 
       Component = Station;
-      Object.assign(props, { station, typ });
+      Object.assign(props, { station, type });
     }
     console.log(props);
-    return Component ? <Component {...props} /> : null;
+    
+    return Component ? <Component {...{...props, favorites: new Set((props.favoriter || '').split(',').filter(Boolean)), showingDepartures: props.type !== 'ankomster', favoriteTrafficOnly: !!props.favorittrafik }} /> : null;
   }
 
   render = () => {
