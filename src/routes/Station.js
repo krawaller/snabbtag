@@ -1,5 +1,4 @@
 import { h, Component } from 'preact';
-import { route } from 'preact-router';
 
 //FIXME: cancelled
 //FIXME: resilience
@@ -100,7 +99,8 @@ export default class Station extends Component {
     this.api.fetchClosestStations().then(
       ([station]) => {
         this.setState({ isLocating: false });
-        route(this.getUrl('station', { station }));
+        console.log({station})
+        this.props.route(this.getUrl('station', { station }));
       },
       error => {
         this.setState({ isLocating: false });

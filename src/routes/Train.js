@@ -371,6 +371,7 @@ export default class TrainAnnouncement extends Component {
                             departure.happened) &&
                             'arrived') ||
                             ''} ${(departure.happened && 'departed') || ''}`}
+                          data-name={name}
                         >
                           <div class="timeline-item-date time hide-when-empty mute-when-departed">
                             {name &&

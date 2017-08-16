@@ -50,13 +50,18 @@ export default class App extends Component {
         )
           continue;
 
-        history.pushState(null, null, href);
-        this.forceUpdate();
+        this.route(href);
         event.preventDefault();
         return;
       }
     } while ((t = t.parentNode));
   };
+
+  route(href) {
+    history.pushState(null, null, href);
+    this.forceUpdate();
+    
+  }
 
   getRoute(url = this.getCurrentUrl()) {
     console.log({ url });
@@ -70,7 +75,8 @@ export default class App extends Component {
         }, {}),
       api,
       getUrl,
-      getNearbyHumanDate
+      getNearbyHumanDate,
+      route: this.route.bind(this)
     };
 
     let matches;
@@ -78,28 +84,28 @@ export default class App extends Component {
 
     //TODO: fix simplified urls
     if (/^\/info/.test(url)) Component = Info;
-    else if (/^\/?$|^\/stations($|\?)/.test(url)) Component = Stations;
+    else if (/^\/?$|^\/stationer($|\?)/.test(url)) Component = Stations;
     else if (
       (matches = url.match(
-        /^\/(?:stations\/([^\/?]*)\/)?(?:trains\/)?(\d+)(?:\/(\d{4}-\d{2}-\d{2}))?/
+        /^\/(?:(\d+)|(?:([^\/?]*?)\/)(\d+))(?:\/(\d{4}-\d{2}-\d{2}))?/
       ))
     ) {
-      const [, station, train, date] = matches;
+      const [, train1, encodedStation, train = train1, date, station = encodedStation && decodeURIComponent(encodedStation)] = matches;
       console.log({matches,train,date,station})
       Component = Train;
-      Object.assign(props, { train, date });
+      Object.assign(props, { train, date, station });
     }
-    else if ((matches = url.match(/^\/(?:stations\/)?([^\/?]*)(?:\/?([^\/?]*))/))) {
+    else if ((matches = url.match(/^\/(?:stationer\/)?([^\/?]*)(?:\/?([^\/?]*))/))) {
       console.log({matches})
-      let [, encodedStation, type, station = decodeURIComponent(encodedStation)] = matches;
+      let [, encodedStation, typ, station = decodeURIComponent(encodedStation)] = matches;
       if (api.getSignByStation(station) === station.toLowerCase()) {
         station = api.getStationBySign(station);
       }
 
       Component = Station;
-      Object.assign(props, { station, type });
+      Object.assign(props, { station, typ });
     }
-    console.log(Component, { props });
+    console.log(props);
     return Component ? <Component {...props} /> : null;
   }
 
