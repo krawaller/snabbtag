@@ -12,7 +12,7 @@ export default class App extends Component {
     popped: false,
     url: this.getCurrentUrl(),
     scrollTopByUrl: {}
-  }
+  };
 
   componentDidMount() {
     document.body.classList.add('framework7-root');
@@ -27,7 +27,7 @@ export default class App extends Component {
         popped: true,
         url: this.getCurrentUrl()
       });
-      this.forceUpdate()
+      this.forceUpdate();
     });
   }
 
@@ -100,7 +100,11 @@ export default class App extends Component {
       getUrl,
       getNearbyHumanDate,
       route: this.route.bind(this),
-      scrollTop: this.state.popped && this.state.scrollTopByUrl[url] && Date.now() - this.state.scrollTopByUrl[url].at < api.TTL && this.state.scrollTopByUrl[url].value
+      scrollTop:
+        this.state.popped &&
+        this.state.scrollTopByUrl[url] &&
+        Date.now() - this.state.scrollTopByUrl[url].at < api.TTL &&
+        this.state.scrollTopByUrl[url].value
     };
 
     let matches, Component;

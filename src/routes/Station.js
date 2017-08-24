@@ -331,7 +331,8 @@ export default class Station extends Component {
                   announcement.ScheduledDepartureDateTime
                 ),
                 cancelled: !!announcement.Canceled,
-                deviations: (announcement.Deviation || []).filter(deviation => !/^inställ/i.test(deviation)),
+                deviations: (announcement.Deviation || [])
+                  .filter(deviation => !/^inställ/i.test(deviation)),
                 AdvertisedTimeAtLocation: announcement.AdvertisedTimeAtLocation,
                 EstimatedTimeAtLocation: announcement.EstimatedTimeAtLocation
               };
@@ -352,7 +353,6 @@ export default class Station extends Component {
             hasUnfilteredAnnouncements
           });
 
-
           // this.api
           // .query(
           //   `
@@ -369,7 +369,7 @@ export default class Station extends Component {
           //               <LT name="AdvertisedTimeAtLocation" value="${AdvertisedTimeAtLocation}" />
           //             </AND>
           //           `).join('')}
-          //         </OR>                  
+          //         </OR>
           //       </AND>
           //     </FILTER>
           //     <INCLUDE>ActivityType</INCLUDE>
@@ -382,12 +382,11 @@ export default class Station extends Component {
           //   console.log(this.api.getSignByStation(station))
           //   const deviations = Object.values(TrainAnnouncement.reduce((lastActivityByTrain, activity) => ({ ...lastActivityByTrain, [activity.AdvertisedTrainIdent]: activity }), {}))
           //     .filter(activity => activity.AdvertisedTimeAtLocation !== activity.TimeAtLocation && activity.LocationSignature.toLowerCase() !== this.api.getSignByStation(station))
-          //     .map(activity => 
+          //     .map(activity =>
           //       ({ train: activity.AdvertisedTrainIdent, type: activity.ActivityType, at: activity.LocationSignature, deviation: Math.round((new Date(activity.TimeAtLocation) - new Date(activity.AdvertisedTimeAtLocation)) / 60000) })
           //     )
           //   console.log(deviations, deviations.map(o => `${o.train} ${o.deviation > 0 ? '+' : ''}${o.deviation} ${o.type === 'Ankomst' ? '→ ' : ''}${this.api.getStationBySign(o.at)}${o.type === 'Avgang' ? ' →' : ''}`))
           // })
-
         },
         error => {
           isChecking = false;
