@@ -1,9 +1,8 @@
 import { h, Component } from 'preact';
 
-//FIXME: cancelled
-//FIXME: resilience
 //FIXME: late station
 //FIXME: sticky chrome headers
+//FIXME: latest status?
 
 export default class Station extends Component {
   constructor(props) {
