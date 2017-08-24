@@ -670,3 +670,7 @@ export default class Station extends Component {
     );
   }
 }
+
+/*<OR>
+  <In name="ToLocation.LocationName" value="${Object.keys(this.api.signsByStation).filter(station => /sten/.test(station)).map(this.api.getSignByStation.bind(this.api)).join(',')}" />
+</OR>*/
