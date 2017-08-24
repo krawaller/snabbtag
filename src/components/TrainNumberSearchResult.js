@@ -68,7 +68,7 @@ export default class TrainNumberSearchResult extends Component {
     return (
       <div class="list-group">
         <ul>
-          <li class="list-group-title">
+          <li class="list-group-title item-links">
             <div class="row">
               <div class="col-15">Tåg</div>
               <div class="col-15 time">Avg</div>

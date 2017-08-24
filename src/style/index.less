@@ -42,6 +42,31 @@ html, body {
   .track, .train, .last { text-align: right; }
 }
 
+.item-title {
+  position: relative;
+  align-items: center;
+  display: flex;
+
+  .chip {
+    margin-left: 8px;
+  }
+}
+
+.item-link .item-title:after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 12px;
+  height: 100%;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+}
+
+.item-link:active .item-title:after {
+  background: linear-gradient(to right, rgba(217, 217, 217, 0) 0%, rgba(217, 217, 217, 1) 100%);
+}
+
 .item-content {
   .name { font-weight: bold; }
   .time {
@@ -79,7 +104,7 @@ html, body {
 .original.has-deviation {
   text-decoration: line-through;
   color: #b8b8b8;
-  transform: scale(0.8) translate3d(0, -17px, 0);
+  transform: scale(0.8) translate3d(0, -15px, 0);
   line-height: 14px;
   position: absolute;
 }
@@ -93,18 +118,13 @@ html, body {
   font-weight: bold;
 }
 
-.actual, .original {
-  display: inline-block;
-}
-
 .actual:empty {
   transform: scale(0.6);
 }
 
 .list-group-title {
-  padding-right: 35px;
-  transform: translate3d(0, 0, 0);
   z-index: 1;
+  &.item-links { padding-right: 35px; }
 }
 
 .list-block .date-delimiter {
@@ -186,7 +206,7 @@ html, body {
 }
 
 .timeline-item-divider {
-  margin-top: 15px;
+  margin-top: 17px;
 }
 
 .timeline-item-inner {

@@ -513,7 +513,7 @@ export default class Station extends Component {
                     ⚠️ Visar endast favorittrafik
                   </div>}
                 <ul>
-                  <li class="list-group-title">
+                  <li class="list-group-title item-links">
                     <div class="row">
                       <div class="col-20 time">Tid</div>
                       <div class="col-50 name item-title">
@@ -543,7 +543,7 @@ export default class Station extends Component {
                       const tPrev = input[i - 1];
                       if (tPrev && date !== tPrev.date) {
                         output.push(
-                          <li class="list-group-title date-delimiter">
+                          <li class="list-group-title item-links date-delimiter">
                             {this.props.getNearbyHumanDate(date) || date}
                           </li>
                         );
