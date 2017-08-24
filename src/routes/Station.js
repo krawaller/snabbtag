@@ -326,7 +326,7 @@ export default class Station extends Component {
                   announcement.ScheduledDepartureDateTime
                 ),
                 cancelled: !!announcement.Canceled,
-                deviations: announcement.Deviation,
+                deviations: (announcement.Deviation || []).filter(deviation => !/^inställ/i.test(deviation)),
                 AdvertisedTimeAtLocation: announcement.AdvertisedTimeAtLocation,
                 EstimatedTimeAtLocation: announcement.EstimatedTimeAtLocation
               };
