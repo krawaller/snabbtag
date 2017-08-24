@@ -17,6 +17,7 @@ export default class Station extends Component {
       hasUnfilteredAnnouncements: false,
       isLocating: false
     };
+    this.hasScrolled = false;
 
     if (
       this.props.station.toLowerCase() ===
@@ -41,6 +42,10 @@ export default class Station extends Component {
       prevProps.favoriteTrafficOnly !== this.props.favoriteTrafficOnly
     ) {
       this.updateStationSubscription();
+    }
+    if (!this.hasScrolled && !this.state.trainAnnouncementsLoading) {
+      this.base.querySelector('.page-content').scrollTop = this.props.scrollTop;
+      this.hasScrolled = true;
     }
   }
 

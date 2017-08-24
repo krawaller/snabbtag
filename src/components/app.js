@@ -8,6 +8,12 @@ import { getUrl, getNearbyHumanDate } from '../lib/utils';
 const api = (global.api = new API());
 
 export default class App extends Component {
+  state = {
+    popped: false,
+    url: this.getCurrentUrl(),
+    scrollTopByUrl: {}
+  }
+
   componentDidMount() {
     document.body.classList.add('framework7-root');
     document.documentElement.classList.add(
@@ -16,11 +22,17 @@ export default class App extends Component {
 
     document.addEventListener('gesturestart', event => event.preventDefault());
     addEventListener('click', this.delegateLinkHandler);
-    addEventListener('popstate', () => this.forceUpdate());
+    addEventListener('popstate', () => {
+      this.setState({
+        popped: true,
+        url: this.getCurrentUrl()
+      });
+      this.forceUpdate()
+    });
   }
 
   getCurrentUrl() {
-    const { pathname = '', search = '' } =
+    const { pathname = '/', search = '' } =
       typeof location !== 'undefined' ? location : {};
     return `${pathname}${search}`;
   }
@@ -56,8 +68,19 @@ export default class App extends Component {
     } while ((t = t.parentNode));
   };
 
-  route(href) {
-    history.pushState(null, null, href);
+  route(url) {
+    this.setState({
+      popped: false,
+      scrollTopByUrl: {
+        ...this.state.scrollTopByUrl,
+        [this.state.url]: {
+          at: Date.now(),
+          value: (this.base.querySelector('.page-content') || {}).scrollTop || 0
+        }
+      },
+      url
+    });
+    history.pushState(null, null, url);
     this.forceUpdate();
   }
 
@@ -76,7 +99,8 @@ export default class App extends Component {
       api,
       getUrl,
       getNearbyHumanDate,
-      route: this.route.bind(this)
+      route: this.route.bind(this),
+      scrollTop: this.state.popped && this.state.scrollTopByUrl[url] && Date.now() - this.state.scrollTopByUrl[url].at < api.TTL && this.state.scrollTopByUrl[url].value
     };
 
     let matches, Component;
