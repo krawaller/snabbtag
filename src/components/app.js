@@ -7,6 +7,12 @@ import API from '../lib/api';
 import { getUrl, getNearbyHumanDate } from '../lib/utils';
 const api = (global.api = new API());
 
+const normalizeUrl = url => {
+  const a = document.createElement('a');
+  a.setAttribute('href', url);
+  return a.href;
+}
+
 export default class App extends Component {
   state = {
     popped: false,
@@ -61,19 +67,19 @@ export default class App extends Component {
         )
           continue;
 
-        this.route(href);
+        this.route(href, t && t.hasAttribute('data-pop'));
         event.preventDefault();
         return;
       }
     } while ((t = t.parentNode));
   };
 
-  route(url) {
+  route(url, popped = false) {
     this.setState({
-      popped: false,
+      popped,
       scrollTopByUrl: {
         ...this.state.scrollTopByUrl,
-        [this.state.url]: {
+        [normalizeUrl(this.state.url)]: {
           at: Date.now(),
           value: (this.base.querySelector('.page-content') || {}).scrollTop || 0
         }
@@ -93,6 +99,7 @@ export default class App extends Component {
         return params;
       }, {});
 
+    const scrollTopObject = this.state.scrollTopByUrl[normalizeUrl(url)];
     const props = {
       type: params.typ,
       ...params,
@@ -102,9 +109,9 @@ export default class App extends Component {
       route: this.route.bind(this),
       scrollTop:
         this.state.popped &&
-        this.state.scrollTopByUrl[url] &&
-        Date.now() - this.state.scrollTopByUrl[url].at < api.TTL &&
-        this.state.scrollTopByUrl[url].value
+        scrollTopObject &&
+        Date.now() - scrollTopObject.at < api.TTL &&
+        scrollTopObject.value
     };
 
     let matches, Component;

@@ -268,6 +268,7 @@ export default class TrainAnnouncement extends Component {
                 href={this.props.getUrl(
                   this.props.station ? 'station' : 'stations'
                 )}
+                data-pop
               >
                 <i class="icon icon-back" />
                 <span>Tillbaka</span>
