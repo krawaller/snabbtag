@@ -110,11 +110,11 @@ export default class Station extends Component {
             )}" />
             <OR>
               <AND>
-                <GT name="AdvertisedTimeAtLocation" value="$dateadd(-00:15:00)" />
+                <GT name="AdvertisedTimeAtLocation" value="$dateadd(-00:10:00)" />
                 <LT name="AdvertisedTimeAtLocation" value="$dateadd(14:00:00)" />
               </AND>
               <AND>
-                <GT name="EstimatedTimeAtLocation" value="$dateadd(-00:15:00)" />
+                <GT name="EstimatedTimeAtLocation" value="$dateadd(-00:10:00)" />
                 <LT name="AdvertisedTimeAtLocation" value="$dateadd(00:30:00)" />
               </AND>
             </OR>
@@ -252,7 +252,7 @@ export default class Station extends Component {
       if (isChecking) return;
       isChecking = true;
       const dt = new Date();
-      dt.setMinutes(dt.getMinutes() - 15);
+      dt.setMinutes(dt.getMinutes() - 10);
       const maxDate = new Intl.DateTimeFormat('sv-SE', {
         year: 'numeric',
         month: 'numeric',
