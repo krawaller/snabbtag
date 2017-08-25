@@ -1,8 +1,9 @@
 import { h, Component } from 'preact';
 
-//FIXME: late station
 //FIXME: sticky chrome headers
 //FIXME: latest status?
+//FIXME: mobile scrolltop
+//FIXME: stable list animations
 
 export default class Station extends Component {
   constructor(props) {
@@ -132,11 +133,14 @@ export default class Station extends Component {
         <INCLUDE>AdvertisedTrainIdent</INCLUDE>
         <INCLUDE>AdvertisedTimeAtLocation</INCLUDE>
         <INCLUDE>EstimatedTimeAtLocation</INCLUDE>
+        <INCLUDE>TimeAtLocation</INCLUDE>
         <INCLUDE>TrackAtLocation</INCLUDE>
         <INCLUDE>ScheduledDepartureDateTime</INCLUDE>
         <INCLUDE>Canceled</INCLUDE>
         <INCLUDE>Deviation</INCLUDE>
         <INCLUDE>ActivityId</INCLUDE>
+        <INCLUDE>ProductInformation</INCLUDE>
+        <INCLUDE>TrainComposition</INCLUDE>
         <INCLUDE>${departures ? 'ToLocation' : 'FromLocation'}</INCLUDE>
       </QUERY>`
       )
@@ -284,14 +288,20 @@ export default class Station extends Component {
           for (let id in formattedAnnouncementsById) {
             const {
               AdvertisedTimeAtLocation,
-              EstimatedTimeAtLocation
+              EstimatedTimeAtLocation,
+              removed
             } = formattedAnnouncementsById[id];
+
+            if (removed) {
+              purged = true;
+              delete formattedAnnouncementsById[id];
+              continue;
+            }
             if (
               AdvertisedTimeAtLocation < maxDate &&
               (!EstimatedTimeAtLocation || EstimatedTimeAtLocation < maxDate)
             ) {
-              purged = true;
-              delete formattedAnnouncementsById[id];
+              purged = formattedAnnouncementsById[id].removed = true;
             }
           }
 
@@ -333,7 +343,13 @@ export default class Station extends Component {
                 ),
                 cancelled: !!announcement.Canceled,
                 deviations: (announcement.Deviation || [])
-                  .filter(deviation => !/^inställ/i.test(deviation)),
+                  .filter(deviation => !/^inställ|^prel\. tid|^spårändrat/i.test(deviation)),
+                preliminary: !!(announcement.Deviation || []).find(deviation => /^prel\. tid/i.test(deviation)),
+                trackChanged: !!(announcement.Deviation || []).find(deviation => /^spårändrat/i.test(deviation)),
+                departed: !!announcement.TimeAtLocation,
+                removed: !!(all[announcement.ActivityId] || {}).removed,
+                trainType: (announcement.ProductInformation || [''])[0],
+                trainComposition: ((announcement.TrainComposition || []).filter(trainComposition => !/vagnsordning/i.test(trainComposition))[0] || '').replace(/.\s*$/, ''),
                 AdvertisedTimeAtLocation: announcement.AdvertisedTimeAtLocation,
                 EstimatedTimeAtLocation: announcement.EstimatedTimeAtLocation
               };
@@ -432,7 +448,7 @@ export default class Station extends Component {
 
     let tmp;
     return (
-      <div class="view navbar-through toolbar-through">
+      <div class="view navbar-through toolbar-through station">
         <div class="navbar">
           <div class="navbar-inner hide-when-empty">
             <div class="left">
@@ -554,14 +570,14 @@ export default class Station extends Component {
                     ⚠️ Visar endast favorittrafik
                   </div>}
                 <ul>
-                  <li class="list-group-title item-links">
+                  <li class="list-group-title">
                     <div class="row">
                       <div class="col-20 time">Tid</div>
-                      <div class="col-50 name item-title">
+                      <div class="col-45 name item-title">
                         {showingDepartures ? 'Till' : 'Från'}
                       </div>
                       <div class="col-10 track">Spår</div>
-                      <div class="col-20 train">Tåg</div>
+                      <div class="col-25 train">Tåg</div>
                     </div>
                   </li>
                   {trainAnnouncements.reduce(
@@ -576,7 +592,13 @@ export default class Station extends Component {
                         deviations,
                         time,
                         name,
-                        track
+                        track,
+                        departed,
+                        removed,
+                        trainType,
+                        preliminary,
+                        trackChanged,
+                        trainComposition
                       } = {},
                       i,
                       input
@@ -584,15 +606,15 @@ export default class Station extends Component {
                       const tPrev = input[i - 1];
                       if (tPrev && date !== tPrev.date) {
                         output.push(
-                          <li class="list-group-title item-links date-delimiter">
+                          <li class="list-group-title date-delimiter">
                             {this.props.getNearbyHumanDate(date) || date}
                           </li>
                         );
                       }
                       output.push(
-                        <li>
+                        <li class={removed ? 'removed' : ''}>
                           <a
-                            class="item-link item-content"
+                            class="item-content"
                             href={
                               train
                                 ? this.props.getUrl('train', {
@@ -623,33 +645,19 @@ export default class Station extends Component {
                                           ? 'cancelled'
                                           : ''}`}
                                       >
-                                        {cancelled ? 'Inställt' : estimated}
+                                        {cancelled ? 'Inställt' : estimated}{preliminary ? '*' : ''}
                                       </div>
                                     </div>
-                                    <div class="col-50 name item-title">
-                                      {name}{' '}
-                                      {deviations &&
-                                        deviations.map(deviation =>
-                                          <span>
-                                            <div
-                                              class={`chip ${/inställ|ersätter/i.test(
-                                                deviation
-                                              )
-                                                ? 'color-red'
-                                                : ''}`}
-                                            >
-                                              <div class="chip-label">
-                                                {deviation}
-                                              </div>
-                                            </div>{' '}
-                                          </span>
-                                        )}
+                                    <div class="col-45 name-col">
+                                      <div class="name item-title">{name}</div>
+                                      <div class="sub hide-when-empty">{[departed && 'Har avgått', !cancelled && trainComposition].concat(deviations).filter(Boolean).join('. ')}</div>
                                     </div>
                                     <div class="col-10 track">
-                                      {track}
+                                      <span class={`${trackChanged ? 'track-changed' : ''} ${cancelled ? 'track-cancelled' : ''}`}>{track}</span>
                                     </div>
-                                    <div class="col-20 train">
-                                      {train}
+                                    <div class="col-25 train">
+                                      <div>{train}</div>
+                                      <div class="sub">{trainType}</div>
                                     </div>
                                   </div>}
                               </div>
