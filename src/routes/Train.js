@@ -186,14 +186,20 @@ export default class TrainAnnouncement extends Component {
 
           formattedAnnouncementsBySign = announcements.reduce(
             (all, announcement, i, arr) => {
+              const current = all[announcement.LocationSignature] || {};
+              const rawDeviations = (current.deviations || []).concat(announcement.Deviation || []);
+
               all[announcement.LocationSignature] = Object.assign(
-                all[announcement.LocationSignature] || {},
+                current,
                 {
                   sign: announcement.LocationSignature,
                   name: this.api.getStationBySign(
                     announcement.LocationSignature
                   ),
                   track: announcement.TrackAtLocation,
+                  deviations: Array.from(new Set(rawDeviations
+                    .filter(deviation => !/^inställ|^prel\. tid|^spårändrat/i.test(deviation)))),
+                  trackChanged: !!rawDeviations.find(deviation => /^spårändrat/i.test(deviation)),
                   [announcement.ActivityType === 'Avgang'
                     ? 'departure'
                     : 'arrival']: {
@@ -213,7 +219,8 @@ export default class TrainAnnouncement extends Component {
                         .slice(i + 1)
                         .some(({ TimeAtLocation }) => TimeAtLocation),
                     cancelled: !!announcement.Canceled,
-                    deviations: announcement.Deviation
+                    deviations: announcement.Deviation,
+                    preliminary: !!(announcement.Deviation || []).find(deviation => /^prel\. tid/i.test(deviation)),
                   }
                 }
               );
@@ -309,7 +316,9 @@ export default class TrainAnnouncement extends Component {
                         track,
                         sign,
                         name,
-                        cancelled
+                        cancelled,
+                        deviations,
+                        trackChanged,
                       } = {},
                       i
                     ) => {
@@ -344,18 +353,6 @@ export default class TrainAnnouncement extends Component {
                           : arrival.cancelled
                             ? 'Inställd ankomst'
                             : departure.canceleld ? 'Inställd avgång' : null;
-                      const deviationSet = new Set(
-                        [cancelledDeviation]
-                          .concat(arrival.deviations || [])
-                          .concat(departure.deviations || [])
-                          .filter(Boolean)
-                      );
-                      if (
-                        cancelledDeviation &&
-                        cancelledDeviation !== 'Inställt'
-                      )
-                        deviationSet.delete('Inställt');
-                      const deviations = Array.from(deviationSet);
 
                       return (
                         <div
@@ -382,7 +379,7 @@ export default class TrainAnnouncement extends Component {
                                       : ''}`}
                                   >
                                     {arrivalDeviates &&
-                                      (arrival.actual || arrival.estimated)}
+                                      (arrival.actual || arrival.estimated)}{arrival.preliminary ? '*' : ''}
                                   </div>
                                 </div>
                                 <div class="col departures">
@@ -399,7 +396,7 @@ export default class TrainAnnouncement extends Component {
                                       : ''}`}
                                   >
                                     {departureDeviates &&
-                                      (departure.actual || departure.estimated)}
+                                      (departure.actual || departure.estimated)}{departure.preliminary ? '*' : ''}
                                   </div>
                                 </div>
                               </div>}
@@ -417,7 +414,7 @@ export default class TrainAnnouncement extends Component {
                                     >
                                       {name}
                                     </a>{' '}
-                                    {deviations.map(deviation =>
+                                    {[cancelledDeviation].concat(deviations).filter(Boolean).map(deviation =>
                                       <span>
                                         <div
                                           class={`chip ${/inställ|ersätter/i.test(
@@ -436,7 +433,7 @@ export default class TrainAnnouncement extends Component {
                               </div>
                               &nbsp;
                               <div class="track hide-when-empty mute-when-departed">
-                                {track}
+                              <span class={`${trackChanged ? 'track-changed' : ''} ${false ? 'track-cancelled' : ''}`}>{track}</span>
                               </div>
                             </div>
                           </div>
