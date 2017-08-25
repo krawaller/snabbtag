@@ -33,6 +33,7 @@ export default class Station extends Component {
 
   componentDidMount() {
     this.updateStationSubscription();
+    document.title = this.props.station;
   }
 
   componentDidUpdate(prevProps, prevState) {

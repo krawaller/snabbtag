@@ -51,6 +51,8 @@ export default class Stations extends Component {
     this.api
       .fetchLocationPermission()
       .then(locationPermission => this.setState({ locationPermission }));
+
+    document.title = 'Stationer';
   }
 
   componentDidUpdate(prevProps, prevState) {

@@ -35,6 +35,7 @@ export default class TrainAnnouncement extends Component {
           announcements
         })
     );
+    document.title = `Tåg ${this.props.train}`;
 
     // this.refreshInterval = setInterval(this.refresh, 30000);
 
