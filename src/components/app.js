@@ -8,9 +8,13 @@ import { getUrl, getNearbyHumanDate } from '../lib/utils';
 const api = (global.api = new API());
 
 const normalizeUrl = url => {
-  const a = document.createElement('a');
-  a.setAttribute('href', url);
-  return a.href;
+  if (typeof document === 'undefined') {
+    return url;
+  } else {
+    const a = document.createElement('a');
+    a.setAttribute('href', url);
+    return a.href;
+  }
 };
 
 export default class App extends Component {
