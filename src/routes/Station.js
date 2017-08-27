@@ -559,7 +559,7 @@ export default class Station extends Component {
                   this.props.route(
                     this.props.getUrl('station', { filter: '' }),
                     false,
-                    true
+                    !filter
                   );
                   event.preventDefault();
                 }}
