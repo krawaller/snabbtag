@@ -18,10 +18,11 @@ export default class API {
   }
 
   query(query) {
-    if (this.queries[query])
-      return Promise.resolve(this.queries[query].response);
+    if (this.queries[query]) return Promise.resolve(this.queries[query]);
 
-    return fetch('https://api.trafikinfo.trafikverket.se/v1.1/data.json', {
+    this.queries[
+      query
+    ] = fetch('https://api.trafikinfo.trafikverket.se/v1.1/data.json', {
       method: 'POST',
       headers: {
         'Content-Type': 'text/xml'
@@ -33,15 +34,13 @@ export default class API {
         </REQUEST>`.replace(/>\s+?</g, '><')
     })
       .then(response => response.json())
-      .then(({ RESPONSE: { RESULT: [response = null] = [] } = {} }) => {
-        this.queries[query] = {
-          response,
-          timeout: setTimeout(() => {
-            delete this.queries[query];
-          }, this.TTL)
-        };
-        return response;
-      });
+      .then(
+        ({ RESPONSE: { RESULT: [response = null] = [] } = {} }) => response
+      );
+
+    const cleanup = () => delete this.queries[query];
+    this.queries[query].then(() => setTimeout(cleanup, this.TTL), cleanup);
+    return this.queries[query];
   }
 
   extractDate(dateStr) {
