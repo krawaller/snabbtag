@@ -20,9 +20,11 @@ export default class TrainAnnouncement extends Component {
       !this.state.hasPositionedTrainMarker &&
       prevState.trainY !== this.state.trainY
     ) {
-      setTimeout(() => {
-        this.setState({ hasPositionedTrainMarker: true });
-      }, 100);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          this.setState({ hasPositionedTrainMarker: true });
+        });
+      });
     }
   }
 
@@ -36,32 +38,6 @@ export default class TrainAnnouncement extends Component {
         })
     );
     document.title = `Tåg ${this.props.train}`;
-
-    // this.refreshInterval = setInterval(this.refresh, 30000);
-
-    // const interval = setInterval(() => {
-    //   const announcements = this.state.announcements.concat();
-    //   const a = announcements.find(
-    //     a =>
-    //       (a && a.arrival && a.arrival.happened === false) ||
-    //       (a && a.departure && a.departure.happened === false)
-    //   );
-
-    //   if (a) {
-    //     if (a && a.arrival && a.arrival.happened === false)
-    //       a.arrival.happened = true;
-    //     else if (a && a.departure && a.departure.happened === false)
-    //       a.departure.happened = true;
-
-    //     if (a && a.arrival && !a.arrival.estimated) {
-    //       a.arrival.estimated = a.arrival.advertised.replace(/\d$/, '7');
-    //     }
-
-    //     this.setState({
-    //       announcements
-    //     });
-    //   } else clearInterval(interval);
-    // }, 1000);
   }
 
   componentWillUnmount() {
