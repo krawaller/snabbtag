@@ -19,17 +19,6 @@ export default class Station extends Component {
       isLocating: false
     };
     this.hasScrolled = false;
-
-    if (
-      this.props.station.toLowerCase() ===
-      this.api.getSignByStation(this.props.station)
-    )
-      this.props.route(
-        this.props.getUrl('station', {
-          station: this.api.getStationBySign(this.props.station)
-        }),
-        true
-      );
   }
 
   componentWillUnmount() {
