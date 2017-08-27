@@ -11,7 +11,7 @@ const normalizeUrl = url => {
   const a = document.createElement('a');
   a.setAttribute('href', url);
   return a.href;
-}
+};
 
 export default class App extends Component {
   state = {
@@ -74,7 +74,7 @@ export default class App extends Component {
     } while ((t = t.parentNode));
   };
 
-  route(url, popped = false) {
+  route(url, popped = false, replace = false) {
     this.setState({
       popped,
       scrollTopByUrl: {
@@ -86,7 +86,7 @@ export default class App extends Component {
       },
       url
     });
-    history.pushState(null, null, url);
+    history[`${replace ? 'replace' : 'push'}State`](null, null, url);
     this.forceUpdate();
   }
 

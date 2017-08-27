@@ -6,7 +6,8 @@ export function getUrl(
     date = this.date,
     favorites = this.favorites,
     favoriteTrafficOnly = this.favoriteTrafficOnly,
-    showingDepartures = this.showingDepartures
+    showingDepartures = this.showingDepartures,
+    filter = this.filter
   } = {}
 ) {
   const queries = [
@@ -20,7 +21,8 @@ export function getUrl(
       : '',
     (page === 'stations' || page === 'train' || page === 'info') &&
       !showingDepartures &&
-      'typ=ankomster'
+      'typ=ankomster',
+    filter && page === 'station' ? `filter=${filter}` : ''
   ]
     .filter(Boolean)
     .join('&');

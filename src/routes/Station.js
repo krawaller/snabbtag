@@ -2,8 +2,8 @@ import { h, Component } from 'preact';
 
 //FIXME: sticky chrome headers
 //FIXME: latest status?
-//FIXME: mobile scrolltop
 //FIXME: stable list animations
+//FIXME: check api burst after sleep
 
 export default class Station extends Component {
   constructor(props) {
@@ -24,7 +24,7 @@ export default class Station extends Component {
       this.props.station.toLowerCase() ===
       this.api.getSignByStation(this.props.station)
     )
-      route(
+      this.props.route(
         this.props.getUrl('station', {
           station: this.api.getStationBySign(this.props.station)
         }),
@@ -41,10 +41,12 @@ export default class Station extends Component {
     if (
       prevProps.station !== this.props.station ||
       prevProps.showingDepartures !== this.props.showingDepartures ||
-      prevProps.favoriteTrafficOnly !== this.props.favoriteTrafficOnly
+      prevProps.favoriteTrafficOnly !== this.props.favoriteTrafficOnly ||
+      prevProps.filter !== this.props.filter
     ) {
       this.updateStationSubscription();
     }
+
     if (!this.hasScrolled && !this.state.trainAnnouncementsLoading) {
       this.base.querySelector('.page-content').scrollTop = this.props.scrollTop;
       this.hasScrolled = true;
@@ -64,6 +66,7 @@ export default class Station extends Component {
       showingDepartures,
       favoriteTrafficOnly,
       favorites,
+      this.props.filter,
       ({ announcements, hasUnfilteredAnnouncements }) => {
         this.setState({
           trainAnnouncements: announcements,
@@ -93,6 +96,7 @@ export default class Station extends Component {
     departures,
     filterFavorites,
     favorites,
+    filter,
     lastModified,
     lastAdvertisedTimeAtLocation
   ) {
@@ -151,11 +155,32 @@ export default class Station extends Component {
             LASTMODIFIED: { '@datetime': lastModified = false } = {}
           } = {}
         }) => {
-          if (!filterFavorites || lastModified === false)
-            return { announcements, lastModified };
+          const lastAdvertisedTimeAtLocation = (announcements[
+            announcements.length - 1
+          ] || {}).AdvertisedTimeAtLocation;
+          const rFilter = new RegExp(filter, 'i');
 
-          const filteredFavorites = new Set(favorites);
-          filteredFavorites.delete(station);
+          if (/^\d+$/.test(filter)) {
+            return {
+              announcements: announcements.filter(({ AdvertisedTrainIdent }) =>
+                rFilter.test(AdvertisedTrainIdent)
+              ),
+              lastModified,
+              lastAdvertisedTimeAtLocation
+            };
+          }
+
+          if (filter.length < 2 || lastModified === false)
+            return {
+              announcements,
+              lastModified,
+              lastAdvertisedTimeAtLocation
+            };
+
+          const matchingSigns = Object.keys(this.api.signsByStation)
+            .filter(station => rFilter.test(station))
+            .map(this.api.getSignByStation.bind(this.api));
+
           return this.api
             .query(
               `
@@ -167,16 +192,13 @@ export default class Station extends Component {
                   : 'Ankomst'}" />
                 <EQ name="Advertised" value="TRUE" />
                 <IN
-                  name="LocationSignature"
-                  value="${Array.from(filteredFavorites.values())
-                    .map(favorite => this.api.getSignByStation(favorite))
-                    .filter(Boolean)
-                    .join(',')}" />
-                <IN
                   name="AdvertisedTrainIdent"
                   value="${announcements
                     .map(({ AdvertisedTrainIdent }) => AdvertisedTrainIdent)
                     .join(',')}" />
+                <IN
+                name="LocationSignature"
+                value="${matchingSigns.join(',')}" />
               </AND>
             </FILTER>
             <INCLUDE>AdvertisedTrainIdent</INCLUDE>
@@ -225,14 +247,22 @@ export default class Station extends Component {
                   }
                 ),
                 hasUnfilteredAnnouncements: !!announcements.length,
-                lastModified
+                lastModified,
+                lastAdvertisedTimeAtLocation
               };
             });
         }
       );
   }
 
-  subscribeStation(station, departures, filterFavorites, favorites, callback) {
+  subscribeStation(
+    station,
+    departures,
+    filterFavorites,
+    favorites,
+    filter = '',
+    callback
+  ) {
     let checkTimeout;
     let cancelled = false;
     let formattedAnnouncementsById = {};
@@ -273,10 +303,16 @@ export default class Station extends Component {
         departures,
         filterFavorites,
         favorites,
+        filter,
         currentLastModified,
         currentLastAdvertisedTimeAtLocation
       ).then(
-        ({ announcements, hasUnfilteredAnnouncements, lastModified }) => {
+        ({
+          announcements,
+          hasUnfilteredAnnouncements,
+          lastModified,
+          lastAdvertisedTimeAtLocation
+        }) => {
           if (cancelled) return;
           isChecking = false;
           retryCount = 0;
@@ -343,13 +379,22 @@ export default class Station extends Component {
                 ),
                 cancelled: !!announcement.Canceled,
                 deviations: (announcement.Deviation || [])
-                  .filter(deviation => !/^inställ|^prel\. tid|^spårändrat/i.test(deviation)),
-                preliminary: !!(announcement.Deviation || []).find(deviation => /^prel\. tid/i.test(deviation)),
-                trackChanged: !!(announcement.Deviation || []).find(deviation => /^spårändrat/i.test(deviation)),
+                  .filter(
+                    deviation =>
+                      !/^inställ|^prel\. tid|^spårändrat/i.test(deviation)
+                  ),
+                preliminary: !!(announcement.Deviation || [])
+                  .find(deviation => /^prel\. tid/i.test(deviation)),
+                trackChanged: !!(announcement.Deviation || [])
+                  .find(deviation => /^spårändrat/i.test(deviation)),
                 departed: !!announcement.TimeAtLocation,
                 removed: !!(all[announcement.ActivityId] || {}).removed,
                 trainType: (announcement.ProductInformation || [''])[0],
-                trainComposition: ((announcement.TrainComposition || []).filter(trainComposition => !/vagnsordning/i.test(trainComposition))[0] || '').replace(/.\s*$/, ''),
+                trainComposition: ((announcement.TrainComposition || [])
+                  .filter(
+                    trainComposition => !/vagnsordning/i.test(trainComposition)
+                  )[0] || '')
+                  .replace(/.\s*$/, ''),
                 AdvertisedTimeAtLocation: announcement.AdvertisedTimeAtLocation,
                 EstimatedTimeAtLocation: announcement.EstimatedTimeAtLocation
               };
@@ -358,13 +403,14 @@ export default class Station extends Component {
             formattedAnnouncementsById
           );
 
-          if (lastModified) currentLastModified = lastModified;
+          if (
+            (lastModified && !currentLastModified) ||
+            lastModified > currentLastModified
+          )
+            currentLastModified = lastModified;
 
           announcements = Object.values(formattedAnnouncementsById);
-          currentLastAdvertisedTimeAtLocation = (announcements[
-            announcements.length - 1
-          ] || {}).AdvertisedTimeAtLocation;
-
+          currentLastAdvertisedTimeAtLocation = lastAdvertisedTimeAtLocation;
           callback({
             announcements,
             hasUnfilteredAnnouncements
@@ -420,13 +466,11 @@ export default class Station extends Component {
   }
 
   render(
-    { station, favorites, showingDepartures, favoriteTrafficOnly },
+    { station, favorites, showingDepartures, favoriteTrafficOnly, filter },
     {
       stations,
-
       trainAnnouncements,
       trainAnnouncementsLoading,
-
       isLocating,
       hasUnfilteredAnnouncements
     }
@@ -562,6 +606,41 @@ export default class Station extends Component {
         </div>
 
         <div class="page">
+          <form
+            class={`searchbar searchbar-init ${filter
+              ? 'searchbar-active'
+              : ''} ${filter ? 'searchbar-not-empty' : ''}`}
+            onSubmit={event => event.preventDefault()}
+          >
+            <div class="searchbar-input">
+              <input
+                placeholder="Sök station som passeras eller tågnummer"
+                type="search"
+                onInput={event =>
+                  this.props.route(
+                    this.props.getUrl('station', {
+                      filter: event.target.value
+                    }),
+                    false,
+                    !!this.props.filter
+                  )}
+                value={filter}
+              />
+              <a
+                class="searchbar-clear"
+                href="#"
+                title="Rensa"
+                onClick={event => {
+                  this.props.route(
+                    this.props.getUrl('station', { filter: '' }),
+                    false,
+                    true
+                  );
+                  event.preventDefault();
+                }}
+              />
+            </div>
+          </form>
           <div class="page-content hide-when-empty">
             {shouldShowList &&
               <div class="list-block">
@@ -645,19 +724,42 @@ export default class Station extends Component {
                                           ? 'cancelled'
                                           : ''}`}
                                       >
-                                        {cancelled ? 'Inställt' : estimated}{preliminary ? '*' : ''}
+                                        {cancelled ? 'Inställt' : estimated}
+                                        {preliminary ? '*' : ''}
                                       </div>
                                     </div>
                                     <div class="col-45 name-col">
-                                      <div class="name item-title">{name}</div>
-                                      <div class="sub hide-when-empty">{[departed && 'Har avgått', !cancelled && trainComposition].concat(deviations).filter(Boolean).join('. ')}</div>
+                                      <div class="name item-title">
+                                        {name}
+                                      </div>
+                                      <div class="sub hide-when-empty">
+                                        {[
+                                          departed && 'Har avgått',
+                                          !cancelled && trainComposition
+                                        ]
+                                          .concat(deviations)
+                                          .filter(Boolean)
+                                          .join('. ')}
+                                      </div>
                                     </div>
                                     <div class="col-10 track">
-                                      <span class={`${trackChanged ? 'track-changed' : ''} ${cancelled ? 'track-cancelled' : ''}`}>{track}</span>
+                                      <span
+                                        class={`${trackChanged
+                                          ? 'track-changed'
+                                          : ''} ${cancelled
+                                          ? 'track-cancelled'
+                                          : ''}`}
+                                      >
+                                        {track}
+                                      </span>
                                     </div>
                                     <div class="col-25 train">
-                                      <div>{train}</div>
-                                      <div class="sub">{trainType}</div>
+                                      <div>
+                                        {train}
+                                      </div>
+                                      <div class="sub">
+                                        {trainType}
+                                      </div>
                                     </div>
                                   </div>}
                               </div>
