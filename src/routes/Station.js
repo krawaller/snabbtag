@@ -41,7 +41,6 @@ export default class Station extends Component {
     if (
       prevProps.station !== this.props.station ||
       prevProps.showingDepartures !== this.props.showingDepartures ||
-      prevProps.favoriteTrafficOnly !== this.props.favoriteTrafficOnly ||
       prevProps.filter !== this.props.filter
     ) {
       this.updateStationSubscription();
@@ -58,13 +57,12 @@ export default class Station extends Component {
       trainAnnouncements: [],
       trainAnnouncementsLoading: true
     });
-    const { showingDepartures, favoriteTrafficOnly, favorites } = this.props;
+    const { showingDepartures, favorites } = this.props;
 
     if (this.subscription) this.subscription.cancel();
     this.subscription = this.subscribeStation(
       this.props.station,
       showingDepartures,
-      favoriteTrafficOnly,
       favorites,
       this.props.filter,
       ({ announcements, hasUnfilteredAnnouncements }) => {
@@ -94,7 +92,6 @@ export default class Station extends Component {
   fetchStation(
     station,
     departures,
-    filterFavorites,
     favorites,
     filter,
     lastModified,
@@ -255,14 +252,7 @@ export default class Station extends Component {
       );
   }
 
-  subscribeStation(
-    station,
-    departures,
-    filterFavorites,
-    favorites,
-    filter = '',
-    callback
-  ) {
+  subscribeStation(station, departures, favorites, filter = '', callback) {
     let checkTimeout;
     let cancelled = false;
     let formattedAnnouncementsById = {};
@@ -301,7 +291,6 @@ export default class Station extends Component {
       this.fetchStation(
         station,
         departures,
-        filterFavorites,
         favorites,
         filter,
         currentLastModified,
@@ -466,7 +455,7 @@ export default class Station extends Component {
   }
 
   render(
-    { station, favorites, showingDepartures, favoriteTrafficOnly, filter },
+    { station, favorites, showingDepartures, filter },
     {
       stations,
       trainAnnouncements,
@@ -553,39 +542,6 @@ export default class Station extends Component {
         </div>
         <div class="toolbar">
           <div class="toolbar-inner">
-            <a
-              href={this.props.getUrl('station', {
-                favoriteTrafficOnly: !favoriteTrafficOnly
-              })}
-              class="link icon-only"
-            >
-              <svg
-                width="22"
-                viewBox="0 0 42 50"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="#007aff"
-              >
-                {favoriteTrafficOnly
-                  ? <g fill-rule="evenodd">
-                      <g transform="translate(0 9)">
-                        <path d="M38 3h4v2h-4zM0 3h26v2H0z" />
-                        <circle cx="32" cy="4" r="4" />
-                      </g>
-                      <g transform="translate(0 33)">
-                        <path d="M38 3h4v2h-4zM0 3h26v2H0z" />
-                        <circle cx="32" cy="4" r="4" />
-                      </g>
-                      <g transform="translate(0 21)">
-                        <path d="M18 3h24v2H18zM0 3h6v2H0z" />
-                        <circle cx="12" cy="4" r="4" />
-                      </g>
-                    </g>
-                  : <path
-                      d="M38 12h4v2h-4zM0 12h26v2H0zm34 1c0-1.105-.895-2-2-2s-2 .895-2 2 .895 2 2 2 2-.895 2-2zm-6 0c0-2.21 1.79-4 4-4s4 1.79 4 4-1.79 4-4 4-4-1.79-4-4zm10 23h4v2h-4zM0 36h26v2H0zm34 1c0-1.105-.895-2-2-2s-2 .895-2 2 .895 2 2 2 2-.895 2-2zm-6 0c0-2.21 1.79-4 4-4s4 1.79 4 4-1.79 4-4 4-4-1.79-4-4zM18 24h24v2H18zM0 24h6v2H0zm14 1c0-1.105-.895-2-2-2s-2 .895-2 2 .895 2 2 2 2-.895 2-2zm-6 0c0-2.21 1.79-4 4-4s4 1.79 4 4-1.79 4-4 4-4-1.79-4-4z"
-                      fill-rule="evenodd"
-                    />}
-              </svg>
-            </a>
             <div class="buttons-row">
               <a
                 href={this.props.getUrl('station', { showingDepartures: true })}
@@ -644,10 +600,6 @@ export default class Station extends Component {
           <div class="page-content hide-when-empty">
             {shouldShowList &&
               <div class="list-block">
-                {favoriteTrafficOnly &&
-                  <div class="content-block-title">
-                    ⚠️ Visar endast favorittrafik
-                  </div>}
                 <ul>
                   <li class="list-group-title">
                     <div class="row">
@@ -795,25 +747,19 @@ export default class Station extends Component {
                 <div class="card-header">
                   ⚠️ Alla existerande{' '}
                   {showingDepartures ? 'avgångar' : 'ankomster'} döljs av
-                  favoritfiltret
+                  filtret
                 </div>
                 <div class="card-content">
                   <div class="card-content-inner">
                     <a
                       href={this.props.getUrl('station', {
-                        favoriteTrafficOnly: false
+                        filter: ''
                       })}
                       class="button button-big active button-fill color-red"
                     >
-                      Slå av favoritfilter
+                      Rensa filter
                     </a>
                   </div>
-                </div>
-                <div class="card-footer">
-                  Eller lägg även till din tilltänka{' '}
-                  {showingDepartures ? 'ankomsts' : 'avgångs'}
-                  station som favorit för att få favoritfiltret att fungera som
-                  tänkt.
                 </div>
               </div>}
           </div>

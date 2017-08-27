@@ -156,8 +156,7 @@ export default class App extends Component {
             favorites: new Set(
               (props.favoriter || '').split(',').filter(Boolean)
             ),
-            showingDepartures: props.type !== 'ankomster',
-            favoriteTrafficOnly: !!props.favorittrafik
+            showingDepartures: props.type !== 'ankomster'
           }}
         />
       : null;

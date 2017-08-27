@@ -5,7 +5,6 @@ export function getUrl(
     train = this.train,
     date = this.date,
     favorites = this.favorites,
-    favoriteTrafficOnly = this.favoriteTrafficOnly,
     showingDepartures = this.showingDepartures,
     filter = this.filter
   } = {}
@@ -15,7 +14,6 @@ export function getUrl(
       ? `favoriter=${Array.from(favorites).join(',')}`
       : '',
     typeof favorites === 'string' ? `favoriter=${favorites}` : '',
-    favoriteTrafficOnly ? `favorittrafik=true` : '',
     station && (page === 'stations' || page === 'info')
       ? `station=${station}`
       : '',
