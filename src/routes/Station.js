@@ -32,6 +32,10 @@ export default class Station extends Component {
       );
   }
 
+  componentWillUnmount() {
+    if (this.subscription) this.subscription.cancel();
+  }
+
   componentDidMount() {
     this.updateStationSubscription();
     document.title = this.props.station;
@@ -404,41 +408,6 @@ export default class Station extends Component {
             announcements,
             hasUnfilteredAnnouncements
           });
-
-          // this.api
-          // .query(
-          //   `
-          //   <QUERY objecttype="TrainAnnouncement" orderby="AdvertisedTrainIdent, TimeAtLocation">
-          //     <FILTER>
-          //       <AND>
-          //         <EQ name="Advertised" value="TRUE" />
-          //         <EXISTS name="TimeAtLocation" value="TRUE" />
-          //         <OR>
-          //           ${announcements.slice(0, 15).map(({ train, AdvertisedTimeAtLocation, scheduledDate }) => `
-          //             <AND>
-          //               <EQ name="ScheduledDepartureDateTime" value="${scheduledDate}" />
-          //               <EQ name="AdvertisedTrainIdent" value="${train}" />
-          //               <LT name="AdvertisedTimeAtLocation" value="${AdvertisedTimeAtLocation}" />
-          //             </AND>
-          //           `).join('')}
-          //         </OR>
-          //       </AND>
-          //     </FILTER>
-          //     <INCLUDE>ActivityType</INCLUDE>
-          //     <INCLUDE>AdvertisedTrainIdent</INCLUDE>
-          //     <INCLUDE>AdvertisedTimeAtLocation</INCLUDE>
-          //     <INCLUDE>LocationSignature</INCLUDE>
-          //     <INCLUDE>TimeAtLocation</INCLUDE>
-          //   </QUERY>`
-          // ).then(({ TrainAnnouncement = [] }) => {
-          //   console.log(this.api.getSignByStation(station))
-          //   const deviations = Object.values(TrainAnnouncement.reduce((lastActivityByTrain, activity) => ({ ...lastActivityByTrain, [activity.AdvertisedTrainIdent]: activity }), {}))
-          //     .filter(activity => activity.AdvertisedTimeAtLocation !== activity.TimeAtLocation && activity.LocationSignature.toLowerCase() !== this.api.getSignByStation(station))
-          //     .map(activity =>
-          //       ({ train: activity.AdvertisedTrainIdent, type: activity.ActivityType, at: activity.LocationSignature, deviation: Math.round((new Date(activity.TimeAtLocation) - new Date(activity.AdvertisedTimeAtLocation)) / 60000) })
-          //     )
-          //   console.log(deviations, deviations.map(o => `${o.train} ${o.deviation > 0 ? '+' : ''}${o.deviation} ${o.type === 'Ankomst' ? '→ ' : ''}${this.api.getStationBySign(o.at)}${o.type === 'Avgang' ? ' →' : ''}`))
-          // })
         },
         error => {
           isChecking = false;
@@ -768,7 +737,3 @@ export default class Station extends Component {
     );
   }
 }
-
-/*<OR>
-  <In name="ToLocation.LocationName" value="${Object.keys(this.api.signsByStation).filter(station => /sten/.test(station)).map(this.api.getSignByStation.bind(this.api)).join(',')}" />
-</OR>*/
