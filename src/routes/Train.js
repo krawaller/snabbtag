@@ -187,43 +187,48 @@ export default class TrainAnnouncement extends Component {
           formattedAnnouncementsBySign = announcements.reduce(
             (all, announcement, i, arr) => {
               const current = all[announcement.LocationSignature] || {};
-              const rawDeviations = (current.deviations || []).concat(announcement.Deviation || []);
+              const rawDeviations = (current.deviations || [])
+                .concat(announcement.Deviation || []);
 
-              all[announcement.LocationSignature] = Object.assign(
-                current,
-                {
-                  sign: announcement.LocationSignature,
-                  name: this.api.getStationBySign(
-                    announcement.LocationSignature
+              all[announcement.LocationSignature] = Object.assign(current, {
+                sign: announcement.LocationSignature,
+                name: this.api.getStationBySign(announcement.LocationSignature),
+                track: announcement.TrackAtLocation,
+                deviations: Array.from(
+                  new Set(
+                    rawDeviations.filter(
+                      deviation =>
+                        !/^inställ|^prel\. tid|^spårändrat/i.test(deviation)
+                    )
+                  )
+                ),
+                trackChanged: !!rawDeviations.find(deviation =>
+                  /^spårändrat/i.test(deviation)
+                ),
+                [announcement.ActivityType === 'Avgang'
+                  ? 'departure'
+                  : 'arrival']: {
+                  date: this.api.extractDate(
+                    announcement.AdvertisedTimeAtLocation
                   ),
-                  track: announcement.TrackAtLocation,
-                  deviations: Array.from(new Set(rawDeviations
-                    .filter(deviation => !/^inställ|^prel\. tid|^spårändrat/i.test(deviation)))),
-                  trackChanged: !!rawDeviations.find(deviation => /^spårändrat/i.test(deviation)),
-                  [announcement.ActivityType === 'Avgang'
-                    ? 'departure'
-                    : 'arrival']: {
-                    date: this.api.extractDate(
-                      announcement.AdvertisedTimeAtLocation
-                    ),
-                    advertised: this.api.extractTime(
-                      announcement.AdvertisedTimeAtLocation
-                    ),
-                    estimated: this.api.extractTime(
-                      announcement.EstimatedTimeAtLocation
-                    ),
-                    actual: this.api.extractTime(announcement.TimeAtLocation),
-                    happened:
-                      !!announcement.TimeAtLocation ||
-                      arr
-                        .slice(i + 1)
-                        .some(({ TimeAtLocation }) => TimeAtLocation),
-                    cancelled: !!announcement.Canceled,
-                    deviations: announcement.Deviation,
-                    preliminary: !!(announcement.Deviation || []).find(deviation => /^prel\. tid/i.test(deviation)),
-                  }
+                  advertised: this.api.extractTime(
+                    announcement.AdvertisedTimeAtLocation
+                  ),
+                  estimated: this.api.extractTime(
+                    announcement.EstimatedTimeAtLocation
+                  ),
+                  actual: this.api.extractTime(announcement.TimeAtLocation),
+                  happened:
+                    !!announcement.TimeAtLocation ||
+                    arr
+                      .slice(i + 1)
+                      .some(({ TimeAtLocation }) => TimeAtLocation),
+                  cancelled: !!announcement.Canceled,
+                  deviations: announcement.Deviation,
+                  preliminary: !!(announcement.Deviation || [])
+                    .find(deviation => /^prel\. tid/i.test(deviation))
                 }
-              );
+              });
               return all;
             },
             formattedAnnouncementsBySign
@@ -318,7 +323,7 @@ export default class TrainAnnouncement extends Component {
                         name,
                         cancelled,
                         deviations,
-                        trackChanged,
+                        trackChanged
                       } = {},
                       i
                     ) => {
@@ -379,7 +384,8 @@ export default class TrainAnnouncement extends Component {
                                       : ''}`}
                                   >
                                     {arrivalDeviates &&
-                                      (arrival.actual || arrival.estimated)}{arrival.preliminary ? '*' : ''}
+                                      (arrival.actual || arrival.estimated)}
+                                    {arrival.preliminary ? '*' : ''}
                                   </div>
                                 </div>
                                 <div class="col departures">
@@ -396,7 +402,8 @@ export default class TrainAnnouncement extends Component {
                                       : ''}`}
                                   >
                                     {departureDeviates &&
-                                      (departure.actual || departure.estimated)}{departure.preliminary ? '*' : ''}
+                                      (departure.actual || departure.estimated)}
+                                    {departure.preliminary ? '*' : ''}
                                   </div>
                                 </div>
                               </div>}
@@ -414,26 +421,35 @@ export default class TrainAnnouncement extends Component {
                                     >
                                       {name}
                                     </a>{' '}
-                                    {[cancelledDeviation].concat(deviations).filter(Boolean).map(deviation =>
-                                      <span>
-                                        <div
-                                          class={`chip ${/inställ|ersätter/i.test(
-                                            deviation
-                                          )
-                                            ? 'color-red'
-                                            : ''}`}
-                                        >
-                                          <div class="chip-label">
-                                            {deviation}
-                                          </div>
-                                        </div>{' '}
-                                      </span>
-                                    )}
+                                    {[cancelledDeviation]
+                                      .concat(deviations)
+                                      .filter(Boolean)
+                                      .map(deviation =>
+                                        <span>
+                                          <div
+                                            class={`chip ${/inställ|ersätter/i.test(
+                                              deviation
+                                            )
+                                              ? 'color-red'
+                                              : ''}`}
+                                          >
+                                            <div class="chip-label">
+                                              {deviation}
+                                            </div>
+                                          </div>{' '}
+                                        </span>
+                                      )}
                                   </div>}
                               </div>
                               &nbsp;
                               <div class="track hide-when-empty mute-when-departed">
-                              <span class={`${trackChanged ? 'track-changed' : ''} ${false ? 'track-cancelled' : ''}`}>{track}</span>
+                                <span
+                                  class={`${trackChanged
+                                    ? 'track-changed'
+                                    : ''} ${false ? 'track-cancelled' : ''}`}
+                                >
+                                  {track}
+                                </span>
                               </div>
                             </div>
                           </div>

@@ -208,7 +208,11 @@ export default class Stations extends Component {
           <div class="navbar-inner hide-when-empty">
             <div class="left">
               {this.props.station
-                ? <a class="back link" href={this.props.getUrl('station')} data-pop>
+                ? <a
+                    class="back link"
+                    href={this.props.getUrl('station')}
+                    data-pop
+                  >
                     <i class="icon icon-back" />
                     <span>Tillbaka</span>
                   </a>
