@@ -1,8 +1,8 @@
 import { h, Component } from 'preact';
-import Stations from '../routes/Stations';
-import Station from '../routes/Station';
-import Train from '../routes/Train';
-import Info from '../routes/Info';
+import Stations from './Stations';
+import Station from './Station';
+import Train from './Train';
+import Info from './Info';
 import API from '../lib/api';
 import { getUrl, getNearbyHumanDate } from '../lib/utils';
 const api = (global.api = new API());
