@@ -145,31 +145,27 @@ export default class Station extends Component {
             LASTMODIFIED: { '@datetime': lastModified = false } = {}
           } = {}
         }) => {
-          const lastAdvertisedTimeAtLocation = (announcements[
-            announcements.length - 1
-          ] || {}).AdvertisedTimeAtLocation;
+          const response = {
+            announcements,
+            lastModified,
+            lastAdvertisedTimeAtLocation: (announcements[
+              announcements.length - 1
+            ] || {}).AdvertisedTimeAtLocation,
+            hasUnfilteredAnnouncements: !!announcements.length
+          }
           const rFilter = new RegExp(filter, 'i');
 
           if (/^\d+$/.test(filter)) {
             return {
+              ...response,
               announcements: announcements.filter(({ AdvertisedTrainIdent }) =>
                 rFilter.test(AdvertisedTrainIdent)
-              ),
-              lastModified,
-              lastAdvertisedTimeAtLocation
+              )
             };
           }
 
           if (filter.length < 2 || lastModified === false)
-            return {
-              announcements,
-              lastModified,
-              lastAdvertisedTimeAtLocation
-            };
-
-          const matchingSigns = Object.keys(this.api.signsByStation)
-            .filter(station => rFilter.test(station))
-            .map(this.api.getSignByStation.bind(this.api));
+            return response;
 
           return this.api
             .query(
@@ -188,7 +184,9 @@ export default class Station extends Component {
                     .join(',')}" />
                 <IN
                 name="LocationSignature"
-                value="${matchingSigns.join(',')}" />
+                value="${Object.keys(this.api.signsByStation)
+                  .filter(station => rFilter.test(station))
+                  .map(this.api.getSignByStation.bind(this.api)).join(',')}" />
               </AND>
             </FILTER>
             <INCLUDE>AdvertisedTrainIdent</INCLUDE>
@@ -218,6 +216,7 @@ export default class Station extends Component {
               );
 
               return {
+                ...response,
                 announcements: announcements.filter(
                   ({
                     ScheduledDepartureDateTime,
@@ -235,10 +234,7 @@ export default class Station extends Component {
                       : filteredAdvertisedTimeAtLocation <
                         AdvertisedTimeAtLocation;
                   }
-                ),
-                hasUnfilteredAnnouncements: !!announcements.length,
-                lastModified,
-                lastAdvertisedTimeAtLocation
+                )
               };
             });
         }
