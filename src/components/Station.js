@@ -49,7 +49,6 @@ export default class Station extends Component {
       announcements: [],
       announcementsLoading: true
     });
-    const { showingDepartures, favorites } = this.props;
 
     if (this.subscription) this.subscription.cancel();
     return (this.subscription = this.subscribeStation(
@@ -277,7 +276,7 @@ export default class Station extends Component {
 
       this.fetchStation(
         station,
-        departures,
+        showingDepartures,
         favorites,
         filter,
         currentLastModified,

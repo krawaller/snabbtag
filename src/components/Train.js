@@ -5,6 +5,7 @@ export default class Train extends Component {
     super(props);
     this.api = props.api;
     this.state = {
+      announcements: [],
       date: props.date || new Intl.DateTimeFormat('sv-SE').format(new Date()),
       hasPositionedTrainMarker: false,
       trainY: 29
