@@ -400,9 +400,9 @@ export default class Station extends Component {
     };
     check();
 
-    return { cancel };
     addEventListener('visibilitychange', handleVisibilityChange);
     addEventListener('online', check);
+    return { cancel };
   }
 
   render(
