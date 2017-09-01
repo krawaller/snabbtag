@@ -12,9 +12,8 @@ export default class Station extends Component {
     this.api = props.api;
 
     this.state = {
-      stations: props.api.stations,
-      trainAnnouncements: [],
-      trainAnnouncementsLoading: true,
+      announcements: [],
+      announcementsLoading: true,
       hasUnfilteredAnnouncements: false,
       isLocating: false
     };
@@ -39,7 +38,7 @@ export default class Station extends Component {
       this.updateStationSubscription();
     }
 
-    if (!this.hasScrolled && !this.state.trainAnnouncementsLoading) {
+    if (!this.hasScrolled && !this.state.announcementsLoading) {
       this.base.querySelector('.page-content').scrollTop = this.props.scrollTop;
       this.hasScrolled = true;
     }
@@ -47,25 +46,21 @@ export default class Station extends Component {
 
   updateStationSubscription() {
     this.setState({
-      trainAnnouncements: [],
-      trainAnnouncementsLoading: true
+      announcements: [],
+      announcementsLoading: true
     });
     const { showingDepartures, favorites } = this.props;
 
     if (this.subscription) this.subscription.cancel();
-    this.subscription = this.subscribeStation(
-      this.props.station,
-      showingDepartures,
-      favorites,
-      this.props.filter,
-      ({ announcements, hasUnfilteredAnnouncements }) => {
+    return (this.subscription = this.subscribeStation(
+      this.props,
+      ({ announcements, hasUnfilteredAnnouncements }) =>
         this.setState({
-          trainAnnouncements: announcements,
+          announcements,
           hasUnfilteredAnnouncements,
-          trainAnnouncementsLoading: false
-        });
-      }
-    );
+          announcementsLoading: false
+        })
+    ));
   }
 
   locate = () => {
@@ -84,7 +79,7 @@ export default class Station extends Component {
 
   fetchStation(
     station,
-    departures,
+    showingDepartures,
     favorites,
     filter,
     lastModified,
@@ -96,7 +91,7 @@ export default class Station extends Component {
       <QUERY objecttype="TrainAnnouncement" orderby="AdvertisedTimeAtLocation" lastmodified="TRUE">
         <FILTER>
           <AND>
-            <EQ name="ActivityType" value="${departures
+            <EQ name="ActivityType" value="${showingDepartures
               ? 'Avgang'
               : 'Ankomst'}" />
             <EQ name="Advertised" value="TRUE" />
@@ -135,7 +130,7 @@ export default class Station extends Component {
         <INCLUDE>ActivityId</INCLUDE>
         <INCLUDE>ProductInformation</INCLUDE>
         <INCLUDE>TrainComposition</INCLUDE>
-        <INCLUDE>${departures ? 'ToLocation' : 'FromLocation'}</INCLUDE>
+        <INCLUDE>${showingDepartures ? 'ToLocation' : 'FromLocation'}</INCLUDE>
       </QUERY>`
       )
       .then(
@@ -152,7 +147,7 @@ export default class Station extends Component {
               announcements.length - 1
             ] || {}).AdvertisedTimeAtLocation,
             hasUnfilteredAnnouncements: !!announcements.length
-          }
+          };
           const rFilter = new RegExp(filter, 'i');
 
           if (/^\d+$/.test(filter)) {
@@ -164,8 +159,7 @@ export default class Station extends Component {
             };
           }
 
-          if (filter.length < 2 || lastModified === false)
-            return response;
+          if (filter.length < 2 || lastModified === false) return response;
 
           return this.api
             .query(
@@ -173,7 +167,7 @@ export default class Station extends Component {
           <QUERY objecttype="TrainAnnouncement" orderby="AdvertisedTimeAtLocation">
             <FILTER>
               <AND>
-                <EQ name="ActivityType" value="${!departures
+                <EQ name="ActivityType" value="${!showingDepartures
                   ? 'Avgang'
                   : 'Ankomst'}" />
                 <EQ name="Advertised" value="TRUE" />
@@ -186,7 +180,8 @@ export default class Station extends Component {
                 name="LocationSignature"
                 value="${Object.keys(this.api.signsByStation)
                   .filter(station => rFilter.test(station))
-                  .map(this.api.getSignByStation.bind(this.api)).join(',')}" />
+                  .map(this.api.getSignByStation.bind(this.api))
+                  .join(',')}" />
               </AND>
             </FILTER>
             <INCLUDE>AdvertisedTrainIdent</INCLUDE>
@@ -228,7 +223,7 @@ export default class Station extends Component {
                       filterMap[ScheduledDepartureDateTime][
                         AdvertisedTrainIdent
                       ];
-                    return departures
+                    return showingDepartures
                       ? filteredAdvertisedTimeAtLocation >
                         AdvertisedTimeAtLocation
                       : filteredAdvertisedTimeAtLocation <
@@ -241,7 +236,10 @@ export default class Station extends Component {
       );
   }
 
-  subscribeStation(station, departures, favorites, filter = '', callback) {
+  subscribeStation(
+    { station, showingDepartures, favorites, filter = '' },
+    callback
+  ) {
     let checkTimeout;
     let cancelled = false;
     let formattedAnnouncementsById = {};
@@ -257,8 +255,8 @@ export default class Station extends Component {
     const cancel = () => {
       cancelled = true;
       clearTimeout(checkTimeout);
-      window.removeEventListener('visibilitychange', handleVisibilityChange);
-      window.removeEventListener('online', check);
+      removeEventListener('visibilitychange', handleVisibilityChange);
+      removeEventListener('online', check);
     };
 
     const check = () => {
@@ -295,8 +293,8 @@ export default class Station extends Component {
           isChecking = false;
           retryCount = 0;
 
-          if (!document.hidden && window.navigator.onLine)
-            setTimeout(check, this.api.CHECK_INTERVAL);
+          if (!document.hidden && navigator.onLine)
+            checkTimeout = setTimeout(check, this.api.CHECK_INTERVAL);
 
           let purged = false;
           for (let id in formattedAnnouncementsById) {
@@ -397,40 +395,40 @@ export default class Station extends Component {
         error => {
           isChecking = false;
           if (retryCount++ < this.api.MAX_RETRY_COUNT)
-            setTimeout(check, (1 << retryCount) * 1000);
+            checkTimeout = setTimeout(check, (1 << retryCount) * 1000);
         }
       );
     };
     check();
 
-    window.addEventListener('visibilitychange', handleVisibilityChange);
-    window.addEventListener('online', check);
     return { cancel };
+    addEventListener('visibilitychange', handleVisibilityChange);
+    addEventListener('online', check);
   }
 
   render(
     { station, favorites, showingDepartures, filter },
     {
       stations,
-      trainAnnouncements,
-      trainAnnouncementsLoading,
+      announcements,
+      announcementsLoading,
       isLocating,
       hasUnfilteredAnnouncements
     }
   ) {
-    if (trainAnnouncementsLoading && !trainAnnouncements.length) {
-      trainAnnouncements = Array.from(new Array(15));
+    if (announcementsLoading && !announcements.length) {
+      announcements = Array.from(new Array(15));
     }
 
     const isCurrentStationFavorite = favorites.has(station);
-    const shouldShowList = !!trainAnnouncements.length;
+    const shouldShowList = !!announcements.length;
     const shouldShowNoAnnouncementsMessage =
-      !trainAnnouncementsLoading &&
-      !trainAnnouncements.length &&
+      !announcementsLoading &&
+      !announcements.length &&
       !hasUnfilteredAnnouncements;
     const shouldShowDisableFilterMessage =
-      !trainAnnouncementsLoading &&
-      !trainAnnouncements.length &&
+      !announcementsLoading &&
+      !announcements.length &&
       hasUnfilteredAnnouncements;
 
     let tmp;
@@ -565,7 +563,7 @@ export default class Station extends Component {
                       <div class="col-25 train">Tåg</div>
                     </div>
                   </li>
-                  {trainAnnouncements.reduce(
+                  {announcements.reduce(
                     (
                       output,
                       {

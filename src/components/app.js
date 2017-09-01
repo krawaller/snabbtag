@@ -27,7 +27,7 @@ export default class App extends Component {
   componentDidMount() {
     document.body.classList.add('framework7-root');
     document.documentElement.classList.add(
-      `pixel-ratio-${Math.floor(window.devicePixelRatio || 1)}`
+      `pixel-ratio-${Math.floor(devicePixelRatio || 1)}`
     );
 
     document.addEventListener('gesturestart', event => event.preventDefault());

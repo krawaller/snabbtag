@@ -1,6 +1,6 @@
 import { h, Component } from 'preact';
 
-export default class TrainAnnouncement extends Component {
+export default class Train extends Component {
   constructor(props) {
     super(props);
     this.api = props.api;
@@ -32,7 +32,7 @@ export default class TrainAnnouncement extends Component {
     this.subscription = this.subscribeTrain(
       this.props.train,
       this.state.date,
-      announcements =>
+      ({ announcements }) =>
         this.setState({
           announcements
         })
@@ -141,8 +141,8 @@ export default class TrainAnnouncement extends Component {
     const cancel = () => {
       cancelled = true;
       clearTimeout(checkTimeout);
-      window.removeEventListener('visibilitychange', handleVisibilityChange);
-      window.removeEventListener('online', check);
+      removeEventListener('visibilitychange', handleVisibilityChange);
+      removeEventListener('online', check);
     };
 
     const check = () => {
@@ -154,8 +154,8 @@ export default class TrainAnnouncement extends Component {
           isChecking = false;
           retryCount = 0;
 
-          if (!document.hidden && window.navigator.onLine)
-            setTimeout(check, this.api.CHECK_INTERVAL);
+          if (!document.hidden && navigator.onLine)
+            checkTimeout = setTimeout(check, this.api.CHECK_INTERVAL);
 
           if (lastModified === false || lastModified === currentLastModified)
             return;
@@ -201,8 +201,10 @@ export default class TrainAnnouncement extends Component {
                       .some(({ TimeAtLocation }) => TimeAtLocation),
                   cancelled: !!announcement.Canceled,
                   deviations: announcement.Deviation,
-                  preliminary: !!(announcement.Deviation || [])
-                    .find(deviation => /^prel\. tid/i.test(deviation))
+                  preliminary:
+                    !announcement.TimeAtLocation &&
+                    !!(announcement.Deviation || [])
+                      .find(deviation => /^prel\. tid/i.test(deviation))
                 }
               });
               return all;
@@ -221,20 +223,20 @@ export default class TrainAnnouncement extends Component {
           )
             cancel();
 
-          callback(formattedAnnouncements);
+          callback({ announcements: formattedAnnouncements });
         },
         error => {
           isChecking = false;
           if (retryCount++ < this.api.MAX_RETRY_COUNT)
-            setTimeout(check, (1 << retryCount) * 1000);
+            checkTimeout = setTimeout(check, (1 << retryCount) * 1000);
         }
       );
     };
     check();
 
-    window.addEventListener('visibilitychange', handleVisibilityChange);
-    window.addEventListener('online', check);
     return { cancel };
+    addEventListener('visibilitychange', handleVisibilityChange);
+    addEventListener('online', check);
   }
 
   render(
