@@ -241,6 +241,124 @@ export default class Train extends Component {
     return { cancel };
   }
 
+  renderAnnouncement = (
+    {
+      arrival = {},
+      departure = {},
+      track,
+      sign,
+      name,
+      cancelled,
+      deviations,
+      trackChanged
+    } = {},
+    i
+  ) => {
+    const hasArrival = !!arrival.advertised;
+    const hasDeparture = !!departure.advertised;
+
+    const arrivalDeviates =
+      hasArrival &&
+      ((arrival.actual && arrival.actual !== arrival.advertised) ||
+        !!arrival.estimated);
+    const arrivalIsLate =
+      arrivalDeviates && arrival.actual > arrival.advertised;
+    const departureDeviates =
+      hasDeparture &&
+      ((departure.actual && departure.actual !== departure.advertised) ||
+        !!departure.estimated);
+    const departureIsLate =
+      departureDeviates && departure.actual > departure.advertised;
+
+    const cancelledDeviation =
+      arrival.cancelled && departure.cancelled
+        ? 'Inställt'
+        : arrival.cancelled
+          ? 'Inställd ankomst'
+          : departure.canceleld ? 'Inställd avgång' : null;
+
+    return (
+      <div
+        class={`timeline-item ${((arrival.happened || departure.happened) &&
+          'arrived') ||
+          ''} ${(departure.happened && 'departed') || ''}`}
+        data-name={name}
+      >
+        <div class="timeline-item-date time hide-when-empty mute-when-departed">
+          {name &&
+            <div class="row">
+              <div class="col arrivals">
+                <div
+                  class={`original ${arrivalDeviates ? 'has-deviation' : ''}`}
+                >
+                  {arrival.advertised}
+                </div>
+                <div class={`actual ${arrivalIsLate ? 'late' : ''}`}>
+                  {arrivalDeviates && (arrival.actual || arrival.estimated)}
+                  {arrival.preliminary ? '*' : ''}
+                </div>
+              </div>
+              <div class="col departures">
+                <div
+                  class={`original ${departureDeviates ? 'has-deviation' : ''}`}
+                >
+                  {departure.advertised}
+                </div>
+                <div class={`actual ${departureIsLate ? 'late' : ''}`}>
+                  {departureDeviates &&
+                    (departure.actual || departure.estimated)}
+                  {departure.preliminary ? '*' : ''}
+                </div>
+              </div>
+            </div>}
+        </div>
+        <div class="timeline-item-divider" />
+        <div class="timeline-item-content">
+          <div class="timeline-item-inner">
+            <div class="name hide-when-empty mute-when-departed">
+              {name &&
+                <div>
+                  <a
+                    href={this.props.getUrl('station', {
+                      station: name
+                    })}
+                  >
+                    {name}
+                  </a>{' '}
+                  {[cancelledDeviation]
+                    .concat(deviations)
+                    .filter(Boolean)
+                    .map(deviation =>
+                      <span>
+                        <div
+                          class={`chip ${/inställ|ersätter/i.test(deviation)
+                            ? 'color-red'
+                            : ''}`}
+                        >
+                          <div class="chip-label">
+                            {deviation}
+                          </div>
+                        </div>{' '}
+                      </span>
+                    )}
+                </div>}
+            </div>
+            &nbsp;
+            <div class="track hide-when-empty mute-when-departed">
+              <span
+                class={`${trackChanged ? 'track-changed' : ''} ${false
+                  ? 'track-cancelled'
+                  : ''}`}
+              >
+                {track}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   render(
     { train, to },
     {
@@ -293,150 +411,7 @@ export default class Train extends Component {
                 ref={timeline => (this._timeline = timeline)}
               >
                 <div>
-                  {announcements.map(
-                    (
-                      {
-                        arrival = {},
-                        departure = {},
-                        track,
-                        sign,
-                        name,
-                        cancelled,
-                        deviations,
-                        trackChanged
-                      } = {},
-                      i
-                    ) => {
-                      const { arrival: { date: lastDate } = {} } =
-                        announcements[i - 1] || {};
-
-                      const changedDate =
-                        arrival.date && lastDate && arrival.date !== lastDate;
-
-                      const hasArrival = !!arrival.advertised;
-                      const hasDeparture = !!departure.advertised;
-
-                      const arrivalDeviates =
-                        hasArrival &&
-                        ((arrival.actual &&
-                          arrival.actual !== arrival.advertised) ||
-                          !!arrival.estimated);
-                      const arrivalIsLate =
-                        arrivalDeviates && arrival.actual > arrival.advertised;
-                      const departureDeviates =
-                        hasDeparture &&
-                        ((departure.actual &&
-                          departure.actual !== departure.advertised) ||
-                          !!departure.estimated);
-                      const departureIsLate =
-                        departureDeviates &&
-                        departure.actual > departure.advertised;
-
-                      const cancelledDeviation =
-                        arrival.cancelled && departure.cancelled
-                          ? 'Inställt'
-                          : arrival.cancelled
-                            ? 'Inställd ankomst'
-                            : departure.canceleld ? 'Inställd avgång' : null;
-
-                      return (
-                        <div
-                          class={`timeline-item ${((arrival.happened ||
-                            departure.happened) &&
-                            'arrived') ||
-                            ''} ${(departure.happened && 'departed') || ''}`}
-                          data-name={name}
-                        >
-                          <div class="timeline-item-date time hide-when-empty mute-when-departed">
-                            {name &&
-                              <div class="row">
-                                <div class="col arrivals">
-                                  <div
-                                    class={`original ${arrivalDeviates
-                                      ? 'has-deviation'
-                                      : ''}`}
-                                  >
-                                    {arrival.advertised}
-                                  </div>
-                                  <div
-                                    class={`actual ${arrivalIsLate
-                                      ? 'late'
-                                      : ''}`}
-                                  >
-                                    {arrivalDeviates &&
-                                      (arrival.actual || arrival.estimated)}
-                                    {arrival.preliminary ? '*' : ''}
-                                  </div>
-                                </div>
-                                <div class="col departures">
-                                  <div
-                                    class={`original ${departureDeviates
-                                      ? 'has-deviation'
-                                      : ''}`}
-                                  >
-                                    {departure.advertised}
-                                  </div>
-                                  <div
-                                    class={`actual ${departureIsLate
-                                      ? 'late'
-                                      : ''}`}
-                                  >
-                                    {departureDeviates &&
-                                      (departure.actual || departure.estimated)}
-                                    {departure.preliminary ? '*' : ''}
-                                  </div>
-                                </div>
-                              </div>}
-                          </div>
-                          <div class="timeline-item-divider" />
-                          <div class="timeline-item-content">
-                            <div class="timeline-item-inner">
-                              <div class="name hide-when-empty mute-when-departed">
-                                {name &&
-                                  <div>
-                                    <a
-                                      href={this.props.getUrl('station', {
-                                        station: name
-                                      })}
-                                    >
-                                      {name}
-                                    </a>{' '}
-                                    {[cancelledDeviation]
-                                      .concat(deviations)
-                                      .filter(Boolean)
-                                      .map(deviation =>
-                                        <span>
-                                          <div
-                                            class={`chip ${/inställ|ersätter/i.test(
-                                              deviation
-                                            )
-                                              ? 'color-red'
-                                              : ''}`}
-                                          >
-                                            <div class="chip-label">
-                                              {deviation}
-                                            </div>
-                                          </div>{' '}
-                                        </span>
-                                      )}
-                                  </div>}
-                              </div>
-                              &nbsp;
-                              <div class="track hide-when-empty mute-when-departed">
-                                <span
-                                  class={`${trackChanged
-                                    ? 'track-changed'
-                                    : ''} ${false ? 'track-cancelled' : ''}`}
-                                >
-                                  {track}
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    }
-                  )}
+                  {announcements.map(this.renderAnnouncement)}
                 </div>
                 <span
                   class={`train-marker ${hasPositionedTrainMarker
