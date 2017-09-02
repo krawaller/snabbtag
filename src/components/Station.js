@@ -1,4 +1,5 @@
 import { h, Component } from 'preact';
+import { LocateIcon, FavoriteIcon } from './Icons';
 
 //FIXME: sticky chrome headers
 //FIXME: latest status?
@@ -439,22 +440,12 @@ export default class Station extends Component {
               <a
                 href="#"
                 class="link icon-only"
-                onClick={event => event.preventDefault()}
+                onClick={event => {
+                  event.preventDefault();
+                  if (!isLocating) this.locate();
+                }}
               >
-                {isLocating
-                  ? <span class="preloader" />
-                  : <svg
-                      width="18"
-                      viewBox="0 0 41 50"
-                      xmlns="http://www.w3.org/2000/svg"
-                      onClick={this.locate}
-                    >
-                      <path
-                        d="M.724 23.196L41 5 24 45V23.196H.724zM10 21.208L37.2 8.92 25.72 35.933V21.208H10z"
-                        fill-rule="evenodd"
-                        fill="#007aff"
-                      />
-                    </svg>}
+                {isLocating ? <span class="preloader" /> : <LocateIcon />}
               </a>
             </div>
             <a href={this.props.getUrl('stations')} class="link center sliding">
@@ -469,24 +460,7 @@ export default class Station extends Component {
                 })}
                 class="link icon-only"
               >
-                <svg
-                  width="22"
-                  viewBox="0 0 51 45"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  {isCurrentStationFavorite
-                    ? <path
-                        d="M25.156 44.736c.102.075.156-.117.156-.117 1.476-1.1 7.757-5.796 9.768-7.637 10.205-9.34 21.444-23.698 11.163-33.17C36.68-5 26.527 4.04 25.156 5.343c-1.37-1.3-11.523-10.34-21.086-1.527-10.28 9.472.957 23.83 11.162 33.17 2.01 1.84 8.293 6.536 9.768 7.634 0 0 .055.19.156.116z"
-                        fill-rule="evenodd"
-                        fill="#007aff"
-                      />
-                    : <path
-                        d="M25.63 6.063s-10-9-18-3-7 15 0 24 18 16 18 16 11-7 18-16 8-18 0-24-18 3-18 3z"
-                        stroke="#007aff"
-                        stroke-width="2"
-                        fill="none"
-                      />}
-                </svg>
+                <FavoriteIcon active={isCurrentStationFavorite} />
               </a>
             </div>
           </div>
