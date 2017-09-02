@@ -406,6 +406,90 @@ export default class Station extends Component {
     return { cancel };
   }
 
+  renderAnnouncement = ({
+    train,
+    date,
+    scheduledDate,
+    estimated,
+    cancelled,
+    deviations,
+    time,
+    name,
+    track,
+    departed,
+    removed,
+    trainType,
+    preliminary,
+    trackChanged,
+    trainComposition
+  }) =>
+    <li class={removed ? 'removed' : ''}>
+      <a
+        class="item-content"
+        href={
+          train
+            ? this.props.getUrl('train', {
+                train,
+                date: scheduledDate
+              })
+            : '#'
+        }
+      >
+        <div class="item-inner">
+          <div class="hide-when-empty full-width">
+            {train &&
+              <div class="row">
+                <div class="col-20 time">
+                  <div
+                    class={`original ${estimated || cancelled
+                      ? 'has-deviation'
+                      : ''}`}
+                  >
+                    {time}
+                  </div>
+                  <div
+                    class={`actual ${estimated && estimated !== time
+                      ? 'late'
+                      : ''} ${cancelled ? 'cancelled' : ''}`}
+                  >
+                    {cancelled ? 'Inställt' : estimated}
+                    {preliminary ? '*' : ''}
+                  </div>
+                </div>
+                <div class="col-45 name-col">
+                  <div class="name item-title">
+                    {name}
+                  </div>
+                  <div class="sub hide-when-empty">
+                    {[departed && 'Har avgått', !cancelled && trainComposition]
+                      .concat(deviations)
+                      .filter(Boolean)
+                      .join('. ')}
+                  </div>
+                </div>
+                <div class="col-10 track">
+                  <span
+                    class={`${trackChanged ? 'track-changed' : ''} ${cancelled
+                      ? 'track-cancelled'
+                      : ''}`}
+                  >
+                    {track}
+                  </span>
+                </div>
+                <div class="col-25 train">
+                  <div>
+                    {train}
+                  </div>
+                  <div class="sub">
+                    {trainType}
+                  </div>
+                </div>
+              </div>}
+          </div>
+        </div>
+      </a>
+    </li>;
+
   render(
     { station, favorites, showingDepartures, filter },
     {
@@ -432,6 +516,10 @@ export default class Station extends Component {
       hasUnfilteredAnnouncements;
 
     let tmp;
+    const toggledFavorites = isCurrentStationFavorite
+      ? ((tmp = new Set(favorites)), tmp.delete(station), tmp)
+      : new Set(favorites).add(station);
+
     return (
       <div class="view navbar-through toolbar-through station">
         <div class="navbar">
@@ -454,9 +542,7 @@ export default class Station extends Component {
             <div class="right">
               <a
                 href={this.props.getUrl('station', {
-                  favorites: favorites.has(station)
-                    ? ((tmp = new Set(favorites)), tmp.delete(station), tmp)
-                    : new Set(favorites).add(station)
+                  favorites: toggledFavorites
                 })}
                 class="link icon-only"
               >
@@ -537,113 +623,17 @@ export default class Station extends Component {
                     </div>
                   </li>
                   {announcements.reduce(
-                    (
-                      output,
-                      {
-                        train,
-                        date,
-                        scheduledDate,
-                        estimated,
-                        cancelled,
-                        deviations,
-                        time,
-                        name,
-                        track,
-                        departed,
-                        removed,
-                        trainType,
-                        preliminary,
-                        trackChanged,
-                        trainComposition
-                      } = {},
-                      i,
-                      input
-                    ) => {
+                    (output, announcement = {}, i, input) => {
                       const tPrev = input[i - 1];
-                      if (tPrev && date !== tPrev.date) {
+                      if (tPrev && announcement.date !== tPrev.date) {
                         output.push(
                           <li class="list-group-title date-delimiter">
-                            {this.props.getNearbyHumanDate(date) || date}
+                            {this.props.getNearbyHumanDate(announcement.date) ||
+                              announcement.date}
                           </li>
                         );
                       }
-                      output.push(
-                        <li class={removed ? 'removed' : ''}>
-                          <a
-                            class="item-content"
-                            href={
-                              train
-                                ? this.props.getUrl('train', {
-                                    train,
-                                    date: scheduledDate
-                                  })
-                                : '#'
-                            }
-                          >
-                            <div class="item-inner">
-                              <div class="hide-when-empty full-width">
-                                {train &&
-                                  <div class="row">
-                                    <div class="col-20 time">
-                                      <div
-                                        class={`original ${estimated ||
-                                        cancelled
-                                          ? 'has-deviation'
-                                          : ''}`}
-                                      >
-                                        {time}
-                                      </div>
-                                      <div
-                                        class={`actual ${estimated &&
-                                        estimated !== time
-                                          ? 'late'
-                                          : ''} ${cancelled
-                                          ? 'cancelled'
-                                          : ''}`}
-                                      >
-                                        {cancelled ? 'Inställt' : estimated}
-                                        {preliminary ? '*' : ''}
-                                      </div>
-                                    </div>
-                                    <div class="col-45 name-col">
-                                      <div class="name item-title">
-                                        {name}
-                                      </div>
-                                      <div class="sub hide-when-empty">
-                                        {[
-                                          departed && 'Har avgått',
-                                          !cancelled && trainComposition
-                                        ]
-                                          .concat(deviations)
-                                          .filter(Boolean)
-                                          .join('. ')}
-                                      </div>
-                                    </div>
-                                    <div class="col-10 track">
-                                      <span
-                                        class={`${trackChanged
-                                          ? 'track-changed'
-                                          : ''} ${cancelled
-                                          ? 'track-cancelled'
-                                          : ''}`}
-                                      >
-                                        {track}
-                                      </span>
-                                    </div>
-                                    <div class="col-25 train">
-                                      <div>
-                                        {train}
-                                      </div>
-                                      <div class="sub">
-                                        {trainType}
-                                      </div>
-                                    </div>
-                                  </div>}
-                              </div>
-                            </div>
-                          </a>
-                        </li>
-                      );
+                      output.push(this.renderAnnouncement(announcement));
                       return output;
                     },
                     []
