@@ -143,7 +143,6 @@ export default class Stations extends Component {
                   {group}
                 </li>
                 {groups[group].map(station => {
-                  let before, match, after;
                   let content;
                   if (searchString) {
                     let [, before, match, after] = station.match(rSearchString);
@@ -188,8 +187,7 @@ export default class Stations extends Component {
             </div>
           )}
 
-          {stations.length > 0 &&
-            filteredStations.length === 0 &&
+          {filteredStations.length === 0 &&
             <ul>
               <li class="item-content">
                 <div class="item-inner">
