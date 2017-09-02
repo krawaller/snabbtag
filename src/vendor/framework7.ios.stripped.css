@@ -91,11 +91,6 @@ p {
 .row > [class*="col-"] {
   box-sizing: border-box;
 }
-.row .col-50 {
-  width: 50%;
-  width: -webkit-calc((100% - 15px*1) / 2);
-  width: calc((100% - 15px*1) / 2);
-}
 .row .col-45 {
   width: 45%;
   width: -webkit-calc((100% - 15px*1.2222222222222223) / 2.2222222222222223);
@@ -131,10 +126,6 @@ p {
   position: relative;
   height: 100%;
   z-index: 5000;
-}
-.views {
-  overflow: auto;
-  -webkit-overflow-scrolling: touch;
 }
 .view {
   overflow: hidden;
@@ -560,12 +551,6 @@ i.icon.icon-back {
   height: 20px;
   background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2012%2020'%3E%3Cpath%20d%3D'M10%2C0l2%2C2l-8%2C8l8%2C8l-2%2C2L0%2C10L10%2C0z'%20fill%3D'%23007aff'%2F%3E%3C%2Fsvg%3E");
 }
-.navbar .framework7-icons,
-.navbar .f7-icons,
-.toolbar .framework7-icons,
-.toolbar .f7-icons {
-  font-size: 22px;
-}
 .chip {
   font-size: 14px;
   font-weight: normal;
@@ -603,18 +588,6 @@ i.icon.icon-back {
   padding: 0 15px;
   color: #6d6d72;
   box-sizing: border-box;
-}
-.content-block-title {
-  position: relative;
-  overflow: hidden;
-  margin: 0;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  font-size: 14px;
-  text-transform: uppercase;
-  line-height: 1;
-  color: #6d6d72;
-  margin: 35px 15px 10px;
 }
 .list-block {
   margin: 35px 0;
@@ -1035,33 +1008,6 @@ html.pixel-ratio-2 .card-header:after {
   transform: scaleY(0.5);
 }
 html.pixel-ratio-3 .card-header:after {
-  -webkit-transform: scaleY(0.33);
-  transform: scaleY(0.33);
-}
-.card-footer {
-  border-radius: 0 0 2px 2px;
-  color: #6d6d72;
-}
-.card-footer:before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: auto;
-  right: auto;
-  height: 1px;
-  width: 100%;
-  background-color: #e1e1e1;
-  display: block;
-  z-index: 15;
-  -webkit-transform-origin: 50% 0%;
-  transform-origin: 50% 0%;
-}
-html.pixel-ratio-2 .card-footer:before {
-  -webkit-transform: scaleY(0.5);
-  transform: scaleY(0.5);
-}
-html.pixel-ratio-3 .card-footer:before {
   -webkit-transform: scaleY(0.33);
   transform: scaleY(0.33);
 }
