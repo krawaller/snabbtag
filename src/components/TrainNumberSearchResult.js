@@ -10,7 +10,7 @@ export default class TrainNumberSearchResult extends Component {
 
   refresh() {
     const { searchString } = this.props;
-    this.fetchAutocompletedTrains(searchString).then(results =>
+    this.props.api.fetchAutocompletedTrains(searchString).then(results =>
       this.setState({
         resultsBySearchString: {
           ...this.state.resultsBySearchString,
@@ -22,46 +22,6 @@ export default class TrainNumberSearchResult extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.searchString !== this.props.searchString) this.refresh();
-  }
-
-  fetchAutocompletedTrains(trainsStartingWith) {
-    return this.props.api
-      .query(
-        `
-      <QUERY objecttype="TrainAnnouncement" limit="100">
-        <FILTER>
-          <EQ name="Advertised" value="true" />
-          <EQ name="ActivityType" value="Avgang" />
-          <LIKE name="AdvertisedTrainIdent" value="/^${trainsStartingWith}/" />
-          <EQ name="ScheduledDepartureDateTime" value="${new Intl.DateTimeFormat(
-            'sv-SE'
-          ).format(new Date())}" />
-        </FILTER>
-        <INCLUDE>AdvertisedTrainIdent</INCLUDE>
-        <INCLUDE>FromLocation</INCLUDE>
-        <INCLUDE>ToLocation</INCLUDE>
-        <INCLUDE>AdvertisedTimeAtLocation</INCLUDE>
-      </QUERY>`
-      )
-      .then(({ TrainAnnouncement = [] }) =>
-        Object.values(
-          TrainAnnouncement.reduce((trains, t) => {
-            if (!(t.AdvertisedTrainIdent in trains)) {
-              trains[t.AdvertisedTrainIdent] = {
-                train: t.AdvertisedTrainIdent,
-                from: this.props.api.getStationBySign(
-                  t.FromLocation[0].LocationName
-                ),
-                to: this.props.api.getStationBySign(
-                  t.ToLocation[0].LocationName
-                ),
-                at: this.props.api.extractTime(t.AdvertisedTimeAtLocation)
-              };
-            }
-            return trains;
-          }, {})
-        )
-      );
   }
 
   render({ searchString }, { resultsBySearchString }) {

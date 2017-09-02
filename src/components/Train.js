@@ -4,7 +4,7 @@ import { TrainIcon } from './Icons';
 export default class Train extends Component {
   constructor(props) {
     super(props);
-    this.api = props.api;
+
     this.state = {
       announcements: [],
       date: props.date || new Intl.DateTimeFormat('sv-SE').format(new Date()),
@@ -31,7 +31,7 @@ export default class Train extends Component {
   }
 
   componentDidMount() {
-    this.subscription = this.subscribeTrain(
+    this.subscription = this.props.api.subscribeTrain(
       this.props.train,
       this.state.date,
       ({ announcements }) =>
@@ -93,152 +93,6 @@ export default class Train extends Component {
         }
       }
     }
-  }
-
-  fetchTrain(train, date, lastModified) {
-    return this.api
-      .query(
-        `
-      <QUERY objecttype="TrainAnnouncement" orderby="AdvertisedTimeAtLocation" lastmodified="TRUE">
-        <INCLUDE>LocationSignature</INCLUDE>
-        <INCLUDE>ActivityType</INCLUDE>
-        <INCLUDE>AdvertisedTimeAtLocation</INCLUDE>
-        <INCLUDE>EstimatedTimeAtLocation</INCLUDE>
-        <INCLUDE>TimeAtLocation</INCLUDE>
-        <INCLUDE>TrackAtLocation</INCLUDE>
-        <INCLUDE>Canceled</INCLUDE>
-        <INCLUDE>Deviation</INCLUDE>
-        <FILTER>
-          <EQ name="AdvertisedTrainIdent" value="${train}" />
-          <EQ name="Advertised" value="TRUE" />
-          <EQ name="ScheduledDepartureDateTime" value="${date}" />
-          ${lastModified
-            ? `<GT name="ModifiedTime" value="${lastModified}"/>`
-            : ''}
-        </FILTER>
-      </QUERY>`
-      )
-      .then(
-        ({
-          TrainAnnouncement = [],
-          INFO: {
-            LASTMODIFIED: { '@datetime': lastModified = false } = {}
-          } = {}
-        }) => ({ announcements: TrainAnnouncement, lastModified })
-      );
-  }
-
-  subscribeTrain(train, date, callback) {
-    let checkTimeout;
-    let cancelled = false;
-    let formattedAnnouncementsBySign = {};
-    let currentLastModified;
-    let isChecking = false;
-    let retryCount = 0;
-
-    const handleVisibilityChange = () => {
-      if (!document.hidden) check();
-    };
-
-    const cancel = () => {
-      cancelled = true;
-      clearTimeout(checkTimeout);
-      removeEventListener('visibilitychange', handleVisibilityChange);
-      removeEventListener('online', check);
-    };
-
-    const check = () => {
-      if (isChecking) return;
-      isChecking = true;
-      this.fetchTrain(train, date, currentLastModified).then(
-        ({ announcements, lastModified }) => {
-          if (cancelled) return;
-          isChecking = false;
-          retryCount = 0;
-
-          if (!document.hidden && navigator.onLine)
-            checkTimeout = setTimeout(check, this.api.CHECK_INTERVAL);
-
-          if (lastModified === false || lastModified === currentLastModified)
-            return;
-
-          formattedAnnouncementsBySign = announcements.reduce(
-            (all, announcement, i, arr) => {
-              const current = all[announcement.LocationSignature] || {};
-              const rawDeviations = (current.deviations || [])
-                .concat(announcement.Deviation || []);
-
-              all[announcement.LocationSignature] = Object.assign(current, {
-                sign: announcement.LocationSignature,
-                name: this.api.getStationBySign(announcement.LocationSignature),
-                track: announcement.TrackAtLocation,
-                deviations: Array.from(
-                  new Set(
-                    rawDeviations.filter(
-                      deviation =>
-                        !/^inställ|^prel\. tid|^spårändrat/i.test(deviation)
-                    )
-                  )
-                ),
-                trackChanged: !!rawDeviations.find(deviation =>
-                  /^spårändrat/i.test(deviation)
-                ),
-                [announcement.ActivityType === 'Avgang'
-                  ? 'departure'
-                  : 'arrival']: {
-                  date: this.api.extractDate(
-                    announcement.AdvertisedTimeAtLocation
-                  ),
-                  advertised: this.api.extractTime(
-                    announcement.AdvertisedTimeAtLocation
-                  ),
-                  estimated: this.api.extractTime(
-                    announcement.EstimatedTimeAtLocation
-                  ),
-                  actual: this.api.extractTime(announcement.TimeAtLocation),
-                  happened:
-                    !!announcement.TimeAtLocation ||
-                    arr
-                      .slice(i + 1)
-                      .some(({ TimeAtLocation }) => TimeAtLocation),
-                  cancelled: !!announcement.Canceled,
-                  deviations: announcement.Deviation,
-                  preliminary:
-                    !announcement.TimeAtLocation &&
-                    !!(announcement.Deviation || [])
-                      .find(deviation => /^prel\. tid/i.test(deviation))
-                }
-              });
-              return all;
-            },
-            formattedAnnouncementsBySign
-          );
-
-          currentLastModified = lastModified;
-          const formattedAnnouncements = Object.values(
-            formattedAnnouncementsBySign
-          );
-
-          if (
-            (formattedAnnouncements[formattedAnnouncements.length - 1]
-              .arrival || {}).happened
-          )
-            cancel();
-
-          callback({ announcements: formattedAnnouncements });
-        },
-        error => {
-          isChecking = false;
-          if (retryCount++ < this.api.MAX_RETRY_COUNT)
-            checkTimeout = setTimeout(check, (1 << retryCount) * 1000);
-        }
-      );
-    };
-    check();
-
-    addEventListener('visibilitychange', handleVisibilityChange);
-    addEventListener('online', check);
-    return { cancel };
   }
 
   renderAnnouncement = (
