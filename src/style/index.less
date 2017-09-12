@@ -1,11 +1,12 @@
 @import (inline) '../vendor/framework7.ios.stripped.css';
 
-html, body {
+html,
+body {
   height: 100%;
   width: 100%;
   padding: 0;
   margin: 0;
-  background: #FAFAFA;
+  background: #fafafa;
   font-family: 'Helvetica Neue', arial, sans-serif;
   font-weight: 400;
   color: #444;
@@ -27,19 +28,32 @@ html, body {
   box-sizing: border-box;
 }
 
-.navbar .left, .navbar .right {
+.navbar .left,
+.navbar .right {
   min-width: 44px;
 }
 
-.toolbar .buttons-row { width: 100%; }
+.toolbar .buttons-row {
+  width: 100%;
+}
 
 .row {
   width: 100%;
-  .time, .name-col, .track, .train {
+  .time,
+  .name-col,
+  .track,
+  .train {
     align-self: center;
   }
-  .time, .name { text-align: left; }
-  .track, .train, .last { text-align: right; }
+  .time,
+  .name {
+    text-align: left;
+  }
+  .track,
+  .train,
+  .last {
+    text-align: right;
+  }
 }
 
 .item-title {
@@ -56,16 +70,28 @@ html, body {
   right: 0;
   width: 12px;
   height: 100%;
-  background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 1) 100%
+  );
 }
 
 .item-link:active .item-title:after {
-  background: linear-gradient(to right, rgba(217, 217, 217, 0) 0%, rgba(217, 217, 217, 1) 100%);
+  background: linear-gradient(
+    to right,
+    rgba(217, 217, 217, 0) 0%,
+    rgba(217, 217, 217, 1) 100%
+  );
 }
 
 .item-content {
-  .station & { min-height: 56px; }
-  .name { font-weight: bold; }
+  .station & {
+    min-height: 56px;
+  }
+  .name {
+    font-weight: bold;
+  }
   .time {
     font-size: 17px;
   }
@@ -83,7 +109,8 @@ html, body {
   opacity: 1;
 }
 
-.hide-when-empty, .mute-when-departed {
+.hide-when-empty,
+.mute-when-departed {
   opacity: 1;
   transition: opacity 0.3s ease-out;
   will-change: opacity;
@@ -94,7 +121,8 @@ html, body {
   opacity: 0;
 }
 
-.departed .mute-when-departed, .arrived:last-child .mute-when-departed {
+.departed .mute-when-departed,
+.arrived:last-child .mute-when-departed {
   opacity: 0.6;
 }
 
@@ -110,7 +138,8 @@ html, body {
   transform: translate3d(0, 10px, 0);
 }
 
-.late, .cancelled {
+.late,
+.cancelled {
   color: #ff3b30;
   transform: scale(1);
 }
@@ -119,10 +148,10 @@ html, body {
   font-weight: bold;
 }
 
-.actual, .original {
+.actual,
+.original {
   display: inline-block;
 }
-
 
 .actual:empty {
   transform: scale(0.6);
@@ -130,7 +159,9 @@ html, body {
 
 .list-group-title {
   z-index: 1;
-  &.item-links { padding-right: 35px; }
+  &.item-links {
+    padding-right: 35px;
+  }
 }
 
 .list-block .date-delimiter {
@@ -220,7 +251,14 @@ html, body {
   justify-content: space-between;
 }
 
-.departed, .arrived, .late, .original, .actual, .timeline-item-divider, .timeline-item-divider:before, .timeline-item-divider:after {
+.departed,
+.arrived,
+.late,
+.original,
+.actual,
+.timeline-item-divider,
+.timeline-item-divider:before,
+.timeline-item-divider:after {
   transition: all 0.6s ease-out;
 }
 
@@ -231,7 +269,8 @@ html, body {
   background: #007aff;
 }
 
-.timeline-item-divider:before, .timeline-item-divider:after {
+.timeline-item-divider:before,
+.timeline-item-divider:after {
   background: #bbb;
 }
 
@@ -249,9 +288,10 @@ html, body {
   text-overflow: ellipsis;
 }
 
-.track-changed, .track-cancelled {
-  transition: background-color .3s ease-in-out;
-  background-color: #FED20A;
+.track-changed,
+.track-cancelled {
+  transition: background-color 0.3s ease-in-out;
+  background-color: #fed20a;
   padding: 1px 5px;
   margin: -1px -5px;
   border-radius: 5px;
