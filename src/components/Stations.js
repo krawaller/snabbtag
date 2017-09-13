@@ -273,7 +273,10 @@ export default class Stations extends Component {
                 class="searchbar-clear"
                 href="#"
                 title="Rensa"
-                onClick={() => this.setState({ searchString: '' })}
+                onClick={event => {
+                  this.setState({ searchString: '' });
+                  event.preventDefault();
+                }}
               />
             </div>
           </form>
