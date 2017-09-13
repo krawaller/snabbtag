@@ -9,14 +9,13 @@
     "build": "preact build  --template src/template.html",
     "serve": "preact build  --template src/template.html && preact serve",
     "dev": "preact watch  --template src/template.html",
-    "test": "eslint src && preact test",
+    "test": "eslint src",
+    "deploy":
+      "npm test && npm run serve -- --server config --dest firebase.json && firebase deploy --project trains-1907a",
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "*.js": [
-      "eslint --fix",
-      "git add"
-    ]
+    "*.js": ["eslint --fix", "git add"]
   },
   "keywords": [],
   "author": "",
