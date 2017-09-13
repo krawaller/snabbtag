@@ -38,27 +38,19 @@ export function getNearbyHumanDate(dateString) {
   const dateTimeFormat = new Intl.DateTimeFormat('sv-SE');
   return (
     {
-      [(
-        (tmp = new Date()),
-        tmp.setDate(tmp.getDate() - 2),
-        dateTimeFormat.format(tmp)
-      )]: 'i förrgår',
-      [(
-        (tmp = new Date()),
-        tmp.setDate(tmp.getDate() - 1),
-        dateTimeFormat.format(tmp)
-      )]: 'igår',
+      [((tmp = new Date()),
+      tmp.setDate(tmp.getDate() - 2),
+      dateTimeFormat.format(tmp))]: 'i förrgår',
+      [((tmp = new Date()),
+      tmp.setDate(tmp.getDate() - 1),
+      dateTimeFormat.format(tmp))]: 'igår',
       [dateTimeFormat.format(new Date())]: 'idag',
-      [(
-        (tmp = new Date()),
-        tmp.setDate(tmp.getDate() + 1),
-        dateTimeFormat.format(tmp)
-      )]: 'imorgon',
-      [(
-        (tmp = new Date()),
-        tmp.setDate(tmp.getDate() + 2),
-        dateTimeFormat.format(tmp)
-      )]: 'i övermorgon'
+      [((tmp = new Date()),
+      tmp.setDate(tmp.getDate() + 1),
+      dateTimeFormat.format(tmp))]: 'imorgon',
+      [((tmp = new Date()),
+      tmp.setDate(tmp.getDate() + 2),
+      dateTimeFormat.format(tmp))]: 'i övermorgon'
     }[dateString.slice(0, 10)] || null
   );
 }

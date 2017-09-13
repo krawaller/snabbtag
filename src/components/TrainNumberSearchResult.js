@@ -42,30 +42,25 @@ export default class TrainNumberSearchResult extends Component {
                 <li>
                   <a
                     href={
-                      train
-                        ? this.props.getUrl.call(this, 'train', { train })
-                        : '#'
+                      train ? (
+                        this.props.getUrl.call(this, 'train', { train })
+                      ) : (
+                        '#'
+                      )
                     }
                     class="item-link"
                   >
                     <div class="item-content">
                       <div class="item-inner">
                         <div class="hide-when-empty full-width">
-                          {train &&
+                          {train && (
                             <div class="row">
-                              <div class="col-15 name">
-                                {train}
-                              </div>
-                              <div class="col-15 time">
-                                {at}
-                              </div>
-                              <div class="col-35 name item-title">
-                                {from}
-                              </div>
-                              <div class="col-35 name item-title">
-                                {to}
-                              </div>
-                            </div>}
+                              <div class="col-15 name">{train}</div>
+                              <div class="col-15 time">{at}</div>
+                              <div class="col-35 name item-title">{from}</div>
+                              <div class="col-35 name item-title">{to}</div>
+                            </div>
+                          )}
                         </div>
                       </div>
                     </div>

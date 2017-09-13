@@ -136,12 +136,10 @@ export default class Stations extends Component {
 
       listGroups = (
         <div>
-          {Object.keys(groups).map(group =>
+          {Object.keys(groups).map(group => (
             <div class="list-group">
               <ul>
-                <li class="list-group-title">
-                  {group}
-                </li>
+                <li class="list-group-title">{group}</li>
                 {groups[group].map(station => {
                   let content;
                   if (searchString) {
@@ -149,9 +147,7 @@ export default class Stations extends Component {
                     content = (
                       <div>
                         {before}
-                        <b>
-                          {match}
-                        </b>
+                        <b>{match}</b>
                         {after}
                       </div>
                     );
@@ -160,9 +156,11 @@ export default class Stations extends Component {
                     <li>
                       <a
                         href={
-                          station
-                            ? this.props.getUrl('station', { station })
-                            : '#'
+                          station ? (
+                            this.props.getUrl('station', { station })
+                          ) : (
+                            '#'
+                          )
                         }
                         class="item-link"
                       >
@@ -175,9 +173,7 @@ export default class Stations extends Component {
                               station === this.props.station ? 'checked' : null
                             }
                           />
-                          <div class="item-inner">
-                            {content}
-                          </div>
+                          <div class="item-inner">{content}</div>
                         </label>
                       </a>
                     </li>
@@ -185,9 +181,9 @@ export default class Stations extends Component {
                 })}
               </ul>
             </div>
-          )}
+          ))}
 
-          {filteredStations.length === 0 &&
+          {filteredStations.length === 0 && (
             <ul>
               <li class="item-content">
                 <div class="item-inner">
@@ -196,7 +192,8 @@ export default class Stations extends Component {
                   </div>
                 </div>
               </li>
-            </ul>}
+            </ul>
+          )}
         </div>
       );
     }
@@ -206,28 +203,28 @@ export default class Stations extends Component {
         <div class="navbar">
           <div class="navbar-inner hide-when-empty">
             <div class="left">
-              {this.props.station
-                ? <a
-                    class="back link"
-                    href={this.props.getUrl('station')}
-                    data-pop
-                  >
-                    <i class="icon icon-back" />
-                    <span>Tillbaka</span>
-                  </a>
-                : locationPermission
-                  ? null
-                  : <a
-                      href="#"
-                      class="link icon-only"
-                      onClick={event => {
-                        if (!isLocating) this.getNearbyStations();
-                        event.preventDefault();
-                      }}
-                      title="Visa närmsta stationer"
-                    >
-                      {isLocating ? <span class="preloader" /> : <LocateIcon />}
-                    </a>}
+              {this.props.station ? (
+                <a
+                  class="back link"
+                  href={this.props.getUrl('station')}
+                  data-pop
+                >
+                  <i class="icon icon-back" />
+                  <span>Tillbaka</span>
+                </a>
+              ) : locationPermission ? null : (
+                <a
+                  href="#"
+                  class="link icon-only"
+                  onClick={event => {
+                    if (!isLocating) this.getNearbyStations();
+                    event.preventDefault();
+                  }}
+                  title="Visa närmsta stationer"
+                >
+                  {isLocating ? <span class="preloader" /> : <LocateIcon />}
+                </a>
+              )}
             </div>
             <div class="center sliding">Välj…</div>
             <div class="right">
@@ -289,9 +286,7 @@ export default class Stations extends Component {
           />
 
           <div class="page-content hide-when-empty">
-            <div class="list-block">
-              {listGroups}
-            </div>
+            <div class="list-block">{listGroups}</div>
           </div>
         </div>
       </div>

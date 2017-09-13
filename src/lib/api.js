@@ -568,9 +568,8 @@ export default class API {
   }
 
   fetchAutocompletedTrains(trainsStartingWith) {
-    return this
-      .query(
-        `
+    return this.query(
+      `
       <QUERY objecttype="TrainAnnouncement" limit="100">
         <FILTER>
           <EQ name="Advertised" value="true" />
@@ -585,21 +584,20 @@ export default class API {
         <INCLUDE>ToLocation</INCLUDE>
         <INCLUDE>AdvertisedTimeAtLocation</INCLUDE>
       </QUERY>`
+    ).then(({ TrainAnnouncement = [] }) =>
+      Object.values(
+        TrainAnnouncement.reduce((trains, t) => {
+          if (!(t.AdvertisedTrainIdent in trains)) {
+            trains[t.AdvertisedTrainIdent] = {
+              train: t.AdvertisedTrainIdent,
+              from: this.getStationBySign(t.FromLocation[0].LocationName),
+              to: this.getStationBySign(t.ToLocation[0].LocationName),
+              at: this.extractTime(t.AdvertisedTimeAtLocation)
+            };
+          }
+          return trains;
+        }, {})
       )
-      .then(({ TrainAnnouncement = [] }) =>
-        Object.values(
-          TrainAnnouncement.reduce((trains, t) => {
-            if (!(t.AdvertisedTrainIdent in trains)) {
-              trains[t.AdvertisedTrainIdent] = {
-                train: t.AdvertisedTrainIdent,
-                from: this.getStationBySign(t.FromLocation[0].LocationName),
-                to: this.getStationBySign(t.ToLocation[0].LocationName),
-                at: this.extractTime(t.AdvertisedTimeAtLocation)
-              };
-            }
-            return trains;
-          }, {})
-        )
-      );
+    );
   }
 }

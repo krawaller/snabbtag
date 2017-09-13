@@ -139,7 +139,7 @@ export default class Train extends Component {
         data-name={name}
       >
         <div class="timeline-item-date time hide-when-empty mute-when-departed">
-          {name &&
+          {name && (
             <div class="row">
               <div class="col arrivals">
                 <div
@@ -164,13 +164,14 @@ export default class Train extends Component {
                   {departure.preliminary ? '*' : ''}
                 </div>
               </div>
-            </div>}
+            </div>
+          )}
         </div>
         <div class="timeline-item-divider" />
         <div class="timeline-item-content">
           <div class="timeline-item-inner">
             <div class="name hide-when-empty mute-when-departed">
-              {name &&
+              {name && (
                 <div>
                   <a
                     href={this.props.getUrl('station', {
@@ -182,20 +183,19 @@ export default class Train extends Component {
                   {[cancelledDeviation]
                     .concat(deviations)
                     .filter(Boolean)
-                    .map(deviation =>
+                    .map(deviation => (
                       <span>
                         <div
                           class={`chip ${/inställ|ersätter/i.test(deviation)
                             ? 'color-red'
                             : ''}`}
                         >
-                          <div class="chip-label">
-                            {deviation}
-                          </div>
+                          <div class="chip-label">{deviation}</div>
                         </div>{' '}
                       </span>
-                    )}
-                </div>}
+                    ))}
+                </div>
+              )}
             </div>
             &nbsp;
             <div class="track hide-when-empty mute-when-departed">
@@ -264,9 +264,7 @@ export default class Train extends Component {
                 class="timeline"
                 ref={timeline => (this._timeline = timeline)}
               >
-                <div>
-                  {announcements.map(this.renderAnnouncement)}
-                </div>
+                <div>{announcements.map(this.renderAnnouncement)}</div>
                 <span
                   class={`train-marker ${hasPositionedTrainMarker
                     ? 'animated'

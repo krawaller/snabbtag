@@ -91,22 +91,24 @@ export default class Station extends Component {
     preliminary,
     trackChanged,
     trainComposition
-  }) =>
+  }) => (
     <li class={removed ? 'removed' : ''}>
       <a
         class="item-content"
         href={
-          train
-            ? this.props.getUrl('train', {
-                train,
-                date: scheduledDate
-              })
-            : '#'
+          train ? (
+            this.props.getUrl('train', {
+              train,
+              date: scheduledDate
+            })
+          ) : (
+            '#'
+          )
         }
       >
         <div class="item-inner">
           <div class="hide-when-empty full-width">
-            {train &&
+            {train && (
               <div class="row">
                 <div class="col-20 time">
                   <div
@@ -126,9 +128,7 @@ export default class Station extends Component {
                   </div>
                 </div>
                 <div class="col-45 name-col">
-                  <div class="name item-title">
-                    {name}
-                  </div>
+                  <div class="name item-title">{name}</div>
                   <div class="sub hide-when-empty">
                     {[departed && 'Har avgått', !cancelled && trainComposition]
                       .concat(deviations)
@@ -146,18 +146,16 @@ export default class Station extends Component {
                   </span>
                 </div>
                 <div class="col-25 train">
-                  <div>
-                    {train}
-                  </div>
-                  <div class="sub">
-                    {trainType}
-                  </div>
+                  <div>{train}</div>
+                  <div class="sub">{trainType}</div>
                 </div>
-              </div>}
+              </div>
+            )}
           </div>
         </div>
       </a>
-    </li>;
+    </li>
+  );
 
   render(
     { station, favorites, showingDepartures, filter },
@@ -278,7 +276,7 @@ export default class Station extends Component {
             </div>
           </form>
           <div class="page-content hide-when-empty">
-            {shouldShowList &&
+            {shouldShowList && (
               <div class="list-block">
                 <ul>
                   <li class="list-group-title">
@@ -308,9 +306,10 @@ export default class Station extends Component {
                     []
                   )}
                 </ul>
-              </div>}
+              </div>
+            )}
 
-            {shouldShowNoAnnouncementsMessage &&
+            {shouldShowNoAnnouncementsMessage && (
               <div class="card">
                 <div class="card-header">
                   Inga {showingDepartures ? 'avgångar' : 'ankomster'}
@@ -318,15 +317,18 @@ export default class Station extends Component {
                 <div class="card-content">
                   <div class="card-content-inner">
                     Det verkar inte finnas några{' '}
-                    {showingDepartures
-                      ? 'avgångar från'
-                      : 'ankomster till'}{' '}
+                    {showingDepartures ? (
+                      'avgångar från'
+                    ) : (
+                      'ankomster till'
+                    )}{' '}
                     <b>{station}</b> den närmsta tiden
                   </div>
                 </div>
-              </div>}
+              </div>
+            )}
 
-            {shouldShowDisableFilterMessage &&
+            {shouldShowDisableFilterMessage && (
               <div class="card disable-filter-card">
                 <div class="card-header">
                   ⚠️ Alla existerande{' '}
@@ -345,7 +347,8 @@ export default class Station extends Component {
                     </a>
                   </div>
                 </div>
-              </div>}
+              </div>
+            )}
           </div>
         </div>
       </div>

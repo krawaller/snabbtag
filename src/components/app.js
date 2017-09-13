@@ -153,17 +153,17 @@ export default class App extends Component {
       Object.assign(props, { station, type });
     }
 
-    return Component
-      ? <Component
-          {...{
-            ...props,
-            favorites: new Set(
-              (props.favoriter || '').split(',').filter(Boolean)
-            ),
-            showingDepartures: props.type !== 'ankomster'
-          }}
-        />
-      : null;
+    return Component ? (
+      <Component
+        {...{
+          ...props,
+          favorites: new Set(
+            (props.favoriter || '').split(',').filter(Boolean)
+          ),
+          showingDepartures: props.type !== 'ankomster'
+        }}
+      />
+    ) : null;
   }
 
   render = () => {
