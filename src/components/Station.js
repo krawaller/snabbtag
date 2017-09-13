@@ -331,7 +331,10 @@ export default class Station extends Component {
             {shouldShowDisableFilterMessage && (
               <div class="card disable-filter-card">
                 <div class="card-header">
-                  ⚠️ Alla existerande{' '}
+                  <span role="img" aria-label="Varning">
+                    ⚠️
+                  </span>{' '}
+                  Alla existerande{' '}
                   {showingDepartures ? 'avgångar' : 'ankomster'} döljs av
                   filtret
                 </div>

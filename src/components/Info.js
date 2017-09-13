@@ -1,4 +1,4 @@
-import { h, Component } from 'preact';
+import { h } from 'preact';
 export default props => (
   <div class="navbar-through">
     <div class="navbar">

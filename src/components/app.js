@@ -123,7 +123,7 @@ export default class App extends Component {
     else if (/^\/?$|^\/stationer($|\?)/.test(url)) Component = Stations;
     else if (
       (matches = url.match(
-        /^\/(?:(\d+)|(?:([^\/?]*?)\/)(\d+))(?:\/(\d{4}-\d{2}-\d{2}))?/
+        /^\/(?:(\d+)|(?:([^/?]*?)\/)(\d+))(?:\/(\d{4}-\d{2}-\d{2}))?/
       ))
     ) {
       const [
@@ -137,7 +137,7 @@ export default class App extends Component {
       Component = Train;
       Object.assign(props, { train, date, station });
     } else if (
-      (matches = url.match(/^\/(?:stationer\/)?([^\/?]*)(?:\/?([^\/?]*))/))
+      (matches = url.match(/^\/(?:stationer\/)?([^/?]*)(?:\/?([^/?]*))/))
     ) {
       let [
         ,

@@ -1,5 +1,5 @@
-if (!Object.values) Object.values = o => Object.keys(o).map(k => o[k]);
 import stations from './stations.json';
+if (!Object.values) Object.values = o => Object.keys(o).map(k => o[k]);
 
 export default class API {
   MAX_RETRY_COUNT = 5;
@@ -85,7 +85,7 @@ export default class API {
           <AND>
             <WITHIN name="Geometry.WGS84" shape="center" value="${lng} ${lat}" radius="${radius}m" />
             <IN name="LocationSignature" value="${Object.keys(
-              api.stationsBySign
+              this.stationsBySign
             )}" />
           </AND>
         </FILTER>
@@ -93,7 +93,7 @@ export default class API {
       )
       .then(response =>
         response.TrainStation.map(({ LocationSignature }) =>
-          api.getStationBySign(LocationSignature)
+          this.getStationBySign(LocationSignature)
         )
       );
   }
@@ -486,11 +486,6 @@ export default class API {
 
           formattedAnnouncementsById = announcements.reduce(
             (all, announcement, i, arr) => {
-              const [_, date, time] =
-                announcement.AdvertisedTimeAtLocation.match(
-                  /^(\d{4}\-\d{2}-\d{2})T(\d{2}:\d{2})/
-                ) || [];
-
               all[announcement.ActivityId] = {
                 name: this.getStationBySign(
                   (announcement.ToLocation || announcement.FromLocation)[0]

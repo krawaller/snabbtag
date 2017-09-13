@@ -1,4 +1,4 @@
-import { h, Component } from 'preact';
+import { h } from 'preact';
 
 export const InfoIcon = () => (
   <svg width="22" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">

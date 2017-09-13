@@ -76,18 +76,15 @@ export default class Train extends Component {
           const pageContentRect = this._pageContent.getBoundingClientRect();
 
           if (station) {
-            const before = this._pageContent.scrollTop;
             this._pageContent.scrollTop +=
               stationRect.top -
               pageContentRect.top -
               pageContentRect.height / 2;
-            const after = this._pageContent.scrollTop;
           } else {
-            const markerPosRelativeToPageContent =
-              pos + (timelineRect.top - pageContentRect.top);
-
             this._pageContent.scrollTop +=
-              markerPosRelativeToPageContent - pageContentRect.height / 2;
+              pos +
+              (timelineRect.top - pageContentRect.top) -
+              pageContentRect.height / 2;
           }
           this._hasScrolled = true;
         }
