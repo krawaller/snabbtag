@@ -9,13 +9,15 @@
     "build": "preact build  --template src/template.html",
     "serve": "preact build  --template src/template.html && preact serve",
     "dev": "preact watch  --template src/template.html",
-    "test": "eslint src",
-    "deploy":
-      "npm test && npm run serve -- --server config --dest firebase.json && firebase deploy --project trains-1907a",
+    "test": "eslint src && npm run build && CHROME_FLAGS=--disable-gpu ghostjs --browser chrome test/*.js",
+    "deploy": "npm test && npm run serve -- --server config --dest firebase.json && firebase deploy --project trains-1907a",
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "*.js": ["eslint --fix", "git add"]
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ]
   },
   "keywords": [],
   "author": "",
@@ -30,10 +32,12 @@
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-react": "^7.3.0",
+    "ghostjs": "^1.13.1",
     "husky": "^0.14.3",
     "if-env": "^1.0.0",
     "lint-staged": "^4.1.3",
-    "preact-cli": "^1.4.1"
+    "preact-cli": "^1.4.1",
+    "superstatic": "^5.0.1"
   },
   "dependencies": {
     "preact": "^8.2.1"
