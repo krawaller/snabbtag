@@ -4,10 +4,9 @@ addons:
 language: node_js
 node_js:
 - '8'
-cache: yarn
 env:
   - CHROME_BIN=/usr/bin/google-chrome-stable
-before_install:
+before_script:
 - /usr/bin/google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222
   http://localhost &
 deploy:
