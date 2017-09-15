@@ -1,0 +1,19 @@
+dist: trusty
+addons:
+  chrome: stable
+language: node_js
+node_js:
+- '8'
+env:
+  - CHROME_BIN=/usr/bin/google-chrome-stable
+before_script:
+- /usr/bin/google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222
+  http://localhost &
+deploy:
+  provider: firebase
+  token:
+    secure: JK20bBXFBmkaaD0Jr0rlt07bJ3oDqX5GqSNDLkyuBR2dJdy6OquYKiHI4J+umVD1XsUPuUVJW5vYqgScleWyUkYt+c6TAlcD5pZEXExqK09Y70ZSyHdME4rDMFkpHAGkGnWPo9ZWmSKT5jDDmSK6HuIO6Z2PM249tMSPzRZNTIZer/ssOPVjQ1IqZGTaPb2Onl2GIzfabVMzX3xKXt+a2CjyByky4Swrdx6/r8ZusqojNfTjEGBFO5teu/dFs25q5S1HREt4KGdWupRou7qUL+No8q+uGLHc+qGZZDdw1QWfXP3f0sb1XJ/Cc39bZ1nBkjIhGBQ7ux1NmTEYc/2b7XqLNHMU8wuE+iN/oTqN8VJovIevvZ86GmYuvSaKyCkVphbnlL86w/c2Q+PxjYZs/q2yZ/XkbqfIh/eqXpZBOqwa6jm1tSvCmzDYf96V7Aheb78A2NDO2n78NyiTquc/YCU1bRPB2rD7hnNUIZCIXZ+yjsavaFUf4oPPRQxSPd+ZDRGNSRI8yRhcV5M1ZtBovXWU0DHCcoKnRTl9Kg9fkaCpA4j3E5e6znCPWLfCbUSCUuEmuX8aQsJD7wV+6hB3Q9YQn84f+V41v+AByyjSRiHf73+7qzVvppaQ0vrRmlIO3pAFFzj1VLLDQBYN5Oq5K32JmSmEtqsZZu0yDTYvv/4=
+  project: "trains-1907a"
+  skip_cleanup: true
+  on:
+    branch: master
