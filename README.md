@@ -1,4 +1,6 @@
 # [Snabbtåg](https://xn--snabbtg-jxa.nu/)
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/krawaller/snabbtag.svg)](https://greenkeeper.io/)
 A minimalistic (progressive) web app for Swedish train times built using [preact-cli](https://github.com/developit/preact-cli).
 
 <a href="https://xn--snabbtg-jxa.nu/" alt="UI Demo"><img width="375" height="647" align="right" src="screenshot.png"></a>
