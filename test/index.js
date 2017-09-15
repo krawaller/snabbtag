@@ -4,19 +4,12 @@ const assert = require('assert');
 const superstatic = require('superstatic').server;
 
 describe('snabbtåg', () => {
-  const PORT = 3475;
+  const PORT = 3474;
   const url = `http://localhost:${PORT}`;
   let server;
 
   before(done => {
-    const app = superstatic({
-      port: PORT,
-      cwd: 'build',
-      config: {
-        rewrites: [{ source: '**', destination: '/index.html' }]
-      }
-    });
-
+    const app = superstatic({ port: PORT });
     server = app.listen(done);
   });
 

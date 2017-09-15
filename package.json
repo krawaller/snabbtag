@@ -1,5 +1,5 @@
 {
-  "name": "trains-preact-cli",
+  "name": "snabbtag",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,15 +9,12 @@
     "build": "preact build  --template src/template.html",
     "serve": "preact build  --template src/template.html && preact serve",
     "dev": "preact watch  --template src/template.html",
-    "test": "eslint src && npm run build && CHROME_FLAGS=--disable-gpu ghostjs --browser chrome test/*.js",
-    "deploy": "npm test && npm run serve -- --server config --dest firebase.json && firebase deploy --project trains-1907a",
+    "test":
+      "eslint src && npm run serve -- --server config --dest firebase.json && CHROME_FLAGS=--disable-gpu ghostjs --browser chrome test/*.js",
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "*.js": [
-      "eslint --fix",
-      "git add"
-    ]
+    "*.js": ["eslint --fix", "git add"]
   },
   "keywords": [],
   "author": "",
