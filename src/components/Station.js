@@ -85,6 +85,7 @@ export default class Station extends Component {
     time,
     name,
     track,
+    arrived,
     departed,
     removed,
     trainType,
@@ -130,7 +131,11 @@ export default class Station extends Component {
                 <div class="col-45 name-col">
                   <div class="name item-title">{name}</div>
                   <div class="sub hide-when-empty">
-                    {[departed && 'Har avgått', !cancelled && trainComposition]
+                    {[
+                      departed && 'Har avgått',
+                      arrived && 'Har ankommit',
+                      !cancelled && trainComposition
+                    ]
                       .concat(deviations)
                       .filter(Boolean)
                       .join('. ')}

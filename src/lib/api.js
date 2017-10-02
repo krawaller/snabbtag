@@ -519,7 +519,9 @@ export default class API {
                   .find(deviation => /^prel\. tid/i.test(deviation)),
                 trackChanged: !!(announcement.Deviation || [])
                   .find(deviation => /^spårändrat/i.test(deviation)),
-                departed: !!announcement.TimeAtLocation,
+                [showingDepartures
+                  ? 'departed'
+                  : 'arrived']: !!announcement.TimeAtLocation,
                 removed: !!(all[announcement.ActivityId] || {}).removed,
                 trainType: (announcement.ProductInformation || [''])[0],
                 trainComposition: ((announcement.TrainComposition || [])
