@@ -31,7 +31,7 @@
     "eslint-plugin-react": "^7.3.0",
     "ghostjs": "^1.13.1",
     "husky": "^0.14.3",
-    "if-env": "^1.0.0",
+    "if-env": "^1.0.2",
     "lint-staged": "^4.2.1",
     "preact-cli": "^1.4.1",
     "superstatic": "^5.0.1"
