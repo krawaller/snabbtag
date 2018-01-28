@@ -5,6 +5,5 @@ node_modules
 .DS_Store
 /coverage
 /.idea
-/yarn.lock
 tmp
 firebase.json
