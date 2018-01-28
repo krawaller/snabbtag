@@ -91,17 +91,17 @@ describe('snabbtåg', () => {
   });
 
   it('<Train/> can use /<train-number> shortcut', async () => {
-    await ghost.open(`${url}/425`);
+    await ghost.open(`${url}/10425`);
     assert.ok(
       (await (await ghost.findElement('.navbar .center')).text()).startsWith(
-        'Tåg 425'
+        'Tåg 10425'
       )
     );
-    assert.equal(await ghost.pageTitle(), `Tåg 425`);
+    assert.equal(await ghost.pageTitle(), `Tåg 10425`);
   });
 
   it('<Train/> loads', async () => {
-    await ghost.open(`${url}/Stockholm/425`);
+    await ghost.open(`${url}/Stockholm/10425`);
     assert.ok(
       await ghost.waitForElement('.name a:not([href="#"])'),
       'Loads train data'
