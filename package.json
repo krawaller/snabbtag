@@ -34,6 +34,8 @@
     "ghostjs": "^1.13.1",
     "husky": "^0.14.3",
     "if-env": "^1.0.0",
+    "less": "^2.7.3",
+    "less-loader": "^4.0.5",
     "lint-staged": "^4.2.1",
     "preact-cli": "^2.1.1",
     "superstatic": "^5.0.1"
