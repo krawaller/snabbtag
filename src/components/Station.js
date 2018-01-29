@@ -97,14 +97,12 @@ export default class Station extends Component {
       <a
         class="item-content"
         href={
-          train ? (
-            this.props.getUrl('train', {
-              train,
-              date: scheduledDate
-            })
-          ) : (
-            '#'
-          )
+          train
+            ? this.props.getUrl('train', {
+                train,
+                date: scheduledDate
+              })
+            : '#'
         }
       >
         <div class="item-inner">
@@ -113,16 +111,16 @@ export default class Station extends Component {
               <div class="row">
                 <div class="col-20 time">
                   <div
-                    class={`original ${estimated || cancelled
-                      ? 'has-deviation'
-                      : ''}`}
+                    class={`original ${
+                      estimated || cancelled ? 'has-deviation' : ''
+                    }`}
                   >
                     {time}
                   </div>
                   <div
-                    class={`actual ${estimated && estimated !== time
-                      ? 'late'
-                      : ''} ${cancelled ? 'cancelled' : ''}`}
+                    class={`actual ${
+                      estimated && estimated !== time ? 'late' : ''
+                    } ${cancelled ? 'cancelled' : ''}`}
                   >
                     {cancelled ? 'Inställt' : estimated}
                     {preliminary ? '*' : ''}
@@ -143,9 +141,9 @@ export default class Station extends Component {
                 </div>
                 <div class="col-10 track">
                   <span
-                    class={`${trackChanged ? 'track-changed' : ''} ${cancelled
-                      ? 'track-cancelled'
-                      : ''}`}
+                    class={`${trackChanged ? 'track-changed' : ''} ${
+                      cancelled ? 'track-cancelled' : ''
+                    }`}
                   >
                     {track}
                   </span>
@@ -246,9 +244,9 @@ export default class Station extends Component {
 
         <div class="page">
           <form
-            class={`searchbar searchbar-init ${filter
-              ? 'searchbar-active'
-              : ''} ${filter ? 'searchbar-not-empty' : ''}`}
+            class={`searchbar searchbar-init ${
+              filter ? 'searchbar-active' : ''
+            } ${filter ? 'searchbar-not-empty' : ''}`}
             onSubmit={event => event.preventDefault()}
           >
             <div class="searchbar-input">
@@ -262,7 +260,8 @@ export default class Station extends Component {
                     }),
                     false,
                     !!this.props.filter
-                  )}
+                  )
+                }
                 value={filter}
               />
               <a
@@ -322,11 +321,7 @@ export default class Station extends Component {
                 <div class="card-content">
                   <div class="card-content-inner">
                     Det verkar inte finnas några{' '}
-                    {showingDepartures ? (
-                      'avgångar från'
-                    ) : (
-                      'ankomster till'
-                    )}{' '}
+                    {showingDepartures ? 'avgångar från' : 'ankomster till'}{' '}
                     <b>{station}</b> den närmsta tiden
                   </div>
                 </div>

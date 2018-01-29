@@ -108,9 +108,9 @@ export default class Stations extends Component {
     } else {
       const initialGroups = {};
       if (!(searchFocused || searchString) && this.props.favorites.size) {
-        initialGroups['Favoriter'] = Array.from(
-          this.props.favorites
-        ).map(sign => this.api.getStationBySign(sign));
+        initialGroups['Favoriter'] = Array.from(this.props.favorites).map(
+          sign => this.api.getStationBySign(sign)
+        );
       }
 
       if (!(searchFocused || searchString) && nearbyStations.length) {
@@ -156,11 +156,9 @@ export default class Stations extends Component {
                     <li>
                       <a
                         href={
-                          station ? (
-                            this.props.getUrl('station', { station })
-                          ) : (
-                            '#'
-                          )
+                          station
+                            ? this.props.getUrl('station', { station })
+                            : '#'
                         }
                         class="item-link"
                       >
@@ -251,9 +249,9 @@ export default class Stations extends Component {
             </div>
           </noscript>
           <form
-            class={`searchbar searchbar-init ${searchFocused || searchString
-              ? 'searchbar-active'
-              : ''} ${searchString ? 'searchbar-not-empty' : ''}`}
+            class={`searchbar searchbar-init ${
+              searchFocused || searchString ? 'searchbar-active' : ''
+            } ${searchString ? 'searchbar-not-empty' : ''}`}
             onSubmit={event => event.preventDefault()}
           >
             <div class="searchbar-input">
@@ -261,7 +259,8 @@ export default class Stations extends Component {
                 placeholder="Sök station eller tågnummer"
                 type="search"
                 onInput={event =>
-                  this.setState({ searchString: event.target.value })}
+                  this.setState({ searchString: event.target.value })
+                }
                 onFocus={() => this.setState({ searchFocused: true })}
                 onBlur={() => this.setState({ searchFocused: false })}
                 value={searchString}
@@ -279,9 +278,9 @@ export default class Stations extends Component {
           </form>
 
           <div
-            class={`searchbar-overlay ${searchFocused && !searchString
-              ? 'searchbar-overlay-active'
-              : ''}`}
+            class={`searchbar-overlay ${
+              searchFocused && !searchString ? 'searchbar-overlay-active' : ''
+            }`}
             onClick={() => this.setState({ searchFocused: false })}
           />
 

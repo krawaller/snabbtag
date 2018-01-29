@@ -36,38 +36,37 @@ export default class TrainNumberSearchResult extends Component {
               <div class="col-35">Till</div>
             </div>
           </li>
-          {(resultsBySearchString[searchString] || Array.from(new Array(20)))
-            .map(({ train, at, from, to } = {}) => {
-              return (
-                <li>
-                  <a
-                    href={
-                      train ? (
-                        this.props.getUrl.call(this, 'train', { train })
-                      ) : (
-                        '#'
-                      )
-                    }
-                    class="item-link"
-                  >
-                    <div class="item-content">
-                      <div class="item-inner">
-                        <div class="hide-when-empty full-width">
-                          {train && (
-                            <div class="row">
-                              <div class="col-15 name">{train}</div>
-                              <div class="col-15 time">{at}</div>
-                              <div class="col-35 name item-title">{from}</div>
-                              <div class="col-35 name item-title">{to}</div>
-                            </div>
-                          )}
-                        </div>
+          {(
+            resultsBySearchString[searchString] || Array.from(new Array(20))
+          ).map(({ train, at, from, to } = {}) => {
+            return (
+              <li>
+                <a
+                  href={
+                    train
+                      ? this.props.getUrl.call(this, 'train', { train })
+                      : '#'
+                  }
+                  class="item-link"
+                >
+                  <div class="item-content">
+                    <div class="item-inner">
+                      <div class="hide-when-empty full-width">
+                        {train && (
+                          <div class="row">
+                            <div class="col-15 name">{train}</div>
+                            <div class="col-15 time">{at}</div>
+                            <div class="col-35 name item-title">{from}</div>
+                            <div class="col-35 name item-title">{to}</div>
+                          </div>
+                        )}
                       </div>
                     </div>
-                  </a>
-                </li>
-              );
-            })}
+                  </div>
+                </a>
+              </li>
+            );
+          })}
         </ul>
       </div>
     );

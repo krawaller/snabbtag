@@ -25,12 +25,14 @@ export function getUrl(
     .filter(Boolean)
     .join('&');
 
-  return `${{
-    info: '/info',
-    station: `/${station}${showingDepartures ? '' : '/ankomster'}`,
-    stations: `/stationer`,
-    train: `/${station ? `${station}/` : ''}${train}${date ? `/${date}` : ''}`
-  }[page]}${queries && `?${queries}`}`;
+  return `${
+    {
+      info: '/info',
+      station: `/${station}${showingDepartures ? '' : '/ankomster'}`,
+      stations: `/stationer`,
+      train: `/${station ? `${station}/` : ''}${train}${date ? `/${date}` : ''}`
+    }[page]
+  }${queries && `?${queries}`}`;
 }
 
 export function getNearbyHumanDate(dateString) {

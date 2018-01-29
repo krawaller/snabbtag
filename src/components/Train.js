@@ -183,9 +183,11 @@ export default class Train extends Component {
                     .map(deviation => (
                       <span>
                         <div
-                          class={`chip ${/inställ|ersätter/i.test(deviation)
-                            ? 'color-red'
-                            : ''}`}
+                          class={`chip ${
+                            /inställ|ersätter/i.test(deviation)
+                              ? 'color-red'
+                              : ''
+                          }`}
                         >
                           <div class="chip-label">{deviation}</div>
                         </div>{' '}
@@ -197,9 +199,9 @@ export default class Train extends Component {
             &nbsp;
             <div class="track hide-when-empty mute-when-departed">
               <span
-                class={`${trackChanged ? 'track-changed' : ''} ${false
-                  ? 'track-cancelled'
-                  : ''}`}
+                class={`${trackChanged ? 'track-changed' : ''} ${
+                  false ? 'track-cancelled' : ''
+                }`}
               >
                 {track}
               </span>
@@ -263,9 +265,9 @@ export default class Train extends Component {
               >
                 <div>{announcements.map(this.renderAnnouncement)}</div>
                 <span
-                  class={`train-marker ${hasPositionedTrainMarker
-                    ? 'animated'
-                    : ''}`}
+                  class={`train-marker ${
+                    hasPositionedTrainMarker ? 'animated' : ''
+                  }`}
                   style={`transform: translate3d(0, ${trainY}px, 0)`}
                 >
                   <TrainIcon />

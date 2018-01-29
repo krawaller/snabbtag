@@ -20,19 +20,20 @@ export default class API {
   query(query) {
     if (this.queries[query]) return Promise.resolve(this.queries[query]);
 
-    this.queries[
-      query
-    ] = fetch('https://api.trafikinfo.trafikverket.se/v1.1/data.json', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'text/xml'
-      },
-      body: `
+    this.queries[query] = fetch(
+      'https://api.trafikinfo.trafikverket.se/v1.1/data.json',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'text/xml'
+        },
+        body: `
         <REQUEST>
           <LOGIN authenticationkey="b87844ecdc764190bd6b6d86e6b80016" />
           ${query}
         </REQUEST>`.replace(/>\s+?</g, '><')
-    })
+      }
+    )
       .then(response => response.json())
       .then(
         ({ RESPONSE: { RESULT: [response = null] = [] } = {} }) => response
@@ -128,9 +129,11 @@ export default class API {
           <EQ name="AdvertisedTrainIdent" value="${train}" />
           <EQ name="Advertised" value="TRUE" />
           <EQ name="ScheduledDepartureDateTime" value="${date}" />
-          ${lastModified
-            ? `<GT name="ModifiedTime" value="${lastModified}"/>`
-            : ''}
+          ${
+            lastModified
+              ? `<GT name="ModifiedTime" value="${lastModified}"/>`
+              : ''
+          }
         </FILTER>
       </QUERY>`
     ).then(
@@ -178,8 +181,9 @@ export default class API {
           formattedAnnouncementsBySign = announcements.reduce(
             (all, announcement, i, arr) => {
               const current = all[announcement.LocationSignature] || {};
-              const rawDeviations = (current.deviations || [])
-                .concat(announcement.Deviation || []);
+              const rawDeviations = (current.deviations || []).concat(
+                announcement.Deviation || []
+              );
 
               all[announcement.LocationSignature] = Object.assign(current, {
                 sign: announcement.LocationSignature,
@@ -216,8 +220,9 @@ export default class API {
                   deviations: announcement.Deviation,
                   preliminary:
                     !announcement.TimeAtLocation &&
-                    !!(announcement.Deviation || [])
-                      .find(deviation => /^prel\. tid/i.test(deviation))
+                    !!(announcement.Deviation || []).find(deviation =>
+                      /^prel\. tid/i.test(deviation)
+                    )
                 }
               });
               return all;
@@ -231,8 +236,10 @@ export default class API {
           );
 
           if (
-            (formattedAnnouncements[formattedAnnouncements.length - 1]
-              .arrival || {}).happened
+            (
+              formattedAnnouncements[formattedAnnouncements.length - 1]
+                .arrival || {}
+            ).happened
           )
             cancel();
 
@@ -265,9 +272,9 @@ export default class API {
       <QUERY objecttype="TrainAnnouncement" orderby="AdvertisedTimeAtLocation" lastmodified="TRUE">
         <FILTER>
           <AND>
-            <EQ name="ActivityType" value="${showingDepartures
-              ? 'Avgang'
-              : 'Ankomst'}" />
+            <EQ name="ActivityType" value="${
+              showingDepartures ? 'Avgang' : 'Ankomst'
+            }" />
             <EQ name="Advertised" value="TRUE" />
             <EQ name="LocationSignature" value="${this.getSignByStation(
               station
@@ -282,15 +289,19 @@ export default class API {
                 <LT name="AdvertisedTimeAtLocation" value="$dateadd(00:30:00)" />
               </AND>
             </OR>
-            ${lastModified
-              ? `
+            ${
+              lastModified
+                ? `
               <OR>
                 <GT name="ModifiedTime" value="${lastModified}"/>
-                ${lastAdvertisedTimeAtLocation
-                  ? `<GT name="AdvertisedTimeAtLocation" value="${lastAdvertisedTimeAtLocation}"/>`
-                  : ''}
+                ${
+                  lastAdvertisedTimeAtLocation
+                    ? `<GT name="AdvertisedTimeAtLocation" value="${lastAdvertisedTimeAtLocation}"/>`
+                    : ''
+                }
               </OR>`
-              : ''}
+                : ''
+            }
           </AND>
         </FILTER>
         <INCLUDE>AdvertisedTrainIdent</INCLUDE>
@@ -314,9 +325,9 @@ export default class API {
         const response = {
           announcements,
           lastModified,
-          lastAdvertisedTimeAtLocation: (announcements[
-            announcements.length - 1
-          ] || {}).AdvertisedTimeAtLocation,
+          lastAdvertisedTimeAtLocation: (
+            announcements[announcements.length - 1] || {}
+          ).AdvertisedTimeAtLocation,
           hasUnfilteredAnnouncements: !!announcements.length
         };
         const rFilter = new RegExp(filter, 'i');
@@ -337,9 +348,9 @@ export default class API {
           <QUERY objecttype="TrainAnnouncement" orderby="AdvertisedTimeAtLocation">
             <FILTER>
               <AND>
-                <EQ name="ActivityType" value="${!showingDepartures
-                  ? 'Avgang'
-                  : 'Ankomst'}" />
+                <EQ name="ActivityType" value="${
+                  !showingDepartures ? 'Avgang' : 'Ankomst'
+                }" />
                 <EQ name="Advertised" value="TRUE" />
                 <IN
                   name="AdvertisedTrainIdent"
@@ -491,13 +502,16 @@ export default class API {
                   (announcement.ToLocation || announcement.FromLocation)[0]
                     .LocationName
                 ),
-                via: (announcement.ViaToLocation ||
+                via: (
+                  announcement.ViaToLocation ||
                   announcement.ViaFromLocation ||
-                  [])
+                  []
+                )
                   .map(l => this.getStationBySign(l.LocationName))
                   .filter(Boolean),
-                signs: (announcement.ToLocation || announcement.FromLocation)
-                  .map(l => l.LocationName),
+                signs: (
+                  announcement.ToLocation || announcement.FromLocation
+                ).map(l => l.LocationName),
                 date: this.extractDate(announcement.AdvertisedTimeAtLocation),
                 time: this.extractTime(announcement.AdvertisedTimeAtLocation),
                 datetime: announcement.AdvertisedTimeAtLocation,
@@ -510,25 +524,26 @@ export default class API {
                   announcement.ScheduledDepartureDateTime
                 ),
                 cancelled: !!announcement.Canceled,
-                deviations: (announcement.Deviation || [])
-                  .filter(
-                    deviation =>
-                      !/^inställ|^prel\. tid|^spårändrat/i.test(deviation)
-                  ),
-                preliminary: !!(announcement.Deviation || [])
-                  .find(deviation => /^prel\. tid/i.test(deviation)),
-                trackChanged: !!(announcement.Deviation || [])
-                  .find(deviation => /^spårändrat/i.test(deviation)),
+                deviations: (announcement.Deviation || []).filter(
+                  deviation =>
+                    !/^inställ|^prel\. tid|^spårändrat/i.test(deviation)
+                ),
+                preliminary: !!(announcement.Deviation || []).find(deviation =>
+                  /^prel\. tid/i.test(deviation)
+                ),
+                trackChanged: !!(announcement.Deviation || []).find(deviation =>
+                  /^spårändrat/i.test(deviation)
+                ),
                 [showingDepartures
                   ? 'departed'
                   : 'arrived']: !!announcement.TimeAtLocation,
                 removed: !!(all[announcement.ActivityId] || {}).removed,
                 trainType: (announcement.ProductInformation || [''])[0],
-                trainComposition: ((announcement.TrainComposition || [])
-                  .filter(
+                trainComposition: (
+                  (announcement.TrainComposition || []).filter(
                     trainComposition => !/vagnsordning/i.test(trainComposition)
-                  )[0] || '')
-                  .replace(/.\s*$/, ''),
+                  )[0] || ''
+                ).replace(/.\s*$/, ''),
                 AdvertisedTimeAtLocation: announcement.AdvertisedTimeAtLocation,
                 EstimatedTimeAtLocation: announcement.EstimatedTimeAtLocation
               };
