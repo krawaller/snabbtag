@@ -1,14 +1,13 @@
-dist: trusty
-addons:
-  chrome: stable
 language: node_js
 node_js:
 - '8'
-env:
-  - CHROME_BIN=/usr/bin/google-chrome-stable
-before_script:
-- /usr/bin/google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222
-  http://localhost &
+dist: trusty
+cache:
+  yarn: true
+  directories:
+    - node_modules
+script:
+  yarn serve --server config --dest firebase.json && yarn test
 deploy:
   provider: firebase
   token:

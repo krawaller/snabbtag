@@ -9,7 +9,7 @@
     "build": "preact build  --template src/template.html",
     "serve": "preact build  --template src/template.html && preact serve",
     "dev": "preact watch  --template src/template.html",
-    "test": "eslint src && npm run serve -- --server config --dest firebase.json && CHROME_FLAGS=--disable-gpu ghostjs --browser chrome test/*.js",
+    "test": "jest",
     "precommit": "lint-staged"
   },
   "lint-staged": {
