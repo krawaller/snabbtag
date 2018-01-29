@@ -32,10 +32,12 @@
     "ghostjs": "^1.13.1",
     "husky": "^0.14.3",
     "if-env": "^1.0.0",
+    "jest": "^22.1.4",
     "less": "^2.7.3",
     "less-loader": "^4.0.5",
     "lint-staged": "^6.1.0",
     "preact-cli": "^2.1.1",
+    "puppeteer": "^1.0.0",
     "superstatic": "^5.0.1"
   },
   "dependencies": {
