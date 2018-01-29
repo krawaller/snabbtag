@@ -29,7 +29,6 @@
     "eslint-config-synacor": "^2.0.0",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
-    "ghostjs": "^1.13.1",
     "husky": "^0.14.3",
     "if-env": "^1.0.0",
     "jest": "^22.1.4",
