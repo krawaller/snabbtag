@@ -37,7 +37,7 @@
     "lint-staged": "^7.0.4",
     "preact-cli": "^2.1.1",
     "puppeteer": "^1.0.0",
-    "superstatic": "^5.0.1"
+    "superstatic": "^6.0.1"
   },
   "dependencies": {
     "preact": "^8.2.1"
