@@ -1,0 +1,11 @@
+{
+  "alias": ["snabbtag.now.sh"],
+  "static": {
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
