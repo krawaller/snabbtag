@@ -40,6 +40,6 @@
     "superstatic": "^5.0.1"
   },
   "dependencies": {
-    "preact": "^8.2.1"
+    "preact": "^10.0.5"
   }
 }
